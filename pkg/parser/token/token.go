@@ -1,29 +1,11 @@
 package token
 
 import (
-	"fmt"
 	"io"
 
 	"github.com/flier/gocombine/pkg/parser"
 	"github.com/flier/gocombine/pkg/stream"
 )
-
-type UnexpectedErr[T stream.Token] struct {
-	Expected []T
-	Actual   []T
-}
-
-func (e *UnexpectedErr[T]) Error() string {
-	if e.Expected != nil {
-		return fmt.Sprintf("expected `%c`, got `%c`", e.Expected, e.Actual)
-	}
-
-	return fmt.Sprintf("unexpected `%c`", e.Actual)
-}
-
-func Unexpected[T stream.Token](expected, actual []T) error {
-	return &UnexpectedErr[T]{expected, actual}
-}
 
 // Any parses any token.
 func Any[S stream.Stream[T], T stream.Token, P parser.ParseFunc[S, T, T]]() P {
@@ -48,7 +30,7 @@ func Token[S stream.Stream[T], T stream.Token, P parser.ParseFunc[S, T, T]](tok 
 		} else {
 			actual, remaining = input[0], input
 
-			err = Unexpected([]T{tok}, []T{actual})
+			err = parser.Unexpected([]T{tok}, []T{actual})
 		}
 		return
 	}
@@ -67,7 +49,7 @@ func Tokens[S stream.Stream[T], T stream.Token, P parser.ParseFunc[S, T, []T]](c
 		} else {
 			for i, tok := range tokens {
 				if !cmp(input[i], tok) {
-					err = Unexpected(expected, input[:n])
+					err = parser.Unexpected(expected, input[:n])
 					return
 				}
 			}
@@ -93,7 +75,7 @@ func OneOf[S stream.Stream[T], T stream.Token, P parser.ParseFunc[S, T, T]](toke
 
 			actual, remaining = input[0], input
 
-			err = Unexpected(tokens, input[:1])
+			err = parser.Unexpected(tokens, input[:1])
 		}
 		return
 	}
@@ -108,7 +90,7 @@ func NoneOf[S stream.Stream[T], T stream.Token, P parser.ParseFunc[S, T, T]](tok
 			for _, tok := range tokens {
 				if input[0] == tok {
 					actual, remaining = input[0], input
-					err = Unexpected(nil, input[:1])
+					err = parser.Unexpected(nil, input[:1])
 					return
 				}
 			}
@@ -140,6 +122,6 @@ func Eof[S stream.Stream[T], T stream.Token, P parser.ParseFunc[S, T, bool]]() P
 			return true, input, nil
 		}
 
-		return false, input, Unexpected(nil, input)
+		return false, input, parser.Unexpected(nil, input)
 	}
 }

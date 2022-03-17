@@ -8,6 +8,7 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
+	"github.com/flier/gocombine/pkg/parser"
 	"github.com/flier/gocombine/pkg/parser/token"
 )
 
@@ -26,7 +27,7 @@ func TestToken(t *testing.T) {
 				Convey("Then parse again should get an error", func() {
 					c, s, err = p([]rune(s))
 
-					So(err, ShouldBeError, token.Unexpected([]rune{'h'}, []rune{'e'}))
+					So(err, ShouldBeError, parser.Unexpected([]rune{'h'}, []rune{'e'}))
 					So(string(s), ShouldEqual, "ello")
 				})
 			})
@@ -56,7 +57,7 @@ func TestTokens(t *testing.T) {
 			Convey("Then parse again should get an error", func() {
 				_, _, err = p(s)
 
-				So(err, ShouldBeError, token.Unexpected([]byte("foo"), []byte("bar")))
+				So(err, ShouldBeError, parser.Unexpected([]byte("foo"), []byte("bar")))
 			})
 
 			Convey("When I parse a empty string", func() {

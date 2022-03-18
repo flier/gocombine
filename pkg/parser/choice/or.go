@@ -4,6 +4,7 @@ import (
 	"github.com/hashicorp/go-multierror"
 
 	"github.com/flier/gocombine/pkg/parser"
+	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/stream"
 )
 
@@ -13,7 +14,7 @@ func Or[
 	T stream.Token,
 	O any,
 ](parsers ...parser.Func[S, T, O]) parser.Func[S, T, O] {
-	return func(input S) (out O, remaining S, err error) {
+	return combinator.Attempt(func(input S) (out O, remaining S, err error) {
 		var errs error
 
 		for _, p := range parsers {
@@ -25,7 +26,7 @@ func Or[
 			}
 		}
 
-		remaining, err = input, errs
+		err = errs
 		return
-	}
+	})
 }

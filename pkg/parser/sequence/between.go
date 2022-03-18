@@ -2,6 +2,7 @@ package sequence
 
 import (
 	"github.com/flier/gocombine/pkg/parser"
+	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/stream"
 )
 
@@ -16,22 +17,19 @@ func Between[
 	close parser.Func[S, T, O2],
 	parser parser.Func[S, T, O3],
 ) parser.Func[S, T, O3] {
-	return func(input S) (out O3, remaining S, err error) {
+	return combinator.Attempt(func(input S) (out O3, remaining S, err error) {
 		if _, remaining, err = open.Parse(input); err != nil {
-			remaining = input
 			return
 		}
 
 		if out, remaining, err = parser.Parse(remaining); err != nil {
-			remaining = input
 			return
 		}
 
 		if _, remaining, err = close.Parse(remaining); err != nil {
-			remaining = input
 			return
 		}
 
 		return
-	}
+	})
 }

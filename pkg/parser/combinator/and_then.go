@@ -12,15 +12,13 @@ func AndThen[
 	T stream.Token,
 	I, O any,
 ](parser parser.Func[S, T, I], f func(I) (O, error)) parser.Func[S, T, O] {
-	return func(input S) (parsed O, remaining S, err error) {
+	return Attempt(func(input S) (parsed O, remaining S, err error) {
 		var i I
 		if i, remaining, err = parser(input); err != nil {
-			remaining = input
 			return
 		}
-		if parsed, err = f(i); err != nil {
-			remaining = input
-		}
+
+		parsed, err = f(i)
 		return
-	}
+	})
 }

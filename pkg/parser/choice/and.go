@@ -5,6 +5,7 @@ import (
 	"io"
 
 	"github.com/flier/gocombine/pkg/parser"
+	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/stream"
 )
 
@@ -16,7 +17,7 @@ func And[
 	T stream.Token,
 	O any,
 ](parsers ...parser.Func[S, T, O]) parser.Func[S, T, []O] {
-	return func(input S) (out []O, remaining S, err error) {
+	return combinator.Attempt(func(input S) (out []O, remaining S, err error) {
 		out = make([]O, len(parsers))
 
 		remaining = input
@@ -28,11 +29,10 @@ func And[
 				} else {
 					out = out[:i+1]
 				}
-				remaining = input
 				break
 			}
 		}
 
 		return
-	}
+	})
 }

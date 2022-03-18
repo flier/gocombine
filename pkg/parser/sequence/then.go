@@ -2,6 +2,7 @@ package sequence
 
 import (
 	"github.com/flier/gocombine/pkg/parser"
+	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/stream"
 )
 
@@ -12,14 +13,14 @@ func Then[
 	T stream.Token,
 	I, O any,
 ](parser parser.Func[S, T, I], f func(I) parser.Func[S, T, O]) parser.Func[S, T, O] {
-	return func(input S) (out O, remaining S, err error) {
+	return combinator.Attempt(func(input S) (out O, remaining S, err error) {
 		var in I
 		in, remaining, err = parser(input)
 		if err != nil {
-			remaining = input
 			return
 		}
 
-		return f(in).Parse(remaining)
-	}
+		out, remaining, err = f(in).Parse(remaining)
+		return
+	})
 }

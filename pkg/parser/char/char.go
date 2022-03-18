@@ -4,7 +4,7 @@ import (
 	"unicode"
 
 	"github.com/flier/gocombine/pkg/parser"
-	"github.com/flier/gocombine/pkg/parser/combinator"
+	"github.com/flier/gocombine/pkg/parser/choice"
 	"github.com/flier/gocombine/pkg/parser/repeat"
 	"github.com/flier/gocombine/pkg/parser/token"
 	"github.com/flier/gocombine/pkg/stream"
@@ -13,11 +13,6 @@ import (
 // Char parses a character and succeeds if the character is equal to `c`.
 func Char[S stream.Stream[rune]](c rune) parser.Func[S, rune, rune] {
 	return token.Token[S](c)
-}
-
-// Digit parses a base-10 digit.
-func Digit[S stream.Stream[rune]]() parser.Func[S, rune, rune] {
-	return token.Satisfy[S](unicode.IsDigit).Expected("digit")
 }
 
 // Space parse a single whitespace
@@ -37,7 +32,7 @@ func NewLine[S stream.Stream[rune]]() parser.Func[S, rune, rune] {
 
 // CrLf parses carriage return and newline (`"\r\n"`), returning the newline character.
 func CrLf[S stream.Stream[rune]]() parser.Func[S, rune, []rune] {
-	return combinator.And[S, rune, rune](
+	return choice.And(
 		token.Token[S]('\r'),
 		token.Token[S]('\n'),
 	).Expected("crlf")
@@ -65,22 +60,8 @@ func Letter[S stream.Stream[rune]]() parser.Func[S, rune, rune] {
 
 // AlphaNum parses either an alphabet letter or digit
 func AlphaNum[S stream.Stream[rune]]() parser.Func[S, rune, rune] {
-	return combinator.Or[S, rune, rune](
+	return choice.Or(
 		Letter[S](),
 		Digit[S](),
 	).Expected("letter or digit")
-}
-
-// OctDigit parses an octal digit.
-func OctDigit[S stream.Stream[rune]]() parser.Func[S, rune, rune] {
-	return token.Satisfy[S](func(c rune) bool {
-		return c >= '0' && c <= '7'
-	}).Expected("octal digit")
-}
-
-// HexDigit parses a hexdecimal digit with uppercase and lowercase.
-func HexDigit[S stream.Stream[rune]]() parser.Func[S, rune, rune] {
-	return token.Satisfy[S](func(c rune) bool {
-		return unicode.IsDigit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F')
-	}).Expected("octal digit")
 }

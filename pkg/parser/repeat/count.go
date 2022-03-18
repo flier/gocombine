@@ -14,9 +14,8 @@ func Count[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-	P parser.Func[S, T, O],
-](count int, parser P) parser.Func[S, T, []O] {
-	return CountMinMax[S, T, O, P](0, count, parser)
+](count int, parser parser.Func[S, T, O]) parser.Func[S, T, []O] {
+	return CountMinMax(0, count, parser)
 }
 
 // CountMinMax parses `parser` from `min` to `max` times (including `min` and `max`).
@@ -24,8 +23,7 @@ func CountMinMax[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-	P parser.Func[S, T, O],
-](min, max int, parser P) parser.Func[S, T, []O] {
+](min, max int, parser parser.Func[S, T, O]) parser.Func[S, T, []O] {
 	return func(input S) (parsed []O, remaining S, err error) {
 		remaining = input
 		parsed = make([]O, 0, max)

@@ -3,7 +3,6 @@ package repeat_test
 import (
 	"fmt"
 
-	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/parser/repeat"
 	"github.com/flier/gocombine/pkg/parser/token"
 )
@@ -28,13 +27,4 @@ func ExampleCountMinMax() {
 	// Output:
 	// [97 97] [97 98] <nil>
 	// [] [102 111 111 98 97 114] 1 more elements, expected
-}
-
-func ExampleMany() {
-	p := repeat.Many(char.Digit[[]rune]())
-
-	fmt.Println(p([]rune("123A")))
-
-	// Output:
-	// [49 50 51] [65] <nil>
 }

@@ -1,4 +1,4 @@
-package combinator
+package choice
 
 import (
 	"errors"
@@ -15,14 +15,13 @@ func And[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-	P parser.Parser[S, T, O],
-](parsers ...P) parser.Func[S, T, []O] {
+](parsers ...parser.Func[S, T, O]) parser.Func[S, T, []O] {
 	return func(input S) (out []O, remaining S, err error) {
 		out = make([]O, len(parsers))
 
 		remaining = input
 		for i, p := range parsers {
-			out[i], remaining, err = p.Parse(remaining)
+			out[i], remaining, err = p(remaining)
 			if err != nil {
 				if errors.Is(err, io.ErrUnexpectedEOF) {
 					out = out[:i]

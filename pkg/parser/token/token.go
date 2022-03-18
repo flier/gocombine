@@ -93,20 +93,6 @@ func NoneOf[S stream.Stream[T], T stream.Token](tokens S) parser.Func[S, T, T] {
 	}
 }
 
-// Value always returns the value `v` without consuming any input.
-func Value[S stream.Stream[T], T stream.Token](v T) parser.Func[S, T, T] {
-	return func(input S) (T, S, error) {
-		return v, input, nil
-	}
-}
-
-// Produce always returns the value produced by calling `f`.
-func Produce[S stream.Stream[T], T stream.Token, O any](f func() O) parser.Func[S, T, O] {
-	return func(input S) (O, S, error) {
-		return f(), input, nil
-	}
-}
-
 // Eof succeeds only if the stream is at end of input, fails otherwise.
 func Eof[S stream.Stream[T], T stream.Token]() parser.Func[S, T, bool] {
 	return func(input S) (bool, S, error) {

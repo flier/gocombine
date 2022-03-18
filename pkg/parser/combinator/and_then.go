@@ -5,18 +5,22 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
-// Map uses `f` to map over the parsed value.
-func Map[
+// AndThen parses with `parser` and applies `f` on the result if `parser` parses successfully.
+// `f` may optionally fail with an error.
+func AndThen[
 	S stream.Stream[T],
 	T stream.Token,
 	I, O any,
-](parser parser.Func[S, T, I], f func(I) O) parser.Func[S, T, O] {
+](parser parser.Func[S, T, I], f func(I) (O, error)) parser.Func[S, T, O] {
 	return func(input S) (parsed O, remaining S, err error) {
 		var i I
 		if i, remaining, err = parser(input); err != nil {
+			remaining = input
 			return
 		}
-		parsed = f(i)
+		if parsed, err = f(i); err != nil {
+			remaining = input
+		}
 		return
 	}
 }

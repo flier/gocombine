@@ -10,18 +10,21 @@ func Many[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-	P parser.Func[S, T, O],
-](parser P) parser.Func[S, T, []O] {
+](parser parser.Func[S, T, O]) parser.Func[S, T, []O] {
 	return func(input S) (parsed []O, remaining S, err error) {
 		remaining = input
 
-		for len(remaining) > 0 {
+		for !stream.Empty(remaining) {
 			var o O
-			if o, remaining, err = parser(remaining); err != nil {
+			var rest S
+
+			if o, rest, err = parser.Parse(remaining); err != nil {
 				err = nil
 				break
 			}
+
 			parsed = append(parsed, o)
+			remaining = rest
 		}
 
 		return
@@ -33,16 +36,29 @@ func Many1[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-	P parser.Func[S, T, O],
-](parser P) parser.Func[S, T, []O] {
+](parser parser.Func[S, T, O]) parser.Func[S, T, []O] {
 	return func(input S) (parsed []O, remaining S, err error) {
 		remaining = input
 
 		var o O
-		if o, remaining, err = parser(remaining); err != nil {
-			err = nil
-		} else {
+		if o, remaining, err = parser.Parse(remaining); err != nil {
+			remaining = input
+			return
+		}
+
+		parsed = []O{o}
+
+		for !stream.Empty(remaining) {
+			var o O
+			var rest S
+
+			if o, rest, err = parser.Parse(remaining); err != nil {
+				err = nil
+				break
+			}
+
 			parsed = append(parsed, o)
+			remaining = rest
 		}
 
 		return

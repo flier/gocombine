@@ -19,7 +19,7 @@ func Many[
 			var o O
 			var rest S
 
-			if o, rest, err = parser.Parse(remaining); err != nil {
+			if o, rest, err = parser(remaining); err != nil {
 				err = nil
 				break
 			}
@@ -42,7 +42,7 @@ func Many1[
 		remaining = input
 
 		var o O
-		if o, remaining, err = parser.Parse(remaining); err != nil {
+		if o, remaining, err = parser(remaining); err != nil {
 			remaining = input
 			return
 		}
@@ -53,7 +53,7 @@ func Many1[
 			var o O
 			var rest S
 
-			if o, rest, err = parser.Parse(remaining); err != nil {
+			if o, rest, err = parser(remaining); err != nil {
 				err = nil
 				break
 			}

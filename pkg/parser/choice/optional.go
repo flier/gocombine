@@ -14,7 +14,7 @@ func Optional[
 ](parser parser.Func[S, T, O]) parser.Func[S, T, option.Option[O]] {
 	return func(input S) (parsed option.Option[O], remaining S, err error) {
 		var o O
-		o, remaining, err = parser.Parse(input)
+		o, remaining, err = parser(input)
 		if err != nil {
 			return option.None[O](), input, nil
 		}

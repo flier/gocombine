@@ -35,7 +35,7 @@ func Expected[
 	O any,
 ](parser Func[S, T, O], msg string) Func[S, T, O] {
 	return func(input S) (parsed O, remaining S, err error) {
-		parsed, remaining, err = parser.Parse(input)
+		parsed, remaining, err = parser(input)
 		if err != nil {
 			err = fmt.Errorf("%s, %w", msg, err)
 		}
@@ -55,7 +55,7 @@ func Message[
 	O any,
 ](parser Func[S, T, O], msg string) Func[S, T, O] {
 	return func(input S) (parsed O, remaining S, err error) {
-		parsed, remaining, err = parser.Parse(input)
+		parsed, remaining, err = parser(input)
 		if err != nil {
 			err = multierror.Append(err, errors.New(msg))
 		}

@@ -22,7 +22,7 @@ func Between[
 			return
 		}
 
-		if out, remaining, err = parser.Parse(remaining); err != nil {
+		if out, remaining, err = parser(remaining); err != nil {
 			return
 		}
 

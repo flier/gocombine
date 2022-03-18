@@ -17,7 +17,7 @@ func ExampleThen() {
 			return c != '\n'
 		})))
 
-	p := combinator.Map(sequence.Then(token.Any[[]rune](), func(c rune) parser.Func[[]rune, rune, []rune] {
+	p := char.AsString(sequence.Then(token.Any[[]rune](), func(c rune) parser.Func[[]rune, rune, []rune] {
 		if c == '#' {
 			return comment
 		}
@@ -25,7 +25,7 @@ func ExampleThen() {
 		return combinator.Map(repeat.Many1(char.Letter[[]rune]()), func(s []rune) []rune {
 			return append([]rune{c}, s...)
 		})
-	}), func(s []rune) string { return string(s) })
+	}))
 
 	fmt.Println(p([]rune("ac2")))
 	fmt.Println(p([]rune("# ac2")))

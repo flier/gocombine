@@ -2,6 +2,7 @@ package repeat
 
 import (
 	"github.com/flier/gocombine/pkg/parser"
+	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/stream"
 )
 
@@ -63,4 +64,22 @@ func Many1[
 
 		return
 	}
+}
+
+// Parses `p` zero or more times ignoring the result.
+func SkipMany[
+	S stream.Stream[T],
+	T stream.Token,
+	O any,
+](parser parser.Func[S, T, O]) parser.Func[S, T, any] {
+	return combinator.Ignore(Many(parser))
+}
+
+// Parses `p` one or more times ignoring the result.
+func SkipMany1[
+	S stream.Stream[T],
+	T stream.Token,
+	O any,
+](parser parser.Func[S, T, O]) parser.Func[S, T, any] {
+	return combinator.Ignore(Many1(parser))
 }

@@ -1,9 +1,10 @@
 package choice
 
 import (
+	"github.com/hashicorp/go-multierror"
+
 	"github.com/flier/gocombine/pkg/parser"
 	"github.com/flier/gocombine/pkg/stream"
-	"github.com/hashicorp/go-multierror"
 )
 
 // Or returns a parser which attempts to parse using `parsers`.

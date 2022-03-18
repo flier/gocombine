@@ -1,12 +1,35 @@
 package char
 
 import (
+	"fmt"
 	"unicode"
 
 	"github.com/flier/gocombine/pkg/parser"
+	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/parser/token"
 	"github.com/flier/gocombine/pkg/stream"
 )
+
+type IntoString interface {
+	[]byte | []rune | string
+}
+
+func ToString[S IntoString](s S) string {
+	switch v := interface{}(s).(type) {
+	case []byte:
+		return string(v)
+	case []rune:
+		return string(v)
+	case string:
+		return v
+	default:
+		panic(fmt.Errorf("unexpected %T", v))
+	}
+}
+
+func AsString[S stream.Stream[rune], T IntoString](parser parser.Func[S, rune, T]) parser.Func[S, rune, string] {
+	return combinator.Map(parser, ToString[T])
+}
 
 // StringCmp parses the string `s`, using `cmp` to compare each character.
 func StringCmp[S stream.Stream[rune]](s string, cmp func(l, r rune) bool) parser.Func[S, rune, string] {

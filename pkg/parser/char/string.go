@@ -3,6 +3,7 @@ package char
 import (
 	"fmt"
 	"unicode"
+	"unicode/utf16"
 
 	"github.com/flier/gocombine/pkg/parser"
 	"github.com/flier/gocombine/pkg/parser/combinator"
@@ -11,15 +12,21 @@ import (
 )
 
 type IntoString interface {
-	[]byte | []rune | string
+	byte | rune | []byte | []rune | []uint16 | string
 }
 
 func ToString[S IntoString](s S) string {
 	switch v := interface{}(s).(type) {
+	case byte:
+		return string([]byte{v})
+	case rune:
+		return string([]rune{v})
 	case []byte:
 		return string(v)
 	case []rune:
 		return string(v)
+	case []uint16:
+		return string(utf16.Decode(v))
 	case string:
 		return v
 	default:
@@ -27,8 +34,12 @@ func ToString[S IntoString](s S) string {
 	}
 }
 
-func AsString[S stream.Stream[rune], T IntoString](parser parser.Func[S, rune, T]) parser.Func[S, rune, string] {
-	return combinator.Map(parser, ToString[T])
+func AsString[
+	S stream.Stream[T],
+	T stream.Token,
+	O IntoString,
+](parser parser.Func[S, T, O]) parser.Func[S, T, string] {
+	return combinator.Map(parser, ToString[O])
 }
 
 // StringCmp parses the string `s`, using `cmp` to compare each character.

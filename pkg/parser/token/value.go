@@ -6,8 +6,8 @@ import (
 )
 
 // Value always returns the value `v` without consuming any input.
-func Value[S stream.Stream[T], T stream.Token](v T) parser.Func[S, T, T] {
-	return func(input S) (T, S, error) {
+func Value[S stream.Stream[T], T stream.Token, O any](v O) parser.Func[S, T, O] {
+	return func(input S) (O, S, error) {
 		return v, input, nil
 	}
 }

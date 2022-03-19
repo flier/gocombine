@@ -135,7 +135,7 @@ func ExampleToken() {
 
 	// Output:
 	// 97 [112 112 108 101] <nil>
-	// 102 [102 111 111 98 97 114] expected `[97]`, got `[102]`
+	// 102 [102 111 111 98 97 114] expected `[97]`, actual `[102]`, unexpected
 }
 
 func ExampleTokens() {
@@ -145,7 +145,7 @@ func ExampleTokens() {
 	fmt.Println(p([]rune("FooBar")))
 
 	// Output:
-	// [97] [97 112 112 108 101] expected `[102 111 111]`, got `[97]`
+	// [97] [97 112 112 108 101] expected `[102 111 111]`, actual `[97]`, unexpected
 	// [70 111 111] [66 97 114] <nil>
 }
 
@@ -157,7 +157,7 @@ func ExampleOneOf() {
 
 	// Output:
 	// 97 [112 112 108 101] <nil>
-	// 102 [102 111 111 98 97 114] expected `[97 98 99]`, got `[102]`
+	// 102 [102 111 111 98 97 114] expected `[97 98 99]`, actual `[102]`, unexpected
 }
 
 func ExampleNoneOf() {
@@ -167,7 +167,7 @@ func ExampleNoneOf() {
 	fmt.Println(p([]rune("foobar")))
 
 	// Output:
-	// 97 [97 112 112 108 101] unexpected `[97]`
+	// 97 [97 112 112 108 101] actual `[97]`, unexpected
 	// 102 [111 111 98 97 114] <nil>
 }
 
@@ -179,5 +179,5 @@ func ExampleEof() {
 
 	// Output:
 	// true [] <nil>
-	// false [102 111 111 98 97 114] unexpected `[102 111 111 98 97 114]`
+	// false [102 111 111 98 97 114] actual `[102 111 111 98 97 114]`, unexpected
 }

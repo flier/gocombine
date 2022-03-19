@@ -14,7 +14,7 @@ func ExampleChar() {
 
 	// Output:
 	// 33 [] <nil>
-	// 65 [65] expected `[33]`, got `[65]`
+	// 65 [65] expected `[33]`, actual `[65]`, unexpected
 }
 
 func ExampleSpace() {
@@ -54,7 +54,7 @@ func ExampleNewLine() {
 	fmt.Println(p([]rune("\n")))
 
 	// Output:
-	// 13 [13] newline, expected `[10]`, got `[13]`
+	// 13 [13] newline, expected `[10]`, actual `[13]`, unexpected
 	// 10 [] <nil>
 }
 
@@ -68,7 +68,7 @@ func ExampleCrLf() {
 	// Output:
 	// [13 10] [] <nil>
 	// [13] [13] crlf, unexpected EOF
-	// [10] [10] crlf, expected `[13]`, got `[10]`
+	// [10] [10] crlf, expected `[13]`, actual `[10]`, unexpected
 }
 
 func ExampleTab() {
@@ -79,7 +79,7 @@ func ExampleTab() {
 
 	// Output:
 	// 9 [] <nil>
-	// 32 [32] tab, expected `[9]`, got `[32]`
+	// 32 [32] tab, expected `[9]`, actual `[32]`, unexpected
 }
 
 func ExampleUpper() {

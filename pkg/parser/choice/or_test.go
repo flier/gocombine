@@ -23,8 +23,8 @@ func ExampleOr() {
 	// let [] <nil>
 	// digit [] <nil>
 	//  [108 111 115 116] 3 errors occurred:
-	// 	* expected `[108 101 116]`, got `[108 111]`
+	// 	* expected `[108 101 116]`, actual `[108 111]`, unexpected
 	// 	* digit, satisfy, expected
-	// 	* expected `[108 101 100]`, got `[108 111]`
+	// 	* expected `[108 101 100]`, actual `[108 111]`, unexpected
 
 }

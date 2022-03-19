@@ -15,6 +15,6 @@ func ExampleByte() {
 
 	// Output:
 	// 33 [] <nil>
-	// 97 [97] expected `[33]`, got `[97]`
+	// 97 [97] expected `[33]`, actual `[97]`, unexpected
 	// 0 [] unexpected EOF
 }

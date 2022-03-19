@@ -18,6 +18,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	if len(remaining) > 0 {
+		panic(remaining)
+	}
 
-	fmt.Println(result, remaining)
+	fmt.Println(result)
 }

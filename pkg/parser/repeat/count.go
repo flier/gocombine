@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/flier/gocombine/pkg/parser"
+	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/stream"
 )
 
@@ -44,4 +45,22 @@ func CountMinMax[
 
 		return
 	}
+}
+
+// SkipCount parses `parser` from zero up to `count` times skipping the output of `parser`.
+func SkipCount[
+	S stream.Stream[T],
+	T stream.Token,
+	O any,
+](count int, parser parser.Func[S, T, O]) parser.Func[S, T, any] {
+	return combinator.Ignore(Count(count, parser))
+}
+
+// SkipCountMinMax parses `parser` from `min` to `max` times (including `min` and `max`) skipping the output of `parser`.
+func SkipCountMinMax[
+	S stream.Stream[T],
+	T stream.Token,
+	O any,
+](min, max int, parser parser.Func[S, T, O]) parser.Func[S, T, any] {
+	return combinator.Ignore(CountMinMax(min, max, parser))
 }

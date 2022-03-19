@@ -1,13 +1,13 @@
-package ranges_test
+package bytes_test
 
 import (
 	"fmt"
 
-	"github.com/flier/gocombine/pkg/parser/ranges"
+	"github.com/flier/gocombine/pkg/parser/bytes"
 )
 
 func ExampleTakeUntil() {
-	p := ranges.TakeUntil[[]byte]('\r')
+	p := bytes.TakeUntil[[]byte]('\r')
 
 	fmt.Println(p([]byte("To: user@example.com\r\n")))
 

@@ -14,7 +14,7 @@ func Recognize[
 	return func(input S) (out S, remaining S, err error) {
 		_, remaining, err = parser(input)
 		if err == nil {
-			out = input[:stream.Len(input)-stream.Len(remaining)]
+			out, remaining, err = stream.UnconsRange(input, stream.Len(input)-stream.Len(remaining))
 		}
 		return
 	}

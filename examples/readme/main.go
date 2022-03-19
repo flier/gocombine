@@ -14,13 +14,9 @@ func main() {
 		return words[len(words)-1]
 	})
 
-	result, remaining, err := parser.Parse([]rune("Pick up that word!"))
+	result, _, err := parser.Parse([]rune("Pick up that word!"))
 	if err != nil {
 		panic(err)
 	}
-	if len(remaining) > 0 {
-		panic(remaining)
-	}
-
 	fmt.Println(result)
 }

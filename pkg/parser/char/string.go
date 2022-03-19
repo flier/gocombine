@@ -34,12 +34,28 @@ func ToString[S IntoString](s S) string {
 	}
 }
 
+// AsString convert the result of `parser` to a string.
 func AsString[
 	S stream.Stream[T],
 	T stream.Token,
 	O IntoString,
 ](parser parser.Func[S, T, O]) parser.Func[S, T, string] {
 	return combinator.Map(parser, ToString[O])
+}
+
+// AsStringSlice convert the result of `parser` to a string slice.
+func AsStringSlice[
+	S stream.Stream[T],
+	T stream.Token,
+	O IntoString,
+](parser parser.Func[S, T, []O]) parser.Func[S, T, []string] {
+	return combinator.Map(parser, func(s []O) (r []string) {
+		r = make([]string, len(s))
+		for i, v := range s {
+			r[i] = ToString(v)
+		}
+		return
+	})
 }
 
 // StringCmp parses the string `s`, using `cmp` to compare each character.

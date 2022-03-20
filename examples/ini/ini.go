@@ -8,6 +8,7 @@ import (
 	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/parser/repeat"
 	"github.com/flier/gocombine/pkg/parser/sequence"
+	"github.com/flier/gocombine/pkg/parser/to"
 	"github.com/flier/gocombine/pkg/parser/token"
 	"github.com/flier/gocombine/pkg/stream"
 	"github.com/flier/gocombine/pkg/tuple"
@@ -22,13 +23,13 @@ type Ini struct {
 }
 
 func property[S stream.Stream[rune]]() parser.Func[S, rune, []string] {
-	key := char.AsString(repeat.Many1(token.Satisfy[S](func(c rune) bool {
+	key := to.String(repeat.Many1(token.Satisfy[S](func(c rune) bool {
 		return c != '=' && c != '[' && c != ';'
 	}))).Expected("key")
 
 	assign := token.Token[S]('=')
 
-	value := char.AsString(repeat.Many1(token.Satisfy[S](func(c rune) bool {
+	value := to.String(repeat.Many1(token.Satisfy[S](func(c rune) bool {
 		return c != '\n' && c != ';'
 	}))).Expected("value")
 
@@ -55,7 +56,7 @@ func sections[S stream.Stream[rune]]() parser.Func[S, rune, Sections] {
 	name := sequence.Between(
 		token.Token[S]('['),
 		token.Token[S](']'),
-		char.AsString(repeat.Many(token.Satisfy[S](func(c rune) bool { return c != ']' }))),
+		to.String(repeat.Many(token.Satisfy[S](func(c rune) bool { return c != ']' }))),
 	).Message("while parsing name")
 
 	return combinator.Fold(

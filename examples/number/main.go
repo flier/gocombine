@@ -10,13 +10,14 @@ import (
 	"github.com/flier/gocombine/pkg/parser/ranges"
 	"github.com/flier/gocombine/pkg/parser/repeat"
 	"github.com/flier/gocombine/pkg/parser/sequence"
+	"github.com/flier/gocombine/pkg/parser/to"
 )
 
 func main() {
 	num := repeat.SkipMany1(char.Digit[[]rune]())
 	frac := choice.Optional(sequence.With(char.Char[[]rune]('.'), num))
 	parser := combinator.AndThen(
-		char.AsString(ranges.Recognize(combinator.Pair(num, frac))),
+		to.String(ranges.Recognize(combinator.Pair(num, frac))),
 		func(s string) (float64, error) { return strconv.ParseFloat(s, 64) },
 	)
 

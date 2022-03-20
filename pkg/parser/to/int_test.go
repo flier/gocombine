@@ -1,15 +1,15 @@
-package num_test
+package to_test
 
 import (
 	"fmt"
 
-	"github.com/flier/gocombine/pkg/parser/bytes/num"
 	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/parser/repeat"
+	"github.com/flier/gocombine/pkg/parser/to"
 )
 
-func ExampleAtoi() {
-	p := num.Atoi(repeat.Many1(char.Digit[[]rune]()))
+func ExampleInt() {
+	p := to.Int(repeat.Many1(char.Digit[[]rune]()))
 
 	fmt.Println(p([]rune("123abc")))
 

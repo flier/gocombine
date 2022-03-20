@@ -1,18 +1,17 @@
-package num
+package to
 
 import (
 	"strconv"
 
 	"github.com/flier/gocombine/pkg/parser"
-	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/stream"
 )
 
 // Atoi parses a string-like data and converts it to an integer.
-func Atoi[
+func Int[
 	S stream.Stream[T],
 	T stream.Token,
-	O char.IntoString,
+	O IntoString,
 ](parser parser.Func[S, T, O]) parser.Func[S, T, int] {
 	return func(input S) (out int, remaining S, err error) {
 		var o O
@@ -21,7 +20,7 @@ func Atoi[
 			return
 		}
 
-		s := char.ToString(o)
+		s := ToString(o)
 		out, err = strconv.Atoi(s)
 		return
 	}

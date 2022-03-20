@@ -35,7 +35,7 @@ func Uncons[S Stream[T], T Token](input S) (tok T, remaining S, err error) {
 
 /// UnconsRange takes `size` elements from the stream.
 /// Fails if the length of the stream is less than `size`.
-func UnconsRange[S Stream[T], T Token](input S, size int) (tokens S, remaining S, err error) {
+func UnconsRange[S Stream[T], T Token](input S, size int) (tokens []T, remaining S, err error) {
 	if Len(input) < size {
 		remaining, err = input, io.ErrUnexpectedEOF
 	} else {

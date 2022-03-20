@@ -7,13 +7,12 @@ import (
 	"github.com/flier/gocombine/pkg/pair"
 	"github.com/flier/gocombine/pkg/parser"
 	"github.com/flier/gocombine/pkg/parser/bytes"
-	"github.com/flier/gocombine/pkg/parser/bytes/num"
-	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/parser/choice"
 	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/parser/ranges"
 	"github.com/flier/gocombine/pkg/parser/repeat"
 	"github.com/flier/gocombine/pkg/parser/sequence"
+	"github.com/flier/gocombine/pkg/parser/to"
 	"github.com/flier/gocombine/pkg/stream"
 	"github.com/flier/gocombine/pkg/tuple"
 )
@@ -48,9 +47,9 @@ func EoL[S stream.Stream[byte]]() parser.Func[S, byte, byte] {
 func MessageHeader[S stream.Stream[byte]]() parser.Func[S, byte, http.Header] {
 	header := sequence.Skip(sequence.With(
 		ranges.TakeWhile1[S](IsHozizontalSpace),
-		char.AsString(ranges.TakeWhile1[S](func(b byte) bool { return b != '\r' && b != '\n' }))),
+		to.String(ranges.TakeWhile1[S](func(b byte) bool { return b != '\r' && b != '\n' }))),
 		EoL[S]())
-	name := char.AsString(ranges.TakeWhile1[S](IsToken))
+	name := to.String(ranges.TakeWhile1[S](IsToken))
 	sep := bytes.Byte[S](':')
 	value := repeat.Many1(header)
 
@@ -64,9 +63,9 @@ func MessageHeader[S stream.Stream[byte]]() parser.Func[S, byte, http.Header] {
 }
 
 func Parser[S stream.Stream[byte]]() parser.Func[S, byte, *http.Request] {
-	method := char.AsString(ranges.TakeWhile1[S](IsToken))
-	uri := char.AsString(ranges.TakeWhile1[S](IsNotSpace))
-	ver := num.Atoi(repeat.Many1(bytes.Digit[S]()))
+	method := to.String(ranges.TakeWhile1[S](IsToken))
+	uri := to.String(ranges.TakeWhile1[S](IsNotSpace))
+	ver := to.Int(repeat.Many1(bytes.Digit[S]()))
 	version := sequence.With(bytes.Bytes[S]([]byte("HTTP/")),
 		combinator.Tuple3(ver, bytes.Byte[S]('.'), ver))
 

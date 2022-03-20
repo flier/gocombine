@@ -4,12 +4,12 @@ import (
 	"github.com/flier/gocombine/pkg/option"
 	"github.com/flier/gocombine/pkg/pair"
 	"github.com/flier/gocombine/pkg/parser"
-	"github.com/flier/gocombine/pkg/parser/bytes/num"
 	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/parser/choice"
 	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/parser/repeat"
 	"github.com/flier/gocombine/pkg/parser/sequence"
+	"github.com/flier/gocombine/pkg/parser/to"
 	"github.com/flier/gocombine/pkg/stream"
 	"github.com/flier/gocombine/pkg/tuple"
 )
@@ -33,7 +33,7 @@ type DateTime struct {
 }
 
 func two_digit[S stream.Stream[rune]]() parser.Func[S, rune, int] {
-	digit := num.Atoi(char.Digit[S]())
+	digit := to.Int(char.Digit[S]())
 	return combinator.Map(
 		combinator.Pair(digit, digit),
 		func(p pair.Pair[int, int]) int {
@@ -70,7 +70,7 @@ func time_zone[S stream.Stream[rune]]() parser.Func[S, rune, int] {
 // Parses a date
 // 2010-01-30
 func date[S stream.Stream[rune]]() parser.Func[S, rune, Date] {
-	year := num.Atoi(repeat.Many1(char.Digit[S]()))
+	year := to.Int(repeat.Many1(char.Digit[S]()))
 	month := two_digit[S]()
 	day := two_digit[S]()
 	sep := char.Char[S]('-')

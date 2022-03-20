@@ -10,8 +10,8 @@ func Recognize[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-](parser parser.Func[S, T, O]) parser.Func[S, T, S] {
-	return func(input S) (out S, remaining S, err error) {
+](parser parser.Func[S, T, O]) parser.Func[S, T, []T] {
+	return func(input S) (out []T, remaining S, err error) {
 		_, remaining, err = parser(input)
 		if err == nil {
 			out, remaining, err = stream.UnconsRange(input, stream.Len(input)-stream.Len(remaining))

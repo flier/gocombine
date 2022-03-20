@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/parser/regex"
+	"github.com/flier/gocombine/pkg/parser/to"
 )
 
 func ExampleCaptures() {
-	digits := char.AsStringSlice(regex.Captures[[]rune](regexp.MustCompile("([a-z]+):([0-9]+)")))
+	digits := to.StringSlice(regex.Captures[[]rune](regexp.MustCompile("([a-z]+):([0-9]+)")))
 
 	fmt.Println(digits([]rune("test:123 field:456 ")))
 	fmt.Println(digits([]rune("test:123 :456 ")))

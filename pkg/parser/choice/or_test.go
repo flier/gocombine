@@ -6,13 +6,14 @@ import (
 	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/parser/choice"
 	"github.com/flier/gocombine/pkg/parser/combinator"
+	"github.com/flier/gocombine/pkg/parser/to"
 )
 
 func ExampleOr() {
 	p := choice.Or(
-		char.String[[]rune]("let"),
+		to.String(char.String[[]rune]("let")),
 		combinator.Map(char.Digit[[]rune](), func(r rune) string { return "digit" }),
-		char.String[[]rune]("led"),
+		to.String(char.String[[]rune]("led")),
 	)
 
 	fmt.Println(p.Parse([]rune("let")))

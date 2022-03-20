@@ -8,6 +8,7 @@ import (
 	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/parser/repeat"
 	"github.com/flier/gocombine/pkg/parser/sequence"
+	"github.com/flier/gocombine/pkg/parser/to"
 	"github.com/flier/gocombine/pkg/parser/token"
 )
 
@@ -17,7 +18,7 @@ func ExampleThen() {
 			return c != '\n'
 		})))
 
-	p := char.AsString(sequence.Then(token.Any[[]rune](), func(c rune) parser.Func[[]rune, rune, []rune] {
+	p := to.String(sequence.Then(token.Any[[]rune](), func(c rune) parser.Func[[]rune, rune, []rune] {
 		if c == '#' {
 			return comment
 		}

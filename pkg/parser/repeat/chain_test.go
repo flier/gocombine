@@ -8,10 +8,11 @@ import (
 	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/parser/repeat"
+	"github.com/flier/gocombine/pkg/parser/to"
 )
 
 func ExampleChainL1() {
-	number := combinator.AndThen(char.AsString(char.Digit[[]rune]()), strconv.Atoi)
+	number := combinator.AndThen(to.String(char.Digit[[]rune]()), strconv.Atoi)
 	sub := combinator.Map(char.Char[[]rune]('-'), func(rune) func(l, r int) int {
 		return func(l, r int) int { return l - r }
 	})
@@ -24,7 +25,7 @@ func ExampleChainL1() {
 }
 
 func ExampleChainR1() {
-	number := combinator.AndThen(char.AsString(char.Digit[[]rune]()), strconv.Atoi)
+	number := combinator.AndThen(to.String(char.Digit[[]rune]()), strconv.Atoi)
 	sub := combinator.Map(char.Char[[]rune]('^'), func(rune) func(l, r int) int {
 		return func(l, r int) int { return int(math.Pow(float64(l), float64(r))) }
 	})

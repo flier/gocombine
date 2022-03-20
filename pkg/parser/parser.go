@@ -11,10 +11,6 @@ import (
 
 type Parser[S stream.Stream[T], T stream.Token, O any] interface {
 	Parse(input S) (out O, remaining S, err error)
-
-	Expected(msg string) Func[S, T, O]
-
-	Message(msg string) Func[S, T, O]
 }
 
 type Func[S stream.Stream[T], T stream.Token, O any] func(input S) (out O, remaining S, err error)

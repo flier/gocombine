@@ -5,10 +5,11 @@ import (
 
 	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/parser/choice"
+	"github.com/flier/gocombine/pkg/parser/to"
 )
 
 func ExampleOptional() {
-	p := choice.Optional(char.String[[]rune]("hello"))
+	p := choice.Optional(to.String(char.String[[]rune]("hello")))
 
 	o, remaining, err := p([]rune("hello"))
 	fmt.Println(o.Unwrap(), remaining, err)

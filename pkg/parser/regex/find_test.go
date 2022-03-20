@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/parser/regex"
+	"github.com/flier/gocombine/pkg/parser/to"
 )
 
 func ExampleFind() {
-	digits := char.AsString(regex.Find[[]rune](regexp.MustCompile("^[0-9]+")))
+	digits := to.String(regex.Find[[]rune](regexp.MustCompile("^[0-9]+")))
 
 	fmt.Println(digits([]rune("123 456 ")))
 
-	digits2 := char.AsString(regex.Find[[]rune](regexp.MustCompile("[0-9]+")))
+	digits2 := to.String(regex.Find[[]rune](regexp.MustCompile("[0-9]+")))
 
 	fmt.Println(digits2([]rune("123 456 ")))
 	fmt.Println(digits2([]rune("abcd 123 456 ")))
@@ -25,7 +25,7 @@ func ExampleFind() {
 }
 
 func ExampleFindMany() {
-	digits2 := char.AsStringSlice(regex.FindMany[[]rune](regexp.MustCompile("[0-9]+")))
+	digits2 := to.StringSlice(regex.FindMany[[]rune](regexp.MustCompile("[0-9]+")))
 
 	fmt.Println(digits2([]rune("123 456 ")))
 	fmt.Println(digits2([]rune("abcd 123 456 ")))

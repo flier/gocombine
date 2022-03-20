@@ -6,10 +6,11 @@ import (
 	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/parser/repeat"
+	"github.com/flier/gocombine/pkg/parser/to"
 )
 
 func main() {
-	word := char.AsString(repeat.Many1(char.Letter[[]rune]()))
+	word := to.String(repeat.Many1(char.Letter[[]rune]()))
 	parser := combinator.Map(repeat.SepBy(word, char.Space[[]rune]()), func(words []string) string {
 		return words[len(words)-1]
 	})

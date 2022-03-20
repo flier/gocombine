@@ -9,10 +9,11 @@ import (
 	"github.com/flier/gocombine/pkg/parser/ranges"
 	"github.com/flier/gocombine/pkg/parser/repeat"
 	"github.com/flier/gocombine/pkg/parser/sequence"
+	"github.com/flier/gocombine/pkg/parser/to"
 )
 
 func ExampleRecognize() {
-	p := char.AsString(ranges.Recognize(combinator.Pair(
+	p := to.String(ranges.Recognize(combinator.Pair(
 		repeat.SkipMany1(char.Digit[[]rune]()),
 		choice.Optional(
 			sequence.With(char.Char[[]rune]('.'),

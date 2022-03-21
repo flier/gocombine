@@ -1,4 +1,5 @@
-# gocombine
+# gocombine [![Go Reference](https://pkg.go.dev/badge/github.com/flier/gocombine/gocombine.svg)](https://pkg.go.dev/github.com/flier/gocombine) [![Apache](https://img.shields.io/badge/license-Apache-blue.svg)](https://github.com/flier/gohs/blob/master/LICENSE-APACHE) [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/flier/gohs/blob/master/LICENSE-MIT)
+
 
 An experimental implementation of parser combinators for `Golang[Generic]`, inspired by the Haskell library [Parsec][] and the Rust [combine][]. As in Parsec the parsers are [LL(1)][] by default but they can opt-in to arbitrary lookahead using the attempt combinator.
 
@@ -52,12 +53,11 @@ If you end up trying it I welcome any feedback from your experience with it. I a
 
 ## License
 
-See the MIT [LICENSE][] file in the repository.
+This project is licensed under either of Apache License ([LICENSE-APACHE](LICENSE-APACHE)) or MIT license ([LICENSE-MIT](LICENSE-MIT)) at your option.
 
 [benches]:https://github.com/flier/gocombine/tree/master/benches
 [combine]:https://github.com/Marwes/combine
 [examples]:https://github.com/flier/gocombine/tree/master/examples
-[LICENSE]:https://github.com/flier/gocombine/blob/master/LICENSE
 [LL(1)]:https://en.wikipedia.org/wiki/LL_parser
 [Many]:https://pkg.go.dev/github.com/flier/gocombine/pkg/repeat#Many
 [Parsec]:https://hackage.haskell.org/package/parsec

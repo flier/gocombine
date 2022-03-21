@@ -9,11 +9,13 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
-type IntoString interface {
+// StringLike constraints for the types that can be converted to string.
+type StringLike interface {
 	byte | rune | []byte | []rune | []uint16 | string
 }
 
-func ToString[S IntoString](s S) string {
+// Str convert a `StringLike` type to a string.
+func Str[S StringLike](s S) string {
 	switch v := interface{}(s).(type) {
 	case byte:
 		return string([]byte{v})
@@ -36,21 +38,21 @@ func ToString[S IntoString](s S) string {
 func String[
 	S stream.Stream[T],
 	T stream.Token,
-	O IntoString,
+	O StringLike,
 ](parser parser.Func[S, T, O]) parser.Func[S, T, string] {
-	return combinator.Map(parser, ToString[O])
+	return combinator.Map(parser, Str[O])
 }
 
 // StringSlice convert the result of `parser` to a string slice.
 func StringSlice[
 	S stream.Stream[T],
 	T stream.Token,
-	O IntoString,
+	O StringLike,
 ](parser parser.Func[S, T, []O]) parser.Func[S, T, []string] {
 	return combinator.Map(parser, func(s []O) (r []string) {
 		r = make([]string, len(s))
 		for i, v := range s {
-			r[i] = ToString(v)
+			r[i] = Str(v)
 		}
 		return
 	})

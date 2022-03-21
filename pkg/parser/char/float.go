@@ -10,6 +10,7 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
+// Float parses a floating-point numbers.
 func Float[S stream.Stream[rune]]() parser.Func[S, rune, []rune] {
 	sign := token.OneOf[S]([]rune("+-"))
 	integer := repeat.Many1(Digit[S]())

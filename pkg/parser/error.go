@@ -8,10 +8,14 @@ import (
 )
 
 var (
-	ErrExpected   = errors.New("expected")
+	// ErrExpected indicates an expected value.
+	ErrExpected = errors.New("expected")
+
+	// ErrUnexpected indicates a unexpected value.
 	ErrUnexpected = errors.New("unexpected")
 )
 
+// UnexpectedErr is an error that indicates an unexpected value.
 type UnexpectedErr[T stream.Token] struct {
 	Expected []T
 	Actual   []T
@@ -29,6 +33,7 @@ func (e *UnexpectedErr[T]) Error() string {
 	return e.Err().Error()
 }
 
-func Unexpected[T stream.Token](expected, actual []T) error {
+// Unexpected returns an error that indicates an unexpected value.
+func Unexpected[T stream.Token](expected, actual []T) *UnexpectedErr[T] {
 	return &UnexpectedErr[T]{expected, actual}
 }

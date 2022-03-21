@@ -6,6 +6,7 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
+// Pair parses two heterogeneous value.
 func Pair[
 	S stream.Stream[T],
 	T stream.Token,

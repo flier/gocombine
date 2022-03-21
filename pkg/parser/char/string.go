@@ -28,7 +28,7 @@ func String[S stream.Stream[rune]](s string) parser.Func[S, rune, []rune] {
 	return StringCmp[S](s, func(l, r rune) bool { return l == r })
 }
 
-// String parses the string `s`, are equal under Unicode case-folding.
+// StringFold parses the string `s`, are equal under Unicode case-folding.
 func StringFold[S stream.Stream[rune]](s string) parser.Func[S, rune, []rune] {
 	return StringCmp[S](s, func(l, r rune) bool { return unicode.ToLower(l) == unicode.ToLower(r) })
 }

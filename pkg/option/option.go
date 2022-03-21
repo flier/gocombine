@@ -1,11 +1,15 @@
 package option
 
+// Option represents an optional value: every Option is either Some and contains a value, or None, and does not.
 type Option[T any] struct {
 	v *T
 }
 
+// Some value of type T.
 func Some[T any](v T) Option[T] { return Option[T]{&v} }
-func None[T any]() Option[T]    { return Option[T]{} }
+
+// None means no value.
+func None[T any]() Option[T] { return Option[T]{} }
 
 // HasSome returns true if the option is a `Some` value.
 func (o Option[T]) HasSome() bool { return o.v != nil }

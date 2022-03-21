@@ -52,7 +52,7 @@ func Upper[S stream.Stream[byte]]() parser.Func[S, byte, byte] {
 	}).Expected("uppercase letter")
 }
 
-// Upper parses a lowercase letter
+// Lower parses a lowercase letter
 func Lower[S stream.Stream[byte]]() parser.Func[S, byte, byte] {
 	return token.Satisfy[S](func(b byte) bool {
 		return unicode.IsLower(rune(b))

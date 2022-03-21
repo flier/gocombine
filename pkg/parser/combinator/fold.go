@@ -5,7 +5,7 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
-// Folds every element into an accumulator by applying an operation, returning the final result.
+// Fold every element into an accumulator by applying an operation, returning the final result.
 func Fold[
 	S stream.Stream[T],
 	T stream.Token,

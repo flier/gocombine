@@ -171,8 +171,8 @@ func ExampleNoneOf() {
 	// 102 [111 111 98 97 114] <nil>
 }
 
-func ExampleEof() {
-	p := token.Eof[[]rune]()
+func ExampleEOF() {
+	p := token.EOF[[]rune]()
 
 	fmt.Println(p(nil))
 	fmt.Println(p([]rune("foobar")))

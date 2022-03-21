@@ -89,8 +89,8 @@ func NoneOf[S stream.Stream[T], T stream.Token](tokens S) parser.Func[S, T, T] {
 	})
 }
 
-// Eof succeeds only if the stream is at end of input, fails otherwise.
-func Eof[S stream.Stream[T], T stream.Token]() parser.Func[S, T, bool] {
+// EOF succeeds only if the stream is at end of input, fails otherwise.
+func EOF[S stream.Stream[T], T stream.Token]() parser.Func[S, T, bool] {
 	return func(input S) (bool, S, error) {
 		if stream.Empty(input) {
 			return true, input, nil

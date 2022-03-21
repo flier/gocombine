@@ -12,7 +12,7 @@ import (
 func Float[
 	S stream.Stream[T],
 	T stream.Token,
-	O IntoString,
+	O StringLike,
 ](parser parser.Func[S, T, O]) parser.Func[S, T, float64] {
 	return combinator.AndThen(String(parser), func(s string) (float64, error) {
 		return strconv.ParseFloat(s, 64)

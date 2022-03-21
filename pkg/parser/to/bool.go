@@ -12,7 +12,7 @@ import (
 func Bool[
 	S stream.Stream[T],
 	T stream.Token,
-	O IntoString,
+	O StringLike,
 ](parser parser.Func[S, T, O]) parser.Func[S, T, bool] {
 	return combinator.AndThen(String(parser), func(s string) (bool, error) {
 		return strconv.ParseBool(s)

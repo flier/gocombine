@@ -8,7 +8,7 @@ import (
 // Escaped parses an escaped string by first applying `parser`
 // which accept the normal characters which do not need escaping.
 // Once `parser` can not consume any more input it checks if the next token is `escape`.
-// If it is then `escape_parser` is used to parse the escaped character and then resumes parsing using `parser`.
+// If it is then `escapeParser` is used to parse the escaped character and then resumes parsing using `parser`.
 // If `escape` was not found then the parser finishes successfully.
 func Escaped[
 	S stream.Stream[T],
@@ -16,7 +16,7 @@ func Escaped[
 ](
 	parser parser.Func[S, T, []T],
 	escape T,
-	escape_parser parser.Func[S, T, T],
+	escapeParser parser.Func[S, T, T],
 ) parser.Func[S, T, []T] {
 	return func(input S) (parsed []T, remaining S, err error) {
 		remaining = input
@@ -37,7 +37,7 @@ func Escaped[
 
 				outs = []T{tok}
 
-				if tok, rest, err = escape_parser(rest); err != nil {
+				if tok, rest, err = escapeParser(rest); err != nil {
 					return
 				}
 

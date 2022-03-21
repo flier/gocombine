@@ -9,10 +9,12 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
+// Parser is a type that it can be used to parse an input stream `S` of token `T` into a `O` value.
 type Parser[S stream.Stream[T], T stream.Token, O any] interface {
 	Parse(input S) (out O, remaining S, err error)
 }
 
+// Func is a function that it can be used to parse an input stream `S` of token `T` into a `O` value.
 type Func[S stream.Stream[T], T stream.Token, O any] func(input S) (out O, remaining S, err error)
 
 func (f Func[S, T, O]) Parse(input S) (out O, remaining S, err error) { return f(input) }

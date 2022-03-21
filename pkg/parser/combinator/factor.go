@@ -7,7 +7,7 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
-// Constructs the `parser` lazily.
+// Factor constructs the `parser` lazily.
 //
 // This is similar to `Lazy` but it takes `Input` as an argument and allows different parsers to be returned on each call
 // to `p` while still reporting the correct errors.

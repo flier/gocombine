@@ -6,6 +6,7 @@ import (
 	"github.com/flier/gocombine/pkg/tuple"
 )
 
+// Tuple3 parses a tuple of heterogeneous values.
 func Tuple3[
 	S stream.Stream[T],
 	T stream.Token,
@@ -36,6 +37,7 @@ func Tuple3[
 	})
 }
 
+// Tuple4 parses a tuple of heterogeneous values.
 func Tuple4[
 	S stream.Stream[T],
 	T stream.Token,
@@ -72,6 +74,7 @@ func Tuple4[
 	})
 }
 
+// Tuple5 parses a tuple of heterogeneous values.
 func Tuple5[
 	S stream.Stream[T],
 	T stream.Token,

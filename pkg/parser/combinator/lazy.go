@@ -7,7 +7,7 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
-// Constructs the `parser` lazily.
+// Lazy constructs the `parser` lazily.
 //
 // Can be used to effectively reduce the size of deeply nested parsers as only the function producing the parser is stored.
 func Lazy[

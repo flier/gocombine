@@ -32,7 +32,7 @@ func Many[
 	}
 }
 
-// Parses `parser` one or more times returning a collection with the values from `parser`.
+// Many1 parses `parser` one or more times returning a collection with the values from `parser`.
 func Many1[
 	S stream.Stream[T],
 	T stream.Token,
@@ -66,7 +66,7 @@ func Many1[
 	}
 }
 
-// Parses `p` zero or more times ignoring the result.
+// SkipMany parses `p` zero or more times ignoring the result.
 func SkipMany[
 	S stream.Stream[T],
 	T stream.Token,
@@ -75,7 +75,7 @@ func SkipMany[
 	return combinator.Ignore(Many(parser))
 }
 
-// Parses `p` one or more times ignoring the result.
+// SkipMany1 parses `p` one or more times ignoring the result.
 func SkipMany1[
 	S stream.Stream[T],
 	T stream.Token,

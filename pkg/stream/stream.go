@@ -6,23 +6,27 @@ import (
 	"golang.org/x/exp/slices"
 )
 
+// Token represents a token.
 type Token interface {
 	~byte | ~uint16 | ~rune
 }
 
+// Stream represents a stream of tokens which can be parsed.
 type Stream[T Token] interface {
 	~[]T
 }
 
+// Empty returns true if the stream is empty.
 func Empty[S Stream[T], T Token](s S) bool {
 	return len(s) == 0
 }
 
+// Len returns the number of tokens in the stream.
 func Len[S Stream[T], T Token](s S) int {
 	return len(s)
 }
 
-// Takes a stream `input` and removes its first token, yielding the `tok` and the `remaining` of the elements.
+// Uncons takes a stream `input` and removes its first token, yielding the `tok` and the `remaining` of the elements.
 // Returns `err` if no element could be retrieved.
 func Uncons[S Stream[T], T Token](input S) (tok T, remaining S, err error) {
 	if Empty(input) {
@@ -33,8 +37,8 @@ func Uncons[S Stream[T], T Token](input S) (tok T, remaining S, err error) {
 	return
 }
 
-/// UnconsRange takes `size` elements from the stream.
-/// Fails if the length of the stream is less than `size`.
+// UnconsRange takes `size` elements from the stream.
+// Fails if the length of the stream is less than `size`.
 func UnconsRange[S Stream[T], T Token](input S, size int) (tokens []T, remaining S, err error) {
 	if Len(input) < size {
 		remaining, err = input, io.ErrUnexpectedEOF
@@ -44,7 +48,7 @@ func UnconsRange[S Stream[T], T Token](input S, size int) (tokens []T, remaining
 	return
 }
 
-// UnconsRange takes items from stream, testing each one with `predicate`.
+// UnconsWhile takes items from stream, testing each one with `predicate`.
 // returns the range of items which passed `predicate`.
 func UnconsWhile[S Stream[T], T Token](input S, predicate func(T) bool) (tokens []T, remaining S, err error) {
 	if i := slices.IndexFunc(input, func(tok T) bool { return !predicate(tok) }); i >= 0 {
@@ -56,8 +60,8 @@ func UnconsWhile[S Stream[T], T Token](input S, predicate func(T) bool) (tokens 
 	return
 }
 
-// UnconsRange takes items from stream, testing each one with `predicate`.
-// returns the range of items which passed `predicate`.
+// UnconsUntil takes items from stream, testing each one with `predicate`.
+// returns the range of items which not passed `predicate`.
 func UnconsUntil[S Stream[T], T Token](input S, predicate func(T) bool) (tokens []T, remaining S, err error) {
 	i := slices.IndexFunc(input, func(tok T) bool { return predicate(tok) })
 	switch i {

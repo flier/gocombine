@@ -48,7 +48,7 @@ func Upper[S stream.Stream[rune]]() parser.Func[S, rune, rune] {
 	return token.Satisfy[S](unicode.IsUpper).Expected("uppercase letter")
 }
 
-// Upper parses a lowercase letter
+// Lower parses a lowercase letter
 func Lower[S stream.Stream[rune]]() parser.Func[S, rune, rune] {
 	return token.Satisfy[S](unicode.IsLower).Expected("lowercase letter")
 }

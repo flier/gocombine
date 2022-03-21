@@ -30,9 +30,15 @@ func Token[S stream.Stream[T], T stream.Token](tok T) parser.Func[S, T, T] {
 // Consumes items from the input and compares them to the values from `tokens` using the
 /// comparison function `cmp`. Succeeds if all the items from `tokens` are matched in the input
 /// stream and fails otherwise with `expected` used as part of the error.
-func Tokens[S stream.Stream[T], T stream.Token](cmp func(lhs, rhs T) bool, expected, tokens S) parser.Func[S, T, []T] {
+func Tokens[
+	S stream.Stream[T],
+	T stream.Token,
+](
+	cmp func(lhs, rhs T) bool,
+	expected, tokens []T,
+) parser.Func[S, T, []T] {
 	return combinator.Attempt(func(input S) (actual []T, remaining S, err error) {
-		actual = make([]T, stream.Len(tokens))
+		actual = make([]T, len(tokens))
 		remaining = input
 
 		for i, tok := range tokens {

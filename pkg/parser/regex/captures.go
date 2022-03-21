@@ -28,9 +28,6 @@ func Captures[T stream.Token](re *regexp.Regexp) parser.Func[T, [][]T] {
 			s := string(utf16.Decode(v))
 			loc = re.FindStringSubmatchIndex(s)
 
-		case string:
-			loc = re.FindStringSubmatchIndex(v)
-
 		default:
 			err = fmt.Errorf("unsupported type, %T, %w", v, parser.ErrUnexpected)
 		}
@@ -66,9 +63,6 @@ func CapturesMany[T stream.Token](re *regexp.Regexp) parser.Func[T, [][][]T] {
 		case []uint16:
 			s := string(utf16.Decode(v))
 			locs = re.FindAllStringSubmatchIndex(s, -1)
-
-		case string:
-			locs = re.FindAllStringSubmatchIndex(v, -1)
 
 		default:
 			err = fmt.Errorf("unsupported type, %T, %w", v, parser.ErrUnexpected)

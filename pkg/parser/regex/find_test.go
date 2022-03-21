@@ -13,10 +13,10 @@ func ExampleFind() {
 
 	fmt.Println(digits([]rune("123 456 ")))
 
-	digits2 := to.String(regex.Find[rune](regexp.MustCompile("[0-9]+")))
+	digits2 := to.String(regex.Find[byte](regexp.MustCompile("[0-9]+")))
 
-	fmt.Println(digits2([]rune("123 456 ")))
-	fmt.Println(digits2([]rune("abcd 123 456 ")))
+	fmt.Println(digits2([]byte("123 456 ")))
+	fmt.Println(digits2([]byte("abcd 123 456 ")))
 
 	// Output:
 	// 123 [32 52 53 54 32] <nil>

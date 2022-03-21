@@ -24,9 +24,6 @@ func Match[T stream.Token](re *regexp.Regexp) parser.Func[T, bool] {
 			s := string(utf16.Decode(v))
 			matched = re.MatchString(s)
 
-		case string:
-			matched = re.MatchString(v)
-
 		default:
 			err = fmt.Errorf("unsupported type, %T, %w", v, parser.ErrUnexpected)
 		}

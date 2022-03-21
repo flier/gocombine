@@ -3,16 +3,17 @@ package ranges_test
 import (
 	"fmt"
 
+	"github.com/flier/gocombine/pkg/parser/bytes"
 	"github.com/flier/gocombine/pkg/parser/ranges"
 )
 
 func ExampleTake() {
-	p := ranges.Take[byte](1)
+	p := bytes.Take(1)
 
 	fmt.Println(p([]byte("!")))
 	fmt.Println(p(nil))
 
-	p = ranges.Take[byte](4)
+	p = bytes.Take(4)
 
 	fmt.Println(p([]byte("1234abc")))
 	fmt.Println(p([]byte("123")))

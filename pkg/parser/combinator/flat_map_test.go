@@ -5,13 +5,12 @@ import (
 
 	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/parser/combinator"
-	"github.com/flier/gocombine/pkg/parser/ranges"
 	"github.com/flier/gocombine/pkg/parser/repeat"
 )
 
 func ExampleFlatMap() {
 	p := combinator.FlatMap(
-		ranges.Take[rune](4),
+		char.Take(4),
 		func(input []rune) (out []rune, err error) {
 			out, _, err = repeat.Many(char.Digit()).Parse(input)
 

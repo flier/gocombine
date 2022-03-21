@@ -6,7 +6,6 @@ import (
 	"github.com/flier/gocombine/pkg/parser/bytes/be"
 	"github.com/flier/gocombine/pkg/parser/choice"
 	"github.com/flier/gocombine/pkg/parser/combinator"
-	"github.com/flier/gocombine/pkg/parser/ranges"
 	"github.com/flier/gocombine/pkg/parser/repeat"
 	"github.com/flier/gocombine/pkg/parser/sequence"
 	"github.com/flier/gocombine/pkg/parser/to"
@@ -38,12 +37,12 @@ type Box struct {
 }
 
 func Mp4() parser.Func[byte, []*Box] {
-	name := to.String(ranges.Take[byte](4))
+	name := to.String(bytes.Take(4))
 	filetype := combinator.Map(
 		combinator.Tuple4(
 			bytes.Bytes([]byte("ftyp")),
 			name,
-			ranges.Take[byte](4),
+			bytes.Take(4),
 			repeat.Many(name),
 		),
 		func(t tuple.Tuple4[[]byte, string, []byte, []string]) *Box {
@@ -58,7 +57,7 @@ func Mp4() parser.Func[byte, []*Box] {
 		},
 	)
 	box := sequence.Then(be.Uint32(), func(offset uint32) parser.Func[byte, []byte] {
-		return ranges.Take[byte](int(offset) - 4)
+		return bytes.Take(int(offset) - 4)
 	})
 
 	parser := choice.Or(

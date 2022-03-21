@@ -8,15 +8,15 @@ import (
 
 // Tuple3 parses a tuple of heterogeneous values.
 func Tuple3[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O1, O2, O3 any,
 ](
-	p1 parser.Func[S, T, O1],
-	p2 parser.Func[S, T, O2],
-	p3 parser.Func[S, T, O3],
-) parser.Func[S, T, tuple.Tuple3[O1, O2, O3]] {
-	return Attempt(func(input S) (out tuple.Tuple3[O1, O2, O3], remaining S, err error) {
+	p1 parser.Func[T, O1],
+	p2 parser.Func[T, O2],
+	p3 parser.Func[T, O3],
+) parser.Func[T, tuple.Tuple3[O1, O2, O3]] {
+	return Attempt(func(input []T) (out tuple.Tuple3[O1, O2, O3], remaining []T, err error) {
 		var o1 O1
 		if o1, remaining, err = p1.Parse(input); err != nil {
 			return
@@ -40,16 +40,16 @@ func Tuple3[
 
 // Tuple4 parses a tuple of heterogeneous values.
 func Tuple4[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O1, O2, O3, O4 any,
 ](
-	p1 parser.Func[S, T, O1],
-	p2 parser.Func[S, T, O2],
-	p3 parser.Func[S, T, O3],
-	p4 parser.Func[S, T, O4],
-) parser.Func[S, T, tuple.Tuple4[O1, O2, O3, O4]] {
-	return Attempt(func(input S) (out tuple.Tuple4[O1, O2, O3, O4], remaining S, err error) {
+	p1 parser.Func[T, O1],
+	p2 parser.Func[T, O2],
+	p3 parser.Func[T, O3],
+	p4 parser.Func[T, O4],
+) parser.Func[T, tuple.Tuple4[O1, O2, O3, O4]] {
+	return Attempt(func(input []T) (out tuple.Tuple4[O1, O2, O3, O4], remaining []T, err error) {
 		var o1 O1
 		if o1, remaining, err = p1.Parse(input); err != nil {
 			return
@@ -78,17 +78,17 @@ func Tuple4[
 
 // Tuple5 parses a tuple of heterogeneous values.
 func Tuple5[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O1, O2, O3, O4, O5 any,
 ](
-	p1 parser.Func[S, T, O1],
-	p2 parser.Func[S, T, O2],
-	p3 parser.Func[S, T, O3],
-	p4 parser.Func[S, T, O4],
-	p5 parser.Func[S, T, O5],
-) parser.Func[S, T, tuple.Tuple5[O1, O2, O3, O4, O5]] {
-	return Attempt(func(input S) (out tuple.Tuple5[O1, O2, O3, O4, O5], remaining S, err error) {
+	p1 parser.Func[T, O1],
+	p2 parser.Func[T, O2],
+	p3 parser.Func[T, O3],
+	p4 parser.Func[T, O4],
+	p5 parser.Func[T, O5],
+) parser.Func[T, tuple.Tuple5[O1, O2, O3, O4, O5]] {
+	return Attempt(func(input []T) (out tuple.Tuple5[O1, O2, O3, O4, O5], remaining []T, err error) {
 		var o1 O1
 		if o1, remaining, err = p1.Parse(input); err != nil {
 			return

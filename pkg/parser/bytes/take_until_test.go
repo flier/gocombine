@@ -7,7 +7,7 @@ import (
 )
 
 func ExampleTakeUntil() {
-	p := bytes.TakeUntil[[]byte]('\r')
+	p := bytes.TakeUntil('\r')
 
 	fmt.Println(p([]byte("To: user@example.com\r\n")))
 

@@ -8,13 +8,13 @@ import (
 
 // Optional parses `parser` and outputs `Some(value)` if it succeeds, `None` if it fails without consuming any input.
 func Optional[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O any,
 ](
-	parser parser.Func[S, T, O],
-) parser.Func[S, T, option.Option[O]] {
-	return func(input S) (parsed option.Option[O], remaining S, err error) {
+	parser parser.Func[T, O],
+) parser.Func[T, option.Option[O]] {
+	return func(input []T) (parsed option.Option[O], remaining []T, err error) {
 		var o O
 
 		if o, remaining, err = parser(input); err != nil {

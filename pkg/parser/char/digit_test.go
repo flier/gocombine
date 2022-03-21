@@ -7,7 +7,7 @@ import (
 )
 
 func ExampleDigit() {
-	p := char.Digit[[]rune]()
+	p := char.Digit()
 
 	fmt.Println(p([]rune("9")))
 	fmt.Println(p([]rune("A")))
@@ -18,7 +18,7 @@ func ExampleDigit() {
 }
 
 func ExampleOctDigit() {
-	p := char.OctDigit[[]rune]()
+	p := char.OctDigit()
 
 	fmt.Println(p([]rune("7")))
 	fmt.Println(p([]rune("8")))
@@ -29,7 +29,7 @@ func ExampleOctDigit() {
 }
 
 func ExampleHexDigit() {
-	p := char.HexDigit[[]rune]()
+	p := char.HexDigit()
 
 	fmt.Println(p([]rune("7")))
 	fmt.Println(p([]rune("F")))

@@ -11,12 +11,8 @@ import (
 
 // Find matches `re` on the input by running `find` on the input and returns the first match.
 // Consumes all input up until the end of the first match.
-func Find[
-	S stream.Stream[T],
-	T stream.Token,
-](re *regexp.Regexp,
-) parser.Func[S, T, S] {
-	return func(input S) (matched, remaining S, err error) {
+func Find[T stream.Token](re *regexp.Regexp) parser.Func[T, []T] {
+	return func(input []T) (matched, remaining []T, err error) {
 		var loc []int
 
 		switch v := interface{}(input).(type) {
@@ -50,12 +46,8 @@ func Find[
 
 // FindMany matches `re` on the input by running `FindAll` on the input.
 /// Returns all matches until the end of the last match.
-func FindMany[
-	S stream.Stream[T],
-	T stream.Token,
-](re *regexp.Regexp,
-) parser.Func[S, T, []S] {
-	return func(input S) (matched []S, remaining S, err error) {
+func FindMany[T stream.Token](re *regexp.Regexp) parser.Func[T, [][]T] {
+	return func(input []T) (matched [][]T, remaining []T, err error) {
 		var locs [][]int
 
 		switch v := interface{}(input).(type) {
@@ -79,7 +71,7 @@ func FindMany[
 		if locs == nil {
 			remaining = input
 		} else {
-			matched = make([]S, len(locs))
+			matched = make([][]T, len(locs))
 
 			for i, loc := range locs {
 				matched[i], remaining, _ = stream.UnconsRange(input, loc[1])

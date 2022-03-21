@@ -8,14 +8,14 @@ import (
 
 // Pair parses two heterogeneous value.
 func Pair[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O1, O2 any,
 ](
-	p1 parser.Func[S, T, O1],
-	P2 parser.Func[S, T, O2],
-) parser.Func[S, T, pair.Pair[O1, O2]] {
-	return Attempt(func(input S) (out pair.Pair[O1, O2], remaining S, err error) {
+	p1 parser.Func[T, O1],
+	P2 parser.Func[T, O2],
+) parser.Func[T, pair.Pair[O1, O2]] {
+	return Attempt(func(input []T) (out pair.Pair[O1, O2], remaining []T, err error) {
 		var o1 O1
 		if o1, remaining, err = p1.Parse(input); err != nil {
 			return

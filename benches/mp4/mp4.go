@@ -11,7 +11,6 @@ import (
 	"github.com/flier/gocombine/pkg/parser/sequence"
 	"github.com/flier/gocombine/pkg/parser/to"
 	"github.com/flier/gocombine/pkg/parser/token"
-	"github.com/flier/gocombine/pkg/stream"
 	"github.com/flier/gocombine/pkg/tuple"
 )
 
@@ -38,13 +37,13 @@ type Box struct {
 	*FileType
 }
 
-func Mp4[S stream.Stream[byte]]() parser.Func[S, byte, []*Box] {
-	name := to.String(ranges.Take[S](4))
+func Mp4() parser.Func[byte, []*Box] {
+	name := to.String(ranges.Take[byte](4))
 	filetype := combinator.Map(
 		combinator.Tuple4(
-			bytes.Bytes[S]([]byte("ftyp")),
+			bytes.Bytes([]byte("ftyp")),
 			name,
-			ranges.Take[S](4),
+			ranges.Take[byte](4),
 			repeat.Many(name),
 		),
 		func(t tuple.Tuple4[[]byte, string, []byte, []string]) *Box {
@@ -58,22 +57,23 @@ func Mp4[S stream.Stream[byte]]() parser.Func[S, byte, []*Box] {
 			}
 		},
 	)
-	box := sequence.Then(be.Uint32[S](), func(offset uint32) parser.Func[S, byte, []byte] {
-		return ranges.Take[S](int(offset) - 4)
+	box := sequence.Then(be.Uint32(), func(offset uint32) parser.Func[byte, []byte] {
+		return ranges.Take[byte](int(offset) - 4)
 	})
 
 	parser := choice.Or(
 		filetype,
-		combinator.Map(bytes.Bytes[S]([]byte("moov")), func([]byte) *Box { return &Box{Type: Moov} }),
-		combinator.Map(bytes.Bytes[S]([]byte("mdat")), func([]byte) *Box { return &Box{Type: Mdat} }),
-		combinator.Map(bytes.Bytes[S]([]byte("free")), func([]byte) *Box { return &Box{Type: Free} }),
-		combinator.Map(bytes.Bytes[S]([]byte("skip")), func([]byte) *Box { return &Box{Type: Skip} }),
-		combinator.Map(bytes.Bytes[S]([]byte("wide")), func([]byte) *Box { return &Box{Type: Wide} }),
-		token.Value[S](&Box{Type: Unknown}),
+		combinator.Map(bytes.Bytes([]byte("moov")), func([]byte) *Box { return &Box{Type: Moov} }),
+		combinator.Map(bytes.Bytes([]byte("mdat")), func([]byte) *Box { return &Box{Type: Mdat} }),
+		combinator.Map(bytes.Bytes([]byte("free")), func([]byte) *Box { return &Box{Type: Free} }),
+		combinator.Map(bytes.Bytes([]byte("skip")), func([]byte) *Box { return &Box{Type: Skip} }),
+		combinator.Map(bytes.Bytes([]byte("wide")), func([]byte) *Box { return &Box{Type: Wide} }),
+		token.Value[byte](&Box{Type: Unknown}),
 	)
 
 	interpreter := combinator.FlatMap(box, func(b []byte) (box *Box, err error) {
 		box, _, err = parser(b)
+
 		return
 	})
 

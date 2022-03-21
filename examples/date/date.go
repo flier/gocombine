@@ -10,7 +10,6 @@ import (
 	"github.com/flier/gocombine/pkg/parser/repeat"
 	"github.com/flier/gocombine/pkg/parser/sequence"
 	"github.com/flier/gocombine/pkg/parser/to"
-	"github.com/flier/gocombine/pkg/stream"
 	"github.com/flier/gocombine/pkg/tuple"
 )
 
@@ -32,8 +31,9 @@ type DateTime struct {
 	Time
 }
 
-func two_digit[S stream.Stream[rune]]() parser.Func[S, rune, int] {
-	digit := to.Int(char.Digit[S]())
+func two_digit() parser.Func[rune, int] {
+	digit := to.Int(char.Digit())
+
 	return combinator.Map(
 		combinator.Pair(digit, digit),
 		func(p pair.Pair[int, int]) int {
@@ -47,13 +47,13 @@ func two_digit[S stream.Stream[rune]]() parser.Func[S, rune, int] {
 // -06:30
 // -01
 // Z
-func time_zone[S stream.Stream[rune]]() parser.Func[S, rune, int] {
-	utc := combinator.Map(char.Char[S]('Z'), func(r rune) int { return 0 })
+func time_zone() parser.Func[rune, int] {
+	utc := combinator.Map(char.Char('Z'), func(r rune) int { return 0 })
 	offset := combinator.Map(
 		combinator.Tuple3(
-			choice.Or(char.Char[S]('+'), char.Char[S]('-')),
-			two_digit[S](),
-			choice.Optional(sequence.With(choice.Optional(char.Char[S](':')), two_digit[S]())),
+			choice.Or(char.Char('+'), char.Char('-')),
+			two_digit(),
+			choice.Optional(sequence.With(choice.Optional(char.Char(':')), two_digit())),
 		),
 		func(t tuple.Tuple3[rune, int, option.Option[int]]) (offset int) {
 			offset = t.V2*60 + t.V3.UnwrapOrDefault()
@@ -69,11 +69,11 @@ func time_zone[S stream.Stream[rune]]() parser.Func[S, rune, int] {
 
 // Parses a date
 // 2010-01-30
-func date[S stream.Stream[rune]]() parser.Func[S, rune, Date] {
-	year := to.Int(repeat.Many1(char.Digit[S]()))
-	month := two_digit[S]()
-	day := two_digit[S]()
-	sep := char.Char[S]('-')
+func date() parser.Func[rune, Date] {
+	year := to.Int(repeat.Many1(char.Digit()))
+	month := two_digit()
+	day := two_digit()
+	sep := char.Char('-')
 
 	return combinator.Map(
 		combinator.Tuple3(
@@ -89,18 +89,18 @@ func date[S stream.Stream[rune]]() parser.Func[S, rune, Date] {
 
 // Parses a time
 // 12:30:02
-func time[S stream.Stream[rune]]() parser.Func[S, rune, Time] {
-	hour := two_digit[S]()
-	minute := two_digit[S]()
-	second := two_digit[S]()
-	sep := char.Char[S](':')
+func time() parser.Func[rune, Time] {
+	hour := two_digit()
+	minute := two_digit()
+	second := two_digit()
+	sep := char.Char(':')
 
 	return combinator.Map(
 		combinator.Tuple4(
 			sequence.Skip(hour, sep),
 			sequence.Skip(minute, sep),
 			second,
-			time_zone[S](),
+			time_zone(),
 		),
 		func(t tuple.Tuple4[int, int, int, int]) Time {
 			return Time{t.V1, t.V2, t.V3, t.V4}
@@ -110,10 +110,10 @@ func time[S stream.Stream[rune]]() parser.Func[S, rune, Time] {
 
 // Parses a date time according to ISO8601
 // 2015-08-02T18:54:42+02
-func Parser[S stream.Stream[rune]]() parser.Func[S, rune, DateTime] {
+func Parser() parser.Func[rune, DateTime] {
 	return combinator.Map(
 		combinator.Tuple3(
-			date[S](), char.Char[S]('T'), time[S](),
+			date(), char.Char('T'), time(),
 		),
 		func(t tuple.Tuple3[Date, rune, Time]) DateTime {
 			return DateTime{t.V1, t.V3}

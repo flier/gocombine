@@ -11,17 +11,12 @@ import (
 //
 // This is similar to `Lazy` but it takes `input` as an argument and allows different parsers to be returned
 // on each call to `p` while still reporting the correct errors.
-func Factor[
-	S stream.Stream[T],
-	T stream.Token,
-	O any](
-	f func(S) parser.Func[S, T, O],
-) parser.Func[S, T, O] {
-	var p parser.Func[S, T, O]
+func Factor[T stream.Token, O any](f func([]T) parser.Func[T, O]) parser.Func[T, O] {
+	var p parser.Func[T, O]
 
 	var init sync.Once
 
-	return func(input S) (out O, remaining S, err error) {
+	return func(input []T) (out O, remaining []T, err error) {
 		init.Do(func() {
 			p = f(input)
 		})

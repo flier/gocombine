@@ -10,7 +10,7 @@ import (
 )
 
 func ExampleCaptures() {
-	digits := to.StringSlice(regex.Captures[[]rune](regexp.MustCompile("([a-z]+):([0-9]+)")))
+	digits := to.StringSlice(regex.Captures[rune](regexp.MustCompile("([a-z]+):([0-9]+)")))
 
 	fmt.Println(digits([]rune("test:123 field:456 ")))
 	fmt.Println(digits([]rune("test:123 :456 ")))
@@ -22,7 +22,7 @@ func ExampleCaptures() {
 
 func ExampleCapturesMany() {
 	digits := combinator.Map(
-		regex.CapturesMany[[]rune](regexp.MustCompile("([a-z]+)?:([0-9]+)")),
+		regex.CapturesMany[rune](regexp.MustCompile("([a-z]+)?:([0-9]+)")),
 		func(captured [][][]rune) (r [][]string) {
 			r = make([][]string, len(captured))
 

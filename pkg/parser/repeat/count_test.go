@@ -8,7 +8,7 @@ import (
 )
 
 func ExampleCount() {
-	p := repeat.Count(2, token.Token[[]rune]('a'))
+	p := repeat.Count(2, token.Token('a'))
 
 	fmt.Println(p([]rune("aaab")))
 	fmt.Println(p([]rune("foobar")))
@@ -19,7 +19,7 @@ func ExampleCount() {
 }
 
 func ExampleCountMinMax() {
-	p := repeat.CountMinMax(1, 2, token.Token[[]rune]('a'))
+	p := repeat.CountMinMax(1, 2, token.Token('a'))
 
 	fmt.Println(p([]rune("aaab")))
 	fmt.Println(p([]rune("foobar")))
@@ -30,7 +30,7 @@ func ExampleCountMinMax() {
 }
 
 func ExampleSkipCount() {
-	p := repeat.SkipCount(2, token.Token[[]rune]('a'))
+	p := repeat.SkipCount(2, token.Token('a'))
 
 	fmt.Println(p([]rune("aaab")))
 	fmt.Println(p([]rune("foobar")))
@@ -41,7 +41,7 @@ func ExampleSkipCount() {
 }
 
 func ExampleSkipCountMinMax() {
-	p := repeat.SkipCountMinMax(1, 2, token.Token[[]rune]('a'))
+	p := repeat.SkipCountMinMax(1, 2, token.Token('a'))
 
 	fmt.Println(p([]rune("aaab")))
 	fmt.Println(p([]rune("foobar")))

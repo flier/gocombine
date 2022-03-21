@@ -10,9 +10,9 @@ import (
 
 func ExampleBetween() {
 	p := sequence.Between(
-		char.Char[[]rune]('['),
-		char.Char[[]rune](']'),
-		to.String(char.String[[]rune]("Golang")))
+		char.Char('['),
+		char.Char(']'),
+		to.String(char.String("Golang")))
 
 	fmt.Println(p.Parse([]rune("[Golang]")))
 

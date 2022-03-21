@@ -7,12 +7,12 @@ import (
 )
 
 func ExampleTake() {
-	p := ranges.Take[[]byte](1)
+	p := ranges.Take[byte](1)
 
 	fmt.Println(p([]byte("!")))
 	fmt.Println(p(nil))
 
-	p = ranges.Take[[]byte](4)
+	p = ranges.Take[byte](4)
 
 	fmt.Println(p([]byte("1234abc")))
 	fmt.Println(p([]byte("123")))
@@ -25,7 +25,7 @@ func ExampleTake() {
 }
 
 func ExampleTakeWhile() {
-	p := ranges.TakeWhile[[]byte](func(b byte) bool { return '0' <= b && b <= '9' })
+	p := ranges.TakeWhile[byte](func(b byte) bool { return '0' <= b && b <= '9' })
 
 	fmt.Println(p([]byte("123abc")))
 	fmt.Println(p([]byte("abc")))
@@ -36,7 +36,7 @@ func ExampleTakeWhile() {
 }
 
 func ExampleTakeWhile1() {
-	p := ranges.TakeWhile1[[]byte](func(b byte) bool { return '0' <= b && b <= '9' })
+	p := ranges.TakeWhile1[byte](func(b byte) bool { return '0' <= b && b <= '9' })
 
 	fmt.Println(p([]byte("123abc")))
 	fmt.Println(p([]byte("abc")))

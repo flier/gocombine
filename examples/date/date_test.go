@@ -21,7 +21,7 @@ var cases = map[string]date.DateTime{
 
 func TestDate(t *testing.T) {
 	Convey("Given a date parser", t, func() {
-		p := date.Parser[[]rune]()
+		p := date.Parser()
 
 		for s, dt := range cases {
 			Convey("When parse a date: "+s, func() {

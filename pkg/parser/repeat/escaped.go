@@ -11,20 +11,20 @@ import (
 // If it is then `escapeParser` is used to parse the escaped character and then resumes parsing using `parser`.
 // If `escape` was not found then the parser finishes successfully.
 func Escaped[
-	S stream.Stream[T],
+
 	T stream.Token,
 ](
-	parser parser.Func[S, T, []T],
+	parser parser.Func[T, []T],
 	escape T,
-	escapeParser parser.Func[S, T, T],
-) parser.Func[S, T, []T] {
-	return func(input S) (parsed []T, remaining S, err error) {
+	escapeParser parser.Func[T, T],
+) parser.Func[T, []T] {
+	return func(input []T) (parsed []T, remaining []T, err error) {
 		remaining = input
 
 		for {
 			var outs []T
 
-			var rest S
+			var rest []T
 
 			if outs, rest, err = parser(remaining); err != nil {
 				var tok T

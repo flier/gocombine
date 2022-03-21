@@ -7,15 +7,15 @@ import (
 )
 
 // Any parses any token.
-func Any[S stream.Stream[T], T stream.Token]() parser.Func[S, T, T] {
-	return func(input S) (T, S, error) {
+func Any[T stream.Token]() parser.Func[T, T] {
+	return func(input []T) (T, []T, error) {
 		return stream.Uncons(input)
 	}
 }
 
 // Token parses a character and succeeds if the character is equal to `tok`.
-func Token[S stream.Stream[T], T stream.Token](tok T) parser.Func[S, T, T] {
-	return combinator.Attempt(func(input S) (actual T, remaining S, err error) {
+func Token[T stream.Token](tok T) parser.Func[T, T] {
+	return combinator.Attempt(func(input []T) (actual T, remaining []T, err error) {
 		if actual, remaining, err = stream.Uncons(input); err != nil {
 		} else if actual != tok {
 			err = parser.Unexpected([]T{tok}, []T{actual})
@@ -31,13 +31,12 @@ func Token[S stream.Stream[T], T stream.Token](tok T) parser.Func[S, T, T] {
 /// comparison function `cmp`. Succeeds if all the items from `tokens` are matched in the input
 /// stream and fails otherwise with `expected` used as part of the error.
 func Tokens[
-	S stream.Stream[T],
 	T stream.Token,
 ](
 	cmp func(lhs, rhs T) bool,
 	expected, tokens []T,
-) parser.Func[S, T, []T] {
-	return combinator.Attempt(func(input S) (actual []T, remaining S, err error) {
+) parser.Func[T, []T] {
+	return combinator.Attempt(func(input []T) (actual []T, remaining []T, err error) {
 		actual = make([]T, len(tokens))
 		remaining = input
 
@@ -61,8 +60,8 @@ func Tokens[
 }
 
 // OneOf extract one token and succeeds if it is part of `tokens`.
-func OneOf[S stream.Stream[T], T stream.Token](tokens S) parser.Func[S, T, T] {
-	return combinator.Attempt(func(input S) (actual T, remaining S, err error) {
+func OneOf[T stream.Token](tokens []T) parser.Func[T, T] {
+	return combinator.Attempt(func(input []T) (actual T, remaining []T, err error) {
 		if actual, remaining, err = stream.Uncons(input); err != nil {
 			return
 		}
@@ -80,8 +79,8 @@ func OneOf[S stream.Stream[T], T stream.Token](tokens S) parser.Func[S, T, T] {
 }
 
 // NoneOf extract one token and succeeds if it is not part of `tokens`.
-func NoneOf[S stream.Stream[T], T stream.Token](tokens S) parser.Func[S, T, T] {
-	return combinator.Attempt(func(input S) (actual T, remaining S, err error) {
+func NoneOf[T stream.Token](tokens []T) parser.Func[T, T] {
+	return combinator.Attempt(func(input []T) (actual T, remaining []T, err error) {
 		if actual, remaining, err = stream.Uncons(input); err != nil {
 			return
 		}
@@ -99,8 +98,8 @@ func NoneOf[S stream.Stream[T], T stream.Token](tokens S) parser.Func[S, T, T] {
 }
 
 // EOF succeeds only if the stream is at end of input, fails otherwise.
-func EOF[S stream.Stream[T], T stream.Token]() parser.Func[S, T, bool] {
-	return func(input S) (bool, S, error) {
+func EOF[T stream.Token]() parser.Func[T, bool] {
+	return func(input []T) (bool, []T, error) {
 		if stream.Empty(input) {
 			return true, input, nil
 		}

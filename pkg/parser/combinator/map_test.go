@@ -8,7 +8,7 @@ import (
 )
 
 func ExampleMap() {
-	p := combinator.Map(char.Digit[[]rune](), func(r rune) bool { return r == '9' })
+	p := combinator.Map(char.Digit(), func(r rune) bool { return r == '9' })
 
 	fmt.Println(p.Parse([]rune("9i")))
 

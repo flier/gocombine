@@ -9,7 +9,7 @@ import (
 )
 
 func ExampleWith() {
-	p := sequence.With(repeat.Many(char.Digit[[]rune]()), char.Char[[]rune]('i'))
+	p := sequence.With(repeat.Many(char.Digit()), char.Char('i'))
 
 	fmt.Println(p.Parse([]rune("123i456")))
 

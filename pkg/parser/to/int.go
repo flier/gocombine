@@ -9,13 +9,13 @@ import (
 
 // Int parses a string-like data and converts it to an integer.
 func Int[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O StringLike,
 ](
-	parser parser.Func[S, T, O],
-) parser.Func[S, T, int] {
-	return func(input S) (out int, remaining S, err error) {
+	parser parser.Func[T, O],
+) parser.Func[T, int] {
+	return func(input []T) (out int, remaining []T, err error) {
 		var o O
 
 		if o, remaining, err = parser(input); err != nil {

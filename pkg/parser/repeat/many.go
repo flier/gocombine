@@ -8,19 +8,19 @@ import (
 
 // Many parses `parser` zero or more times returning a collection with the values from `parser`.
 func Many[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O any,
 ](
-	parser parser.Func[S, T, O],
-) parser.Func[S, T, []O] {
-	return func(input S) (parsed []O, remaining S, err error) {
+	parser parser.Func[T, O],
+) parser.Func[T, []O] {
+	return func(input []T) (parsed []O, remaining []T, err error) {
 		remaining = input
 
 		for !stream.Empty(remaining) {
 			var o O
 
-			var rest S
+			var rest []T
 
 			if o, rest, err = parser(remaining); err != nil {
 				err = nil
@@ -38,13 +38,13 @@ func Many[
 
 // Many1 parses `parser` one or more times returning a collection with the values from `parser`.
 func Many1[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O any,
 ](
-	parser parser.Func[S, T, O],
-) parser.Func[S, T, []O] {
-	return func(input S) (parsed []O, remaining S, err error) {
+	parser parser.Func[T, O],
+) parser.Func[T, []O] {
+	return func(input []T) (parsed []O, remaining []T, err error) {
 		remaining = input
 
 		var o O
@@ -60,7 +60,7 @@ func Many1[
 		for !stream.Empty(remaining) {
 			var o O
 
-			var rest S
+			var rest []T
 
 			if o, rest, err = parser(remaining); err != nil {
 				err = nil
@@ -78,22 +78,22 @@ func Many1[
 
 // SkipMany parses `p` zero or more times ignoring the result.
 func SkipMany[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O any,
 ](
-	parser parser.Func[S, T, O],
-) parser.Func[S, T, any] {
+	parser parser.Func[T, O],
+) parser.Func[T, any] {
 	return combinator.Ignore(Many(parser))
 }
 
 // SkipMany1 parses `p` one or more times ignoring the result.
 func SkipMany1[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O any,
 ](
-	parser parser.Func[S, T, O],
-) parser.Func[S, T, any] {
+	parser parser.Func[T, O],
+) parser.Func[T, any] {
 	return combinator.Ignore(Many1(parser))
 }

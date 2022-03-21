@@ -10,7 +10,7 @@ import (
 
 func TestIni(t *testing.T) {
 	Convey("Given a INI parser", t, func() {
-		p := ini.Parser[[]rune]()
+		p := ini.Parser()
 
 		Convey("When parse string", func() {
 			r, remaining, err := p([]rune(`

@@ -12,8 +12,8 @@ import (
 )
 
 func ExampleChainL1() {
-	number := combinator.AndThen(to.String(char.Digit[[]rune]()), strconv.Atoi)
-	sub := combinator.Map(char.Char[[]rune]('-'), func(rune) func(l, r int) int {
+	number := combinator.AndThen(to.String(char.Digit()), strconv.Atoi)
+	sub := combinator.Map(char.Char('-'), func(rune) func(l, r int) int {
 		return func(l, r int) int { return l - r }
 	})
 	p := repeat.ChainL1(number, sub)
@@ -25,8 +25,8 @@ func ExampleChainL1() {
 }
 
 func ExampleChainR1() {
-	number := combinator.AndThen(to.String(char.Digit[[]rune]()), strconv.Atoi)
-	sub := combinator.Map(char.Char[[]rune]('^'), func(rune) func(l, r int) int {
+	number := combinator.AndThen(to.String(char.Digit()), strconv.Atoi)
+	sub := combinator.Map(char.Char('^'), func(rune) func(l, r int) int {
 		return func(l, r int) int { return int(math.Pow(float64(l), float64(r))) }
 	})
 	p := repeat.ChainR1(number, sub)

@@ -11,9 +11,9 @@ import (
 
 func ExampleOr() {
 	p := choice.Or(
-		to.String(char.String[[]rune]("let")),
-		combinator.Map(char.Digit[[]rune](), func(r rune) string { return "digit" }),
-		to.String(char.String[[]rune]("led")),
+		to.String(char.String("let")),
+		combinator.Map(char.Digit(), func(r rune) string { return "digit" }),
+		to.String(char.String("led")),
 	)
 
 	fmt.Println(p.Parse([]rune("let")))

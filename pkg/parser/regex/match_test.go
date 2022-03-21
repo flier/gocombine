@@ -8,7 +8,7 @@ import (
 )
 
 func ExampleMatch() {
-	p := regex.Match[[]rune](regexp.MustCompile("[:alpha:]+"))
+	p := regex.Match[rune](regexp.MustCompile("[:alpha:]+"))
 
 	fmt.Println(p([]rune("abc123")))
 	fmt.Println(p([]rune("Bingo!")))

@@ -8,7 +8,7 @@ import (
 )
 
 func ExampleBytes() {
-	p := bytes.Bytes[[]byte]([]byte("golang"))
+	p := bytes.Bytes([]byte("golang"))
 
 	fmt.Println(p([]byte("golang")))
 
@@ -17,7 +17,7 @@ func ExampleBytes() {
 }
 
 func ExampleFold() {
-	p := bytes.Fold[[]byte]([]byte("golang"))
+	p := bytes.Fold([]byte("golang"))
 
 	fmt.Println(p([]byte("Golang")))
 
@@ -26,7 +26,7 @@ func ExampleFold() {
 }
 
 func ExampleCmp() {
-	p := bytes.Cmp[[]byte]([]byte("golang"), func(l, r byte) bool {
+	p := bytes.Cmp([]byte("golang"), func(l, r byte) bool {
 		return unicode.ToLower(rune(l)) == unicode.ToLower(rune(r))
 	})
 

@@ -8,7 +8,7 @@ import (
 )
 
 func ExampleMany() {
-	p := repeat.Many(char.Digit[[]rune]())
+	p := repeat.Many(char.Digit())
 
 	fmt.Println(p([]rune("123A")))
 
@@ -17,7 +17,7 @@ func ExampleMany() {
 }
 
 func ExampleMany1() {
-	p := repeat.Many1(char.Digit[[]rune]())
+	p := repeat.Many1(char.Digit())
 
 	fmt.Println(p([]rune("1")))
 	fmt.Println(p([]rune("123A")))
@@ -30,7 +30,7 @@ func ExampleMany1() {
 }
 
 func ExampleSkipMany() {
-	p := repeat.SkipMany(char.Digit[[]rune]())
+	p := repeat.SkipMany(char.Digit())
 
 	fmt.Println(p([]rune("123A")))
 
@@ -39,7 +39,7 @@ func ExampleSkipMany() {
 }
 
 func ExampleSkipMany1() {
-	p := repeat.SkipMany1(char.Digit[[]rune]())
+	p := repeat.SkipMany1(char.Digit())
 
 	fmt.Println(p([]rune("1")))
 	fmt.Println(p([]rune("123A")))

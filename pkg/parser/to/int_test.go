@@ -9,7 +9,7 @@ import (
 )
 
 func ExampleInt() {
-	p := to.Int(repeat.Many1(char.Digit[[]rune]()))
+	p := to.Int(repeat.Many1(char.Digit()))
 
 	fmt.Println(p([]rune("123abc")))
 

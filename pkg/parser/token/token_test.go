@@ -14,7 +14,7 @@ import (
 
 func TestToken(t *testing.T) {
 	Convey("Given a token parser", t, func() {
-		p := token.Token[[]rune]('h')
+		p := token.Token('h')
 
 		Convey("When parse string", func() {
 			c, s, err := p([]rune("hello"))
@@ -43,7 +43,7 @@ func TestToken(t *testing.T) {
 
 func TestTokens(t *testing.T) {
 	Convey("Given a tokens parser", t, func() {
-		p := token.Tokens[[]byte](func(lhs, rhs byte) bool { return lhs == rhs }, []byte("foo"), []byte("foo"))
+		p := token.Tokens(func(lhs, rhs byte) bool { return lhs == rhs }, []byte("foo"), []byte("foo"))
 
 		Convey("When parse string", func() {
 			a, s, err := p([]byte("foobar"))
@@ -67,7 +67,7 @@ func TestTokens(t *testing.T) {
 			})
 		})
 
-		p2 := token.Tokens[[]rune](func(lhs, rhs rune) bool {
+		p2 := token.Tokens(func(lhs, rhs rune) bool {
 			return unicode.ToLower(lhs) == unicode.ToLower(rhs)
 		}, []rune("[fF][oO][oO]"), []rune("foo"))
 
@@ -84,7 +84,7 @@ func TestTokens(t *testing.T) {
 }
 
 func ExampleAny() {
-	p := token.Any[[]rune]()
+	p := token.Any[rune]()
 
 	fmt.Println(p([]rune("apple")))
 	fmt.Println(p(nil))
@@ -95,7 +95,7 @@ func ExampleAny() {
 }
 
 func ExampleSatisfy() {
-	p := token.Satisfy[[]rune](func(c rune) bool { return c == '!' || c == '?' })
+	p := token.Satisfy(func(c rune) bool { return c == '!' || c == '?' })
 
 	fmt.Println(p([]rune("!")))
 	fmt.Println(p([]rune("?")))
@@ -108,7 +108,7 @@ func ExampleSatisfy() {
 }
 
 func ExampleSatisfyMap() {
-	p := token.SatisfyMap[[]rune](func(c rune) (bool, error) {
+	p := token.SatisfyMap(func(c rune) (bool, error) {
 		switch c {
 		case 'y', 'Y':
 			return true, nil
@@ -130,7 +130,7 @@ func ExampleSatisfyMap() {
 }
 
 func ExampleToken() {
-	p := token.Token[[]rune]('a')
+	p := token.Token('a')
 
 	fmt.Println(p([]rune("apple")))
 	fmt.Println(p([]rune("foobar")))
@@ -141,7 +141,7 @@ func ExampleToken() {
 }
 
 func ExampleTokens() {
-	p := token.Tokens[[]rune](func(l, r rune) bool {
+	p := token.Tokens(func(l, r rune) bool {
 		return unicode.ToLower(l) == unicode.ToLower(r)
 	}, []rune("foo"), []rune("foo"))
 
@@ -176,7 +176,7 @@ func ExampleNoneOf() {
 }
 
 func ExampleEOF() {
-	p := token.EOF[[]rune]()
+	p := token.EOF[rune]()
 
 	fmt.Println(p(nil))
 	fmt.Println(p([]rune("foobar")))

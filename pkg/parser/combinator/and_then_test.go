@@ -10,7 +10,7 @@ import (
 )
 
 func ExampleAndThen() {
-	p := combinator.AndThen(repeat.Many1(char.Digit[[]rune]()), func(s []rune) (int, error) {
+	p := combinator.AndThen(repeat.Many1(char.Digit()), func(s []rune) (int, error) {
 		return strconv.Atoi(string(s))
 	})
 

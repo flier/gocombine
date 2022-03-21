@@ -7,7 +7,7 @@ import (
 )
 
 func ExampleValue() {
-	p := token.Value[[]rune]('a')
+	p := token.Value[rune]('a')
 
 	fmt.Println(p([]rune("pple")))
 
@@ -16,7 +16,7 @@ func ExampleValue() {
 }
 
 func ExampleProduce() {
-	p := token.Produce[[]rune](func() string { return "foo" })
+	p := token.Produce[rune](func() string { return "foo" })
 
 	fmt.Println(p([]rune("bar")))
 

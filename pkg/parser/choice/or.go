@@ -10,13 +10,13 @@ import (
 
 // Or returns a parser which attempts to parse using `parsers`.
 func Or[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O any,
 ](
-	parsers ...parser.Func[S, T, O],
-) parser.Func[S, T, O] {
-	return combinator.Attempt(func(input S) (out O, remaining S, err error) {
+	parsers ...parser.Func[T, O],
+) parser.Func[T, O] {
+	return combinator.Attempt(func(input []T) (out O, remaining []T, err error) {
 		var errs error
 
 		for _, p := range parsers {

@@ -13,13 +13,8 @@ const numOfLocs = 2
 
 // Captures matches `re` on the input by running `Find[String]SubmatchIndex` on the input.
 /// Returns the captures of the first match and consumes the input up until the end of that match.
-func Captures[
-	S stream.Stream[T],
-	T stream.Token,
-](
-	re *regexp.Regexp,
-) parser.Func[S, T, []S] {
-	return func(input S) (captured []S, remaining S, err error) {
+func Captures[T stream.Token](re *regexp.Regexp) parser.Func[T, [][]T] {
+	return func(input []T) (captured [][]T, remaining []T, err error) {
 		var loc []int
 
 		switch v := interface{}(input).(type) {
@@ -43,7 +38,7 @@ func Captures[
 		if loc == nil {
 			remaining = input
 		} else {
-			captured = make([]S, len(loc)/numOfLocs)
+			captured = make([][]T, len(loc)/numOfLocs)
 
 			for i := 0; i < len(captured); i++ {
 				captured[i], remaining, _ = stream.UnconsRange(input, loc[i*numOfLocs+1])
@@ -57,13 +52,8 @@ func Captures[
 
 // CapturesMany matches `re` on the input by running `FindAll[String]SubmatchIndex` on the input.
 /// Returns all captures until the end of the last match.
-func CapturesMany[
-	S stream.Stream[T],
-	T stream.Token,
-](
-	re *regexp.Regexp,
-) parser.Func[S, T, [][]S] {
-	return func(input S) (captured [][]S, remaining S, err error) {
+func CapturesMany[T stream.Token](re *regexp.Regexp) parser.Func[T, [][][]T] {
+	return func(input []T) (captured [][][]T, remaining []T, err error) {
 		var locs [][]int
 
 		switch v := interface{}(input).(type) {
@@ -87,10 +77,10 @@ func CapturesMany[
 		if locs == nil {
 			remaining = input
 		} else {
-			captured = make([][]S, len(locs))
+			captured = make([][][]T, len(locs))
 
 			for i, loc := range locs {
-				captured[i] = make([]S, len(loc)/numOfLocs)
+				captured[i] = make([][]T, len(loc)/numOfLocs)
 
 				for j := 0; j < len(captured[i]); j++ {
 					if loc[j*numOfLocs+1] >= 0 && loc[j*numOfLocs] >= 0 {

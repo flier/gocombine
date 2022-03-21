@@ -11,13 +11,13 @@ import (
 // The value returned is the one produced
 // by the left associative application of the function returned by the parser `op`.
 func ChainL1[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O any,
 ](
-	parser parser.Func[S, T, O],
-	op parser.Func[S, T, func(l, h O) O],
-) parser.Func[S, T, O] {
+	parser parser.Func[T, O],
+	op parser.Func[T, func(l, h O) O],
+) parser.Func[T, O] {
 	return combinator.Map(
 		combinator.Pair(parser, Many1(combinator.Pair(op, parser))),
 		func(p pair.Pair[O, []pair.Pair[func(l, h O) O, O]]) (acc O) {
@@ -35,13 +35,13 @@ func ChainL1[
 // The value returned is the one produced
 // by the right associative application of the function returned by `op`.
 func ChainR1[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O any,
 ](
-	parser parser.Func[S, T, O],
-	op parser.Func[S, T, func(l, h O) O],
-) parser.Func[S, T, O] {
+	parser parser.Func[T, O],
+	op parser.Func[T, func(l, h O) O],
+) parser.Func[T, O] {
 	return combinator.Map(
 		combinator.Pair(Many1(combinator.Pair(parser, op)), parser),
 		func(p pair.Pair[[]pair.Pair[O, func(l, h O) O], O]) (acc O) {

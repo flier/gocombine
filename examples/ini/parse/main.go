@@ -1,6 +1,6 @@
 // Parser example for INI files.
 
-package ini
+package main
 
 import (
 	"flag"
@@ -8,6 +8,8 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/flier/gocombine/examples/ini"
 )
 
 func main() {
@@ -15,10 +17,11 @@ func main() {
 
 	if flag.NArg() == 0 {
 		fmt.Println(filepath.Base(os.Args[0]), "<ini files>...")
+
 		return
 	}
 
-	p := Parser[[]rune]()
+	p := ini.Parser()
 
 	for _, filename := range flag.Args() {
 		b, err := os.ReadFile(filename)
@@ -32,9 +35,11 @@ func main() {
 		if err != nil {
 			log.Fatalln("parse file", filename, err)
 		}
+
 		if len(remaining) > 0 {
 			log.Println("unexpected", string(remaining))
 		}
+
 		log.Printf("parsed: %#+v", r)
 	}
 }

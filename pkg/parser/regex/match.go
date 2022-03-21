@@ -12,12 +12,12 @@ import (
 // Match matches `re` on the input returning the entire input if it matches.
 // Never consumes any input.
 func Match[
-	S stream.Stream[T],
+
 	T stream.Token,
 ](
 	re *regexp.Regexp,
-) parser.Func[S, T, bool] {
-	return func(input S) (matched bool, remaining S, err error) {
+) parser.Func[T, bool] {
+	return func(input []T) (matched bool, remaining []T, err error) {
 		switch v := interface{}(input).(type) {
 		case []byte:
 			matched = re.Match(v)

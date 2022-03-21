@@ -9,7 +9,7 @@ import (
 )
 
 func ExampleUnexpected() {
-	p := choice.Or(char.Char[[]rune]('a'), combinator.Unexpected[[]rune, rune, rune]("token"))
+	p := choice.Or(char.Char('a'), combinator.Unexpected[rune, rune]("token"))
 
 	fmt.Println(p([]rune("b")))
 

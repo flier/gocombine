@@ -5,14 +5,13 @@ import (
 
 	"github.com/flier/gocombine/pkg/parser"
 	"github.com/flier/gocombine/pkg/parser/token"
-	"github.com/flier/gocombine/pkg/stream"
 )
 
 // Cmp parses the bytes `s`, using `cmp` to compare each character.
-func Cmp[S stream.Stream[byte]](s []byte, cmp func(l, r byte) bool) parser.Func[S, byte, []byte] {
-	p := token.Tokens[S](cmp, []byte(s), []byte(s))
+func Cmp(s []byte, cmp func(l, r byte) bool) parser.Func[byte, []byte] {
+	p := token.Tokens(cmp, []byte(s), []byte(s))
 
-	return func(input S) (out []byte, remaining S, err error) {
+	return func(input []byte) (out []byte, remaining []byte, err error) {
 		var bytes []byte
 
 		if bytes, remaining, err = p(input); err != nil {
@@ -26,11 +25,11 @@ func Cmp[S stream.Stream[byte]](s []byte, cmp func(l, r byte) bool) parser.Func[
 }
 
 // Bytes parses the bytes `s`.
-func Bytes[S stream.Stream[byte]](s []byte) parser.Func[S, byte, []byte] {
-	return Cmp[S](s, func(l, r byte) bool { return l == r })
+func Bytes(s []byte) parser.Func[byte, []byte] {
+	return Cmp(s, func(l, r byte) bool { return l == r })
 }
 
 // Fold parses the bytes `s`, are equal under Unicode case-folding.
-func Fold[S stream.Stream[byte]](s []byte) parser.Func[S, byte, []byte] {
-	return Cmp[S](s, func(l, r byte) bool { return unicode.ToLower(rune(l)) == unicode.ToLower(rune(r)) })
+func Fold(s []byte) parser.Func[byte, []byte] {
+	return Cmp(s, func(l, r byte) bool { return unicode.ToLower(rune(l)) == unicode.ToLower(rune(r)) })
 }

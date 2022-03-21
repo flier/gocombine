@@ -13,17 +13,17 @@ import (
 )
 
 func ExampleThen() {
-	comment := sequence.With(char.Spaces[[]rune](),
-		repeat.Many(token.Satisfy[[]rune](func(c rune) bool {
+	comment := sequence.With(char.Spaces(),
+		repeat.Many(token.Satisfy(func(c rune) bool {
 			return c != '\n'
 		})))
 
-	p := to.String(sequence.Then(token.Any[[]rune](), func(c rune) parser.Func[[]rune, rune, []rune] {
+	p := to.String(sequence.Then(token.Any[rune](), func(c rune) parser.Func[rune, []rune] {
 		if c == '#' {
 			return comment
 		}
 
-		return combinator.Map(repeat.Many1(char.Letter[[]rune]()), func(s []rune) []rune {
+		return combinator.Map(repeat.Many1(char.Letter()), func(s []rune) []rune {
 			return append([]rune{c}, s...)
 		})
 	}))

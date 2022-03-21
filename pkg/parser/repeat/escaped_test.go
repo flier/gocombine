@@ -11,7 +11,7 @@ import (
 
 func ExampleEscaped() {
 	p := to.String(repeat.Escaped(
-		ranges.TakeWhile1[[]rune](func(c rune) bool { return c != '"' && c != '\\' }),
+		ranges.TakeWhile1(func(c rune) bool { return c != '"' && c != '\\' }),
 		'\\',
 		token.OneOf([]rune(`nrt\"`)),
 	))

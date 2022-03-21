@@ -36,23 +36,23 @@ func Str[S StringLike](s S) string {
 
 // String convert the result of `parser` to a string.
 func String[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O StringLike,
 ](
-	parser parser.Func[S, T, O],
-) parser.Func[S, T, string] {
+	parser parser.Func[T, O],
+) parser.Func[T, string] {
 	return combinator.Map(parser, Str[O])
 }
 
 // StringSlice convert the result of `parser` to a string slice.
 func StringSlice[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O StringLike,
 ](
-	parser parser.Func[S, T, []O],
-) parser.Func[S, T, []string] {
+	parser parser.Func[T, []O],
+) parser.Func[T, []string] {
 	return combinator.Map(parser, func(s []O) (r []string) {
 		r = make([]string, len(s))
 		for i, v := range s {

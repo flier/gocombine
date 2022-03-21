@@ -7,12 +7,11 @@ import (
 
 // Parser convert a `parser` to function.
 func Parser[
-	S stream.Stream[T],
 	T stream.Token,
 	O any](
-	parser parser.Parser[S, T, O],
-) parser.Func[S, T, O] {
-	return func(input S) (out O, remaining S, err error) {
+	parser parser.Parser[T, O],
+) parser.Func[T, O] {
+	return func(input []T) (out O, remaining []T, err error) {
 		return parser.Parse(input)
 	}
 }

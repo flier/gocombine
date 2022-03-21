@@ -8,13 +8,13 @@ import (
 // AndThen parses with `parser` and applies `f` on the result if `parser` parses successfully.
 // `f` may optionally fail with an error.
 func AndThen[
-	S stream.Stream[T],
+
 	T stream.Token,
 	I, O any,
 ](
-	parser parser.Func[S, T, I], f func(I) (O, error),
-) parser.Func[S, T, O] {
-	return Attempt(func(input S) (parsed O, remaining S, err error) {
+	parser parser.Func[T, I], f func(I) (O, error),
+) parser.Func[T, O] {
+	return Attempt(func(input []T) (parsed O, remaining []T, err error) {
 		var i I
 		if i, remaining, err = parser(input); err != nil {
 			return

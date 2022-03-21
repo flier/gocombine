@@ -8,14 +8,8 @@ import (
 
 // TakeUntil takes input until `end` is encountered or `end` indicates
 // that it has committed input before failing.
-func TakeUntil[
-	S stream.Stream[T],
-	T stream.Token,
-	O any,
-](
-	end parser.Func[S, T, O],
-) parser.Func[S, T, []T] {
-	return func(input S) (out []T, remaining S, err error) {
+func TakeUntil[T stream.Token, O any](end parser.Func[T, O]) parser.Func[T, []T] {
+	return func(input []T) (out []T, remaining []T, err error) {
 		remaining = input
 
 		for {
@@ -25,7 +19,7 @@ func TakeUntil[
 
 			var tok T
 
-			var rest S
+			var rest []T
 
 			if tok, rest, err = stream.Uncons(remaining); err != nil {
 				return
@@ -41,12 +35,6 @@ func TakeUntil[
 
 // SkipUntil skips input until `end` is encountered or `end` indicates
 // that it has committed input before failing.
-func SkipUntil[
-	S stream.Stream[T],
-	T stream.Token,
-	O any,
-](
-	end parser.Func[S, T, O],
-) parser.Func[S, T, any] {
+func SkipUntil[T stream.Token, O any](end parser.Func[T, O]) parser.Func[T, any] {
 	return combinator.Ignore(TakeUntil(end))
 }

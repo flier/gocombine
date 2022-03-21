@@ -13,7 +13,6 @@ import (
 	"github.com/flier/gocombine/pkg/parser/repeat"
 	"github.com/flier/gocombine/pkg/parser/sequence"
 	"github.com/flier/gocombine/pkg/parser/to"
-	"github.com/flier/gocombine/pkg/stream"
 	"github.com/flier/gocombine/pkg/tuple"
 )
 
@@ -38,19 +37,19 @@ func IsToken(b byte) bool {
 func IsHozizontalSpace(b byte) bool { return b == ' ' || b == '\t' }
 func IsNotSpace(b byte) bool        { return b != ' ' }
 
-func EoL[S stream.Stream[byte]]() parser.Func[S, byte, byte] {
+func EOL() parser.Func[byte, byte] {
 	return choice.Or(
-		sequence.Skip(bytes.Byte[S]('\r'), bytes.Byte[S]('\n')),
-		bytes.Byte[S]('\n'))
+		sequence.Skip(bytes.Byte('\r'), bytes.Byte('\n')),
+		bytes.Byte('\n'))
 }
 
-func MessageHeader[S stream.Stream[byte]]() parser.Func[S, byte, http.Header] {
+func MessageHeader() parser.Func[byte, http.Header] {
 	header := sequence.Skip(sequence.With(
-		ranges.TakeWhile1[S](IsHozizontalSpace),
-		to.String(ranges.TakeWhile1[S](func(b byte) bool { return b != '\r' && b != '\n' }))),
-		EoL[S]())
-	name := to.String(ranges.TakeWhile1[S](IsToken))
-	sep := bytes.Byte[S](':')
+		ranges.TakeWhile1(IsHozizontalSpace),
+		to.String(ranges.TakeWhile1(func(b byte) bool { return b != '\r' && b != '\n' }))),
+		EOL())
+	name := to.String(ranges.TakeWhile1(IsToken))
+	sep := bytes.Byte(':')
 	value := repeat.Many1(header)
 
 	return combinator.Fold(
@@ -62,17 +61,17 @@ func MessageHeader[S stream.Stream[byte]]() parser.Func[S, byte, http.Header] {
 	).Message("while parsing header")
 }
 
-func Parser[S stream.Stream[byte]]() parser.Func[S, byte, *http.Request] {
-	method := to.String(ranges.TakeWhile1[S](IsToken))
-	uri := to.String(ranges.TakeWhile1[S](IsNotSpace))
-	ver := to.Int(repeat.Many1(bytes.Digit[S]()))
-	version := sequence.With(bytes.Bytes[S]([]byte("HTTP/")),
-		combinator.Tuple3(ver, bytes.Byte[S]('.'), ver))
+func Parser() parser.Func[byte, *http.Request] {
+	method := to.String(ranges.TakeWhile1(IsToken))
+	uri := to.String(ranges.TakeWhile1(IsNotSpace))
+	ver := to.Int(repeat.Many1(bytes.Digit()))
+	version := sequence.With(bytes.Bytes([]byte("HTTP/")),
+		combinator.Tuple3(ver, bytes.Byte('.'), ver))
 
 	requestLine := combinator.AndThen(
 		combinator.Tuple3(
-			sequence.Skip(method, bytes.Spaces[S]()),
-			sequence.Skip(uri, bytes.Spaces[S]()),
+			sequence.Skip(method, bytes.Spaces()),
+			sequence.Skip(uri, bytes.Spaces()),
 			version,
 		),
 		func(t tuple.Tuple3[string, string, tuple.Tuple3[int, byte, int]]) (req *http.Request, err error) {
@@ -88,18 +87,20 @@ func Parser[S stream.Stream[byte]]() parser.Func[S, byte, *http.Request] {
 				ProtoMajor: t.V3.V1,
 				ProtoMinor: t.V3.V3,
 			}
+
 			return
 		},
 	).Message("while parsing request line")
 
 	return combinator.Map(
 		combinator.Pair(
-			sequence.Skip(requestLine, EoL[S]()),
-			sequence.Skip(MessageHeader[S](), EoL[S]()),
+			sequence.Skip(requestLine, EOL()),
+			sequence.Skip(MessageHeader(), EOL()),
 		),
 		func(p pair.Pair[*http.Request, http.Header]) *http.Request {
 			req := p.First
 			req.Header = p.Second
+
 			return req
 		},
 	)

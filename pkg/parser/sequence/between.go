@@ -9,15 +9,15 @@ import (
 // Between parses `open` followed by `parser` followed by `closing`.
 /// Returns the value of `parser`.
 func Between[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O1, O2, O3 any,
 ](
-	open parser.Func[S, T, O1],
-	closing parser.Func[S, T, O2],
-	parser parser.Func[S, T, O3],
-) parser.Func[S, T, O3] {
-	return combinator.Attempt(func(input S) (out O3, remaining S, err error) {
+	open parser.Func[T, O1],
+	closing parser.Func[T, O2],
+	parser parser.Func[T, O3],
+) parser.Func[T, O3] {
+	return combinator.Attempt(func(input []T) (out O3, remaining []T, err error) {
 		if _, remaining, err = open.Parse(input); err != nil {
 			return
 		}

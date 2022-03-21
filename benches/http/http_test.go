@@ -16,8 +16,8 @@ import (
 //go:embed testdata/http-requests.txt
 var requests string
 
-func BenchmarkRequestSmall(b *testing.B) {
-	p := http.Parser[[]byte]()
+func BenchmarkRequest(b *testing.B) {
+	p := http.Parser()
 
 	b.SetBytes(int64(len(requests)))
 	b.ReportAllocs()
@@ -39,7 +39,7 @@ func BenchmarkRequestSmall(b *testing.B) {
 	}
 }
 
-func BenchmarkHttpRequest(b *testing.B) {
+func BenchmarkStdHttpRequest(b *testing.B) {
 	b.SetBytes(int64(len(requests)))
 	b.ReportAllocs()
 	b.ResetTimer()

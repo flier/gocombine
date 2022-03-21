@@ -7,7 +7,7 @@ import (
 )
 
 func ExampleByte() {
-	p := bytes.Byte[[]byte](byte('!'))
+	p := bytes.Byte(byte('!'))
 
 	fmt.Println(p([]byte("!")))
 	fmt.Println(p([]byte("a")))

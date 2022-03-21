@@ -9,7 +9,7 @@ import (
 )
 
 func ExampleOptional() {
-	p := choice.Optional(to.String(char.String[[]rune]("hello")))
+	p := choice.Optional(to.String(char.String("hello")))
 
 	o, remaining, err := p([]rune("hello"))
 	fmt.Println(o.Unwrap(), remaining, err)

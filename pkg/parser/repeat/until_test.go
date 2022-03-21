@@ -11,8 +11,8 @@ import (
 
 func ExampleUntil() {
 	p := repeat.Until(
-		sequence.Skip(to.String(repeat.Many1(char.Letter[[]rune]())), char.Spaces[[]rune]()),
-		char.Char[[]rune]('!'))
+		sequence.Skip(to.String(repeat.Many1(char.Letter())), char.Spaces()),
+		char.Char('!'))
 
 	fmt.Println(p([]rune("Hello World!")))
 

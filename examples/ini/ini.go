@@ -10,65 +10,71 @@ import (
 	"github.com/flier/gocombine/pkg/parser/sequence"
 	"github.com/flier/gocombine/pkg/parser/to"
 	"github.com/flier/gocombine/pkg/parser/token"
-	"github.com/flier/gocombine/pkg/stream"
 	"github.com/flier/gocombine/pkg/tuple"
 )
 
-type Properties map[string]string
-type Sections map[string]Properties
+type (
+	Properties map[string]string
+	Sections   map[string]Properties
+)
 
 type Ini struct {
 	Global   Properties
 	Sections Sections
 }
 
-func property[S stream.Stream[rune]]() parser.Func[S, rune, []string] {
-	key := to.String(repeat.Many1(token.Satisfy[S](func(c rune) bool {
+func property() parser.Func[rune, []string] {
+	key := to.String(repeat.Many1(token.Satisfy(func(c rune) bool {
 		return c != '=' && c != '[' && c != ';'
 	}))).Expected("key")
 
-	assign := token.Token[S]('=')
+	assign := token.Token('=')
 
-	value := to.String(repeat.Many1(token.Satisfy[S](func(c rune) bool {
+	value := to.String(repeat.Many1(token.Satisfy(func(c rune) bool {
 		return c != '\n' && c != ';'
 	}))).Expected("value")
 
 	return choice.And(sequence.Skip(key, assign), value).Message("while parsing property")
 }
 
-func whitespace[S stream.Stream[rune]]() parser.Func[S, rune, any] {
-	comment := sequence.With(token.Token[S](';'),
-		repeat.SkipMany(token.Satisfy[S](func(c rune) bool { return c != '\n' }))).Message("while parsing comment")
+func whitespace() parser.Func[rune, any] {
+	comment := sequence.With(token.Token(';'),
+		repeat.SkipMany(token.Satisfy(func(c rune) bool {
+			return c != '\n'
+		}))).Message("while parsing comment")
 
-	return repeat.SkipMany(choice.Or(repeat.SkipMany1(char.Space[S]()), comment)).Message("while parsing whitespace")
+	return repeat.SkipMany(choice.Or(
+		repeat.SkipMany1(char.Space()),
+		comment,
+	)).Message("while parsing whitespace")
 }
 
-func properties[S stream.Stream[rune]]() parser.Func[S, rune, Properties] {
+func properties() parser.Func[rune, Properties] {
 	// After each property we skip any whitespace that followed it
 	return combinator.Fold(
-		repeat.Many(sequence.Skip(property[S](), whitespace[S]())),
+		repeat.Many(sequence.Skip(property(), whitespace())),
 		func() Properties { return make(Properties) },
 		func(m Properties, s []string) { m[s[0]] = s[1] },
 	).Message("while parsing properties")
 }
 
-func sections[S stream.Stream[rune]]() parser.Func[S, rune, Sections] {
+func sections() parser.Func[rune, Sections] {
 	name := sequence.Between(
-		token.Token[S]('['),
-		token.Token[S](']'),
-		to.String(repeat.Many(token.Satisfy[S](func(c rune) bool { return c != ']' }))),
+		token.Token('['),
+		token.Token(']'),
+		to.String(repeat.Many(token.Satisfy(func(c rune) bool { return c != ']' }))),
 	).Message("while parsing name")
 
 	return combinator.Fold(
-		repeat.Many(combinator.Pair(sequence.Skip(name, whitespace[S]()), properties[S]())),
+		repeat.Many(combinator.Pair(sequence.Skip(name, whitespace()), properties())),
 		func() Sections { return make(Sections) },
 		func(s Sections, p pair.Pair[string, Properties]) { s[p.First] = p.Second },
 	).Message("while parsing sections")
 }
 
-func Parser[S stream.Stream[rune]]() parser.Func[S, rune, *Ini] {
+func Parser() parser.Func[rune, *Ini] {
 	return combinator.Map(
-		combinator.Tuple3(whitespace[S](), properties[S](), sections[S]()),
+		combinator.Tuple3(whitespace(), properties(), sections()),
 		func(s tuple.Tuple3[any, Properties, Sections]) *Ini {
 			if len(s.V2) == 0 && len(s.V3) == 0 {
 				return nil

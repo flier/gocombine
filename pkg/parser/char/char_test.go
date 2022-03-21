@@ -7,7 +7,7 @@ import (
 )
 
 func ExampleChar() {
-	p := char.Char[[]rune]('!')
+	p := char.Char('!')
 
 	fmt.Println(p([]rune("!")))
 	fmt.Println(p([]rune("A")))
@@ -18,7 +18,7 @@ func ExampleChar() {
 }
 
 func ExampleSpace() {
-	p := char.Space[[]rune]()
+	p := char.Space()
 
 	fmt.Println(p([]rune(" ")))
 	fmt.Println(p([]rune("  ")))
@@ -33,7 +33,7 @@ func ExampleSpace() {
 }
 
 func ExampleSpaces() {
-	p := char.Spaces[[]rune]()
+	p := char.Spaces()
 
 	fmt.Println(p([]rune(" ")))
 	fmt.Println(p([]rune("  ")))
@@ -48,7 +48,7 @@ func ExampleSpaces() {
 }
 
 func ExampleNewLine() {
-	p := char.NewLine[[]rune]()
+	p := char.NewLine()
 
 	fmt.Println(p([]rune("\r")))
 	fmt.Println(p([]rune("\n")))
@@ -59,7 +59,7 @@ func ExampleNewLine() {
 }
 
 func ExampleCrLf() {
-	p := char.CrLf[[]rune]()
+	p := char.CrLf()
 
 	fmt.Println(p([]rune("\r\n")))
 	fmt.Println(p([]rune("\r")))
@@ -72,7 +72,7 @@ func ExampleCrLf() {
 }
 
 func ExampleTab() {
-	p := char.Tab[[]rune]()
+	p := char.Tab()
 
 	fmt.Println(p([]rune("\t")))
 	fmt.Println(p([]rune(" ")))
@@ -83,7 +83,7 @@ func ExampleTab() {
 }
 
 func ExampleUpper() {
-	p := char.Upper[[]rune]()
+	p := char.Upper()
 
 	fmt.Println(p([]rune("a")))
 	fmt.Println(p([]rune("A")))
@@ -94,7 +94,7 @@ func ExampleUpper() {
 }
 
 func ExampleLower() {
-	p := char.Lower[[]rune]()
+	p := char.Lower()
 
 	fmt.Println(p([]rune("a")))
 	fmt.Println(p([]rune("A")))
@@ -105,7 +105,7 @@ func ExampleLower() {
 }
 
 func ExampleLetter() {
-	p := char.Letter[[]rune]()
+	p := char.Letter()
 
 	fmt.Println(p([]rune("a")))
 	fmt.Println(p([]rune("A")))
@@ -118,7 +118,7 @@ func ExampleLetter() {
 }
 
 func ExampleAlphaNum() {
-	p := char.AlphaNum[[]rune]()
+	p := char.AlphaNum()
 
 	fmt.Println(p([]rune("a")))
 	fmt.Println(p([]rune("9")))

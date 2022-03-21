@@ -9,7 +9,6 @@ import (
 	"github.com/flier/gocombine/pkg/parser/sequence"
 	"github.com/flier/gocombine/pkg/parser/to"
 	"github.com/flier/gocombine/pkg/parser/token"
-	"github.com/flier/gocombine/pkg/stream"
 	"github.com/flier/gocombine/pkg/tuple"
 )
 
@@ -31,21 +30,22 @@ func Number(f float64) *Value           { return &Value{Number: &f} }
 func String(s string) *Value            { return &Value{String: &s} }
 func Bool(b bool) *Value                { return &Value{Bool: &b} }
 func Object(m map[string]*Value) *Value { return &Value{Object: m} }
-func Array(a ...*Value) *Value          { return &Value{Array: a} }
+func Array(a []*Value) *Value           { return &Value{Array: a} }
+func ArrayOf(a ...*Value) *Value        { return &Value{Array: a} }
 
-func lex[S stream.Stream[rune], O any](p parser.Func[S, rune, O]) parser.Func[S, rune, O] {
-	return sequence.Skip(p, char.Spaces[S]())
+func lex[O any](p parser.Func[rune, O]) parser.Func[rune, O] {
+	return sequence.Skip(p, char.Spaces())
 }
 
-func JsonNumber[S stream.Stream[rune]]() parser.Func[S, rune, float64] {
-	// integer := lex(to.Int(repeat.Many1(char.Digit[S]())))
+func JsonNumber() parser.Func[rune, float64] {
+	// integer := lex(to.Int(repeat.Many1(char.Digit())))
 
 	// i := choice.Or(
-	// 	combinator.Map(char.Char[S]('0'), func(r rune) float64 { return 0.0 }),
+	// 	combinator.Map(char.Char('0'), func(r rune) float64 { return 0.0 }),
 	// 	combinator.Map(integer, func(i int) float64 { return float64(i) }))
 
 	// frac := combinator.Map(
-	// 	sequence.With(choice.Optional(char.Char[S]('.')), repeat.Many(char.Digit[S]())),
+	// 	sequence.With(choice.Optional(char.Char('.')), repeat.Many(char.Digit())),
 	// 	func(s []rune) (acc float64) {
 	// 		magnitude := 1.0
 
@@ -61,32 +61,35 @@ func JsonNumber[S stream.Stream[rune]]() parser.Func[S, rune, float64] {
 	// exp := combinator.Map(
 	// 	combinator.Pair(
 	// 		sequence.With(
-	// 			token.Satisfy[S](func(r rune) bool { return r == 'e' || r == 'E' }),
-	// 			choice.Optional(char.Char[S]('-'))),
+	// 			token.Satisfy(func(r rune) bool { return r == 'e' || r == 'E' }),
+	// 			choice.Optional(char.Char('-'))),
 	// 		integer),
 	// 	func(p pair.Pair[option.Option[rune], int]) int {
 	// 		if p.First.HasSome() {
 	// 			return -p.Second
 	// 		}
+
 	// 		return p.Second
 	// 	},
 	// )
 
 	// i = combinator.Map(
-	// 	combinator.Pair(choice.Optional(char.Char[S]('-')), i),
+	// 	combinator.Pair(choice.Optional(char.Char('-')), i),
 	// 	func(p pair.Pair[option.Option[rune], float64]) float64 {
 	// 		if p.First.HasSome() {
 	// 			return -p.Second
 	// 		}
+
 	// 		return p.Second
 	// 	})
 
 	// float := combinator.Map(
-	// 	combinator.Pair(i, sequence.With(choice.Optional(char.Char[S]('.')), frac)),
+	// 	combinator.Pair(i, sequence.With(choice.Optional(char.Char('.')), frac)),
 	// 	func(p pair.Pair[float64, float64]) float64 {
 	// 		if p.First >= 0.0 {
 	// 			return p.First + p.Second
 	// 		}
+
 	// 		return p.First - p.Second
 	// 	})
 
@@ -101,15 +104,15 @@ func JsonNumber[S stream.Stream[rune]]() parser.Func[S, rune, float64] {
 	// 	},
 	// )).Expected("number")
 
-	return lex(to.Float(char.Float[S]()))
+	return lex(to.Float(char.Float()))
 }
 
-func JsonString[S stream.Stream[rune]]() parser.Func[S, rune, string] {
+func JsonString() parser.Func[rune, string] {
 	c := choice.Or(
 		sequence.With(
-			token.Token[S]('\\'),
+			token.Token('\\'),
 			combinator.Map(
-				token.OneOf[S]([]rune(`"\/bfnrt`)),
+				token.OneOf([]rune(`"\/bfnrt`)),
 				func(c rune) rune {
 					switch c {
 					case 'b':
@@ -127,24 +130,25 @@ func JsonString[S stream.Stream[rune]]() parser.Func[S, rune, string] {
 					}
 				}),
 		),
-		token.NoneOf[S]([]rune(`"`)),
+		token.NoneOf([]rune(`"`)),
 	)
 
 	return to.String(sequence.Between(
-		char.Char[S]('"'),
-		lex(char.Char[S]('"')),
+		char.Char('"'),
+		lex(char.Char('"')),
 		repeat.Many(c),
 	)).Expected("string")
 }
 
-func JsonObject[S stream.Stream[rune]]() parser.Func[S, rune, map[string]*Value] {
+func JsonObject() parser.Func[rune, map[string]*Value] {
 	field := combinator.Tuple3(
-		to.String(JsonString[S]()),
-		lex(char.Char[S](':')),
-		combinator.Lazy(value[S]),
+		to.String(JsonString()),
+		lex(char.Char(':')),
+		combinator.Lazy(value),
 	).Expected("field")
+
 	fields := combinator.Map(
-		repeat.SepBy(field, lex(char.Char[S](','))),
+		repeat.SepBy(field, lex(char.Char(','))),
 		func(t []tuple.Tuple3[string, rune, *Value]) (m map[string]*Value) {
 			m = make(map[string]*Value)
 
@@ -157,50 +161,34 @@ func JsonObject[S stream.Stream[rune]]() parser.Func[S, rune, map[string]*Value]
 	)
 
 	return sequence.Between(
-		lex(char.Char[S]('{')),
-		lex(char.Char[S]('}')),
+		lex(char.Char('{')),
+		lex(char.Char('}')),
 		fields,
 	).Expected("object")
 }
 
-func JsonArray[S stream.Stream[rune]]() parser.Func[S, rune, []*Value] {
+func JsonArray() parser.Func[rune, []*Value] {
 	return sequence.Between(
-		lex(char.Char[S]('[')),
-		lex(char.Char[S](']')),
+		lex(char.Char('[')),
+		lex(char.Char(']')),
 		repeat.SepBy(
-			combinator.Lazy(value[S]),
-			lex(char.Char[S](','))),
+			combinator.Lazy(value),
+			lex(char.Char(','))),
 	).Expected("array")
 }
 
-func Parser[S stream.Stream[rune]]() parser.Func[S, rune, *Value] {
-	return value[S]()
+func Parser() parser.Func[rune, *Value] {
+	return value()
 }
 
-func value[S stream.Stream[rune]]() parser.Func[S, rune, *Value] {
+func value() parser.Func[rune, *Value] {
 	return choice.Or(
-		combinator.Map(JsonString[S](), func(s string) *Value {
-			return &Value{String: &s}
-		}),
-		combinator.Map(JsonObject[S](), func(m map[string]*Value) *Value {
-			return &Value{Object: m}
-		}),
-		combinator.Map(JsonArray[S](), func(a []*Value) *Value {
-			return &Value{Array: a}
-		}),
-		combinator.Map(JsonNumber[S](), func(f float64) *Value {
-			return &Value{Number: &f}
-		}),
-		combinator.Map(lex(char.String[S]("false")), func(s []rune) *Value {
-			b := false
-			return &Value{Bool: &b}
-		}),
-		combinator.Map(lex(char.String[S]("true")), func(s []rune) *Value {
-			b := true
-			return &Value{Bool: &b}
-		}),
-		combinator.Map(lex(char.String[S]("null")), func(s []rune) *Value {
-			return nil
-		}),
+		combinator.Map(JsonString(), String),
+		combinator.Map(JsonObject(), Object),
+		combinator.Map(JsonArray(), Array),
+		combinator.Map(JsonNumber(), Number),
+		combinator.Map(lex(char.String("false")), func(s []rune) *Value { return False }),
+		combinator.Map(lex(char.String("true")), func(s []rune) *Value { return True }),
+		combinator.Map(lex(char.String("null")), func(s []rune) *Value { return nil }),
 	)
 }

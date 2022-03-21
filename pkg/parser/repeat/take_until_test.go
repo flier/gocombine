@@ -9,11 +9,11 @@ import (
 )
 
 func ExampleTakeUntil() {
-	char_parser := repeat.TakeUntil(char.Digit[[]rune]())
+	char_parser := repeat.TakeUntil(char.Digit())
 
 	fmt.Println(char_parser([]rune("abc123")))
 
-	byte_parser := repeat.TakeUntil(bytes.Bytes[[]byte]([]byte("TAG")))
+	byte_parser := repeat.TakeUntil(bytes.Bytes([]byte("TAG")))
 
 	fmt.Println(byte_parser([]byte("123TAG")))
 
@@ -23,11 +23,11 @@ func ExampleTakeUntil() {
 }
 
 func ExampleSkipUntil() {
-	char_parser := repeat.SkipUntil(char.Digit[[]rune]())
+	char_parser := repeat.SkipUntil(char.Digit())
 
 	fmt.Println(char_parser([]rune("abc123")))
 
-	byte_parser := repeat.SkipUntil(bytes.Bytes[[]byte]([]byte("TAG")))
+	byte_parser := repeat.SkipUntil(bytes.Bytes([]byte("TAG")))
 
 	fmt.Println(byte_parser([]byte("123TAG")))
 

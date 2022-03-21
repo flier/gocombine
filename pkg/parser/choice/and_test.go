@@ -8,7 +8,7 @@ import (
 )
 
 func ExampleAnd() {
-	p := choice.And(char.Digit[[]rune](), char.Char[[]rune]('i'))
+	p := choice.And(char.Digit(), char.Char('i'))
 
 	fmt.Println(p.Parse([]rune("9i456")))
 

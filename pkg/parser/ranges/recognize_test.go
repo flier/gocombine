@@ -14,10 +14,10 @@ import (
 
 func ExampleRecognize() {
 	p := to.String(ranges.Recognize(combinator.Pair(
-		repeat.SkipMany1(char.Digit[[]rune]()),
+		repeat.SkipMany1(char.Digit()),
 		choice.Optional(
-			sequence.With(char.Char[[]rune]('.'),
-				repeat.SkipMany1(char.Digit[[]rune]()))),
+			sequence.With(char.Char('.'),
+				repeat.SkipMany1(char.Digit()))),
 	)))
 
 	fmt.Println(p([]rune("1234!")))

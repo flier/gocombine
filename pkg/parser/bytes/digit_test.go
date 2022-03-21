@@ -7,7 +7,7 @@ import (
 )
 
 func ExampleDigit() {
-	p := bytes.Digit[[]byte]()
+	p := bytes.Digit()
 
 	fmt.Println(p([]byte("9")))
 	fmt.Println(p([]byte("A")))
@@ -18,7 +18,7 @@ func ExampleDigit() {
 }
 
 func ExampleOctDigit() {
-	p := bytes.OctDigit[[]byte]()
+	p := bytes.OctDigit()
 
 	fmt.Println(p([]byte("7")))
 	fmt.Println(p([]byte("8")))
@@ -29,7 +29,7 @@ func ExampleOctDigit() {
 }
 
 func ExampleHexDigit() {
-	p := bytes.HexDigit[[]byte]()
+	p := bytes.HexDigit()
 
 	fmt.Println(p([]byte("7")))
 	fmt.Println(p([]byte("F")))

@@ -8,7 +8,7 @@ import (
 )
 
 func ExampleFloat() {
-	p := to.Float(char.Float[[]rune]())
+	p := to.Float(char.Float())
 
 	fmt.Println(p([]rune("3.1415926535")))
 	fmt.Println(p([]rune("NaN")))

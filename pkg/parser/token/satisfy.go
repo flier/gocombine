@@ -9,8 +9,8 @@ import (
 )
 
 // Satisfy parses a token and succeeds depending on the result of `predicate`.
-func Satisfy[S stream.Stream[T], T stream.Token](predicate func(T) bool) parser.Func[S, T, T] {
-	return combinator.Attempt(func(input S) (actual T, remaining S, err error) {
+func Satisfy[T stream.Token](predicate func(T) bool) parser.Func[T, T] {
+	return combinator.Attempt(func(input []T) (actual T, remaining []T, err error) {
 		if actual, remaining, err = stream.Uncons(input); err != nil {
 			// pass
 		} else if !predicate(actual) {
@@ -23,8 +23,8 @@ func Satisfy[S stream.Stream[T], T stream.Token](predicate func(T) bool) parser.
 
 // SatisfyMap parses a token and passes it to `predicate`. If `predicate` succeeds and returns the value.
 // If `predicate` returns error the parser fails without consuming any input.
-func SatisfyMap[S stream.Stream[T], T stream.Token, O any](predicate func(T) (O, error)) parser.Func[S, T, O] {
-	return combinator.Attempt(func(input S) (out O, remaining S, err error) {
+func SatisfyMap[T stream.Token, O any](predicate func(T) (O, error)) parser.Func[T, O] {
+	return combinator.Attempt(func(input []T) (out O, remaining []T, err error) {
 		var tok T
 		if tok, remaining, err = stream.Uncons(input); err != nil {
 			// pass

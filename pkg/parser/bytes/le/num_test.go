@@ -7,7 +7,7 @@ import (
 )
 
 func ExampleUint16() {
-	p := le.Uint16[[]byte]()
+	p := le.Uint16()
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 
@@ -16,7 +16,7 @@ func ExampleUint16() {
 }
 
 func ExampleUint32() {
-	p := le.Uint32[[]byte]()
+	p := le.Uint32()
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 
@@ -25,7 +25,7 @@ func ExampleUint32() {
 }
 
 func ExampleUint64() {
-	p := le.Uint64[[]byte]()
+	p := le.Uint64()
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 
@@ -34,7 +34,7 @@ func ExampleUint64() {
 }
 
 func ExampleInt16() {
-	p := le.Int16[[]byte]()
+	p := le.Int16()
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 
@@ -43,7 +43,7 @@ func ExampleInt16() {
 }
 
 func ExampleInt32() {
-	p := le.Int32[[]byte]()
+	p := le.Int32()
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 
@@ -52,7 +52,7 @@ func ExampleInt32() {
 }
 
 func ExampleInt64() {
-	p := le.Int64[[]byte]()
+	p := le.Int64()
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 
@@ -61,7 +61,7 @@ func ExampleInt64() {
 }
 
 func ExampleFloat32() {
-	p := le.Float32[[]byte]()
+	p := le.Float32()
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 
@@ -70,7 +70,7 @@ func ExampleFloat32() {
 }
 
 func ExampleFloat64() {
-	p := le.Float64[[]byte]()
+	p := le.Float64()
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 

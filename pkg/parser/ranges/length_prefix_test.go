@@ -8,7 +8,7 @@ import (
 )
 
 func ExampleLengthPrefix() {
-	p := ranges.LengthPrefix(be.Uint16[[]byte]())
+	p := ranges.LengthPrefix(be.Uint16())
 
 	fmt.Println(p([]byte{0x00, 0x03, 0x01, 0x02, 0x03, 0x04}))
 

@@ -8,7 +8,7 @@ import (
 )
 
 func ExampleUint16() {
-	p := num.Uint16[[]byte](binary.LittleEndian)
+	p := num.Uint16(binary.LittleEndian)
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 
@@ -17,7 +17,7 @@ func ExampleUint16() {
 }
 
 func ExampleUint32() {
-	p := num.Uint32[[]byte](binary.LittleEndian)
+	p := num.Uint32(binary.LittleEndian)
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 
@@ -26,7 +26,7 @@ func ExampleUint32() {
 }
 
 func ExampleUint64() {
-	p := num.Uint64[[]byte](binary.LittleEndian)
+	p := num.Uint64(binary.LittleEndian)
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 
@@ -35,7 +35,7 @@ func ExampleUint64() {
 }
 
 func ExampleInt16() {
-	p := num.Int16[[]byte](binary.LittleEndian)
+	p := num.Int16(binary.LittleEndian)
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 
@@ -44,7 +44,7 @@ func ExampleInt16() {
 }
 
 func ExampleInt32() {
-	p := num.Int32[[]byte](binary.LittleEndian)
+	p := num.Int32(binary.LittleEndian)
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 
@@ -53,7 +53,7 @@ func ExampleInt32() {
 }
 
 func ExampleInt64() {
-	p := num.Int64[[]byte](binary.LittleEndian)
+	p := num.Int64(binary.LittleEndian)
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 
@@ -62,7 +62,7 @@ func ExampleInt64() {
 }
 
 func ExampleFloat32() {
-	p := num.Float32[[]byte](binary.LittleEndian)
+	p := num.Float32(binary.LittleEndian)
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 
@@ -71,7 +71,7 @@ func ExampleFloat32() {
 }
 
 func ExampleFloat64() {
-	p := num.Float64[[]byte](binary.LittleEndian)
+	p := num.Float64(binary.LittleEndian)
 
 	fmt.Println(p([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF}))
 

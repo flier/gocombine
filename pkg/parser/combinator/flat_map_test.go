@@ -11,9 +11,9 @@ import (
 
 func ExampleFlatMap() {
 	p := combinator.FlatMap(
-		ranges.Take[[]rune](4),
+		ranges.Take[rune](4),
 		func(input []rune) (out []rune, err error) {
-			out, _, err = repeat.Many(char.Digit[[]rune]()).Parse(input)
+			out, _, err = repeat.Many(char.Digit()).Parse(input)
 
 			return
 		},

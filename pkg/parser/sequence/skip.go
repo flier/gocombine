@@ -9,12 +9,12 @@ import (
 // Skip discards the value of the `p2` parser and returns the value of `p1`.
 /// Fails if any of the parsers fails.
 func Skip[
-	S stream.Stream[T],
+
 	T stream.Token,
 	O1, O2 any,
-](p1 parser.Func[S, T, O1], p2 parser.Func[S, T, O2],
-) parser.Func[S, T, O1] {
-	return combinator.Attempt(func(input S) (out O1, remaining S, err error) {
+](p1 parser.Func[T, O1], p2 parser.Func[T, O2],
+) parser.Func[T, O1] {
+	return combinator.Attempt(func(input []T) (out O1, remaining []T, err error) {
 		if out, remaining, err = p1.Parse(input); err != nil {
 			return
 		}

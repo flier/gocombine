@@ -8,7 +8,7 @@ import (
 )
 
 func ExampleSepBy() {
-	p := repeat.SepBy(char.Digit[[]rune](), char.Char[[]rune](','))
+	p := repeat.SepBy(char.Digit(), char.Char(','))
 
 	fmt.Println(p([]rune("1,2,3")))
 	fmt.Println(p([]rune("")))
@@ -19,7 +19,7 @@ func ExampleSepBy() {
 }
 
 func ExampleSepBy1() {
-	p := repeat.SepBy1(char.Digit[[]rune](), char.Char[[]rune](','))
+	p := repeat.SepBy1(char.Digit(), char.Char(','))
 
 	fmt.Println(p([]rune("1,2,3")))
 	fmt.Println(p([]rune("")))
@@ -30,7 +30,7 @@ func ExampleSepBy1() {
 }
 
 func ExampleSepEndBy() {
-	p := repeat.SepEndBy(char.Digit[[]rune](), char.Char[[]rune](';'))
+	p := repeat.SepEndBy(char.Digit(), char.Char(';'))
 
 	fmt.Println(p([]rune("1;2;3;")))
 	fmt.Println(p([]rune("")))
@@ -41,7 +41,7 @@ func ExampleSepEndBy() {
 }
 
 func ExampleSepEndBy1() {
-	p := repeat.SepEndBy1(char.Digit[[]rune](), char.Char[[]rune](';'))
+	p := repeat.SepEndBy1(char.Digit(), char.Char(';'))
 
 	fmt.Println(p([]rune("1;2;3;")))
 	fmt.Println(p([]rune("")))

@@ -14,7 +14,7 @@ import (
 var data string
 
 func BenchmarkJSON(b *testing.B) {
-	p := json.Parser[[]rune]()
+	p := json.Parser()
 
 	b.SetBytes(int64(len(data)))
 	b.ReportAllocs()
@@ -43,7 +43,7 @@ func BenchmarkStdJSON(b *testing.B) {
 
 func TestNumber(t *testing.T) {
 	Convey("Given a number parser", t, func() {
-		p := json.JsonNumber[[]rune]()
+		p := json.JsonNumber()
 
 		Convey("When parse a zero", func() {
 			r, s, err := p([]rune("0"))
@@ -77,7 +77,7 @@ func TestNumber(t *testing.T) {
 
 func TestString(t *testing.T) {
 	Convey("Given a string parser", t, func() {
-		p := json.JsonString[[]rune]()
+		p := json.JsonString()
 
 		Convey("When parse a string", func() {
 			r, s, err := p([]rune(`"hello"`))
@@ -97,7 +97,7 @@ func TestString(t *testing.T) {
 
 func TestObject(t *testing.T) {
 	Convey("Given a object parser", t, func() {
-		p := json.JsonObject[[]rune]()
+		p := json.JsonObject()
 
 		Convey("When parsing a empty object", func() {
 			r, s, err := p([]rune(`{}`))
@@ -122,7 +122,7 @@ func TestObject(t *testing.T) {
 			So(err, ShouldBeNil)
 			So(s, ShouldBeEmpty)
 			So(r, ShouldResemble, map[string]*json.Value{
-				"array":        json.Array(json.Number(1), json.String("")),
+				"array":        json.ArrayOf(json.Number(1), json.String("")),
 				"object":       json.Object(map[string]*json.Value{}),
 				"number":       json.Number(3.14),
 				"small_number": json.Number(0.59),

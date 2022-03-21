@@ -10,7 +10,7 @@ import (
 
 // Cmp parses the bytes `s`, using `cmp` to compare each character.
 func Cmp[S stream.Stream[byte]](s []byte, cmp func(l, r byte) bool) parser.Func[S, byte, []byte] {
-	p := token.Tokens(cmp, []byte(s), []byte(s))
+	p := token.Tokens[S](cmp, []byte(s), []byte(s))
 
 	return func(input S) (out []byte, remaining S, err error) {
 		var bytes []byte

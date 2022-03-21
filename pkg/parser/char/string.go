@@ -10,7 +10,7 @@ import (
 
 // StringCmp parses the string `s`, using `cmp` to compare each character.
 func StringCmp[S stream.Stream[rune]](s string, cmp func(l, r rune) bool) parser.Func[S, rune, []rune] {
-	p := token.Tokens(cmp, []rune(s), []rune(s))
+	p := token.Tokens[S](cmp, []rune(s), []rune(s))
 
 	return func(input S) (out []rune, remaining S, err error) {
 		var chars []rune

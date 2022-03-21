@@ -43,7 +43,7 @@ func TestToken(t *testing.T) {
 
 func TestTokens(t *testing.T) {
 	Convey("Given a tokens parser", t, func() {
-		p := token.Tokens(func(lhs, rhs byte) bool { return lhs == rhs }, []byte("foo"), []byte("foo"))
+		p := token.Tokens[[]byte](func(lhs, rhs byte) bool { return lhs == rhs }, []byte("foo"), []byte("foo"))
 
 		Convey("When parse string", func() {
 			a, s, err := p([]byte("foobar"))
@@ -67,7 +67,7 @@ func TestTokens(t *testing.T) {
 			})
 		})
 
-		p2 := token.Tokens(func(lhs, rhs rune) bool {
+		p2 := token.Tokens[[]rune](func(lhs, rhs rune) bool {
 			return unicode.ToLower(lhs) == unicode.ToLower(rhs)
 		}, []rune("[fF][oO][oO]"), []rune("foo"))
 
@@ -141,7 +141,7 @@ func ExampleToken() {
 }
 
 func ExampleTokens() {
-	p := token.Tokens(func(l, r rune) bool {
+	p := token.Tokens[[]rune](func(l, r rune) bool {
 		return unicode.ToLower(l) == unicode.ToLower(r)
 	}, []rune("foo"), []rune("foo"))
 

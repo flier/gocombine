@@ -9,8 +9,8 @@ import (
 
 // Factor constructs the `parser` lazily.
 //
-// This is similar to `Lazy` but it takes `Input` as an argument and allows different parsers to be returned on each call
-// to `p` while still reporting the correct errors.
+// This is similar to `Lazy` but it takes `input` as an argument and allows different parsers to be returned
+// on each call to `p` while still reporting the correct errors.
 func Factor[
 	S stream.Stream[T],
 	T stream.Token,
@@ -18,6 +18,7 @@ func Factor[
 	f func(S) parser.Func[S, T, O],
 ) parser.Func[S, T, O] {
 	var p parser.Func[S, T, O]
+
 	var init sync.Once
 
 	return func(input S) (out O, remaining S, err error) {

@@ -27,6 +27,7 @@ func Pair[
 		}
 
 		out = pair.New(o1, o2)
+
 		return
 	})
 }

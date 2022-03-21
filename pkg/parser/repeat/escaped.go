@@ -23,7 +23,9 @@ func Escaped[
 
 		for {
 			var outs []T
+
 			var rest S
+
 			if outs, rest, err = parser(remaining); err != nil {
 				var tok T
 

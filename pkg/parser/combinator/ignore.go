@@ -9,6 +9,7 @@ import (
 func Ignore[S stream.Stream[T], T stream.Token, I any](parser parser.Func[S, T, I]) parser.Func[S, T, any] {
 	return func(input S) (ignored any, remaining S, err error) {
 		_, remaining, err = parser(input)
+
 		return
 	}
 }

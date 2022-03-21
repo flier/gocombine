@@ -14,11 +14,13 @@ func StringCmp[S stream.Stream[rune]](s string, cmp func(l, r rune) bool) parser
 
 	return func(input S) (out []rune, remaining S, err error) {
 		var chars []rune
+
 		if chars, remaining, err = p(input); err != nil {
 			remaining = input
 		} else {
 			out = chars
 		}
+
 		return
 	}
 }

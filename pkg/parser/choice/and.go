@@ -16,7 +16,9 @@ func And[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-](parsers ...parser.Func[S, T, O]) parser.Func[S, T, []O] {
+](
+	parsers ...parser.Func[S, T, O],
+) parser.Func[S, T, []O] {
 	return combinator.Attempt(func(input S) (out []O, remaining S, err error) {
 		out = make([]O, len(parsers))
 
@@ -29,6 +31,7 @@ func And[
 				} else {
 					out = out[:i+1]
 				}
+
 				break
 			}
 		}

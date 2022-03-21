@@ -14,7 +14,8 @@ import (
 func Find[
 	S stream.Stream[T],
 	T stream.Token,
-](re *regexp.Regexp) parser.Func[S, T, S] {
+](re *regexp.Regexp,
+) parser.Func[S, T, S] {
 	return func(input S) (matched, remaining S, err error) {
 		var loc []int
 
@@ -52,7 +53,8 @@ func Find[
 func FindMany[
 	S stream.Stream[T],
 	T stream.Token,
-](re *regexp.Regexp) parser.Func[S, T, []S] {
+](re *regexp.Regexp,
+) parser.Func[S, T, []S] {
 	return func(input S) (matched []S, remaining S, err error) {
 		var locs [][]int
 

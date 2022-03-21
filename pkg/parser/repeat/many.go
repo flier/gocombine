@@ -11,16 +11,20 @@ func Many[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-](parser parser.Func[S, T, O]) parser.Func[S, T, []O] {
+](
+	parser parser.Func[S, T, O],
+) parser.Func[S, T, []O] {
 	return func(input S) (parsed []O, remaining S, err error) {
 		remaining = input
 
 		for !stream.Empty(remaining) {
 			var o O
+
 			var rest S
 
 			if o, rest, err = parser(remaining); err != nil {
 				err = nil
+
 				break
 			}
 
@@ -37,13 +41,17 @@ func Many1[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-](parser parser.Func[S, T, O]) parser.Func[S, T, []O] {
+](
+	parser parser.Func[S, T, O],
+) parser.Func[S, T, []O] {
 	return func(input S) (parsed []O, remaining S, err error) {
 		remaining = input
 
 		var o O
+
 		if o, remaining, err = parser(remaining); err != nil {
 			remaining = input
+
 			return
 		}
 
@@ -51,10 +59,12 @@ func Many1[
 
 		for !stream.Empty(remaining) {
 			var o O
+
 			var rest S
 
 			if o, rest, err = parser(remaining); err != nil {
 				err = nil
+
 				break
 			}
 
@@ -71,7 +81,9 @@ func SkipMany[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-](parser parser.Func[S, T, O]) parser.Func[S, T, any] {
+](
+	parser parser.Func[S, T, O],
+) parser.Func[S, T, any] {
 	return combinator.Ignore(Many(parser))
 }
 
@@ -80,6 +92,8 @@ func SkipMany1[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-](parser parser.Func[S, T, O]) parser.Func[S, T, any] {
+](
+	parser parser.Func[S, T, O],
+) parser.Func[S, T, any] {
 	return combinator.Ignore(Many1(parser))
 }

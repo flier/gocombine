@@ -24,9 +24,10 @@ func TakeUntil[
 			}
 
 			var tok T
+
 			var rest S
-			tok, rest, err = stream.Uncons(remaining)
-			if err != nil {
+
+			if tok, rest, err = stream.Uncons(remaining); err != nil {
 				return
 			}
 

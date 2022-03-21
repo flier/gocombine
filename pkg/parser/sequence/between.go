@@ -6,7 +6,7 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
-// Between parses `open` followed by `parser` followed by `close`.
+// Between parses `open` followed by `parser` followed by `closing`.
 /// Returns the value of `parser`.
 func Between[
 	S stream.Stream[T],
@@ -14,7 +14,7 @@ func Between[
 	O1, O2, O3 any,
 ](
 	open parser.Func[S, T, O1],
-	close parser.Func[S, T, O2],
+	closing parser.Func[S, T, O2],
 	parser parser.Func[S, T, O3],
 ) parser.Func[S, T, O3] {
 	return combinator.Attempt(func(input S) (out O3, remaining S, err error) {
@@ -26,7 +26,7 @@ func Between[
 			return
 		}
 
-		if _, remaining, err = close.Parse(remaining); err != nil {
+		if _, remaining, err = closing.Parse(remaining); err != nil {
 			return
 		}
 

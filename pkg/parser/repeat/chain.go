@@ -8,7 +8,8 @@ import (
 )
 
 // ChainL1 parses `parser` one or more times separated by `op`.
-// The value returned is the one produced by the left associative application of the function returned by the parser `op`.
+// The value returned is the one produced
+// by the left associative application of the function returned by the parser `op`.
 func ChainL1[
 	S stream.Stream[T],
 	T stream.Token,
@@ -31,7 +32,8 @@ func ChainL1[
 }
 
 // ChainR1 parses `p` one or more times separated by `op`.
-// The value returned is the one produced by the right associative application of the function returned by `op`.
+// The value returned is the one produced
+// by the right associative application of the function returned by `op`.
 func ChainR1[
 	S stream.Stream[T],
 	T stream.Token,

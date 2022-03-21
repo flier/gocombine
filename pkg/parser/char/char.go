@@ -15,12 +15,12 @@ func Char[S stream.Stream[rune]](c rune) parser.Func[S, rune, rune] {
 	return token.Token[S](c)
 }
 
-// Space parse a single whitespace
+// Space parse a single whitespace.
 func Space[S stream.Stream[rune]]() parser.Func[S, rune, rune] {
 	return token.Satisfy[S](unicode.IsSpace).Expected("whitespace")
 }
 
-// Spaces parse zero or more spaces
+// Spaces parse zero or more spaces.
 func Spaces[S stream.Stream[rune]]() parser.Func[S, rune, []rune] {
 	return repeat.Many(Space[S]()).Expected("whitespaces")
 }
@@ -43,22 +43,22 @@ func Tab[S stream.Stream[rune]]() parser.Func[S, rune, rune] {
 	return token.Token[S]('\t').Expected("tab")
 }
 
-// Upper parses an uppercase letter
+// Upper parses an uppercase letter.
 func Upper[S stream.Stream[rune]]() parser.Func[S, rune, rune] {
 	return token.Satisfy[S](unicode.IsUpper).Expected("uppercase letter")
 }
 
-// Lower parses a lowercase letter
+// Lower parses a lowercase letter.
 func Lower[S stream.Stream[rune]]() parser.Func[S, rune, rune] {
 	return token.Satisfy[S](unicode.IsLower).Expected("lowercase letter")
 }
 
-// Letter parses an alphabet letter
+// Letter parses an alphabet letter.
 func Letter[S stream.Stream[rune]]() parser.Func[S, rune, rune] {
 	return token.Satisfy[S](unicode.IsLetter).Expected("letter")
 }
 
-// AlphaNum parses either an alphabet letter or digit
+// AlphaNum parses either an alphabet letter or digit.
 func AlphaNum[S stream.Stream[rune]]() parser.Func[S, rune, rune] {
 	return choice.Or(
 		Letter[S](),

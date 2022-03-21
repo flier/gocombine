@@ -18,15 +18,16 @@ func (o Option[T]) HasSome() bool { return o.v != nil }
 func (o Option[T]) IsNone() bool { return o.v == nil }
 
 // Expect returns the contained `Some` value,
-// or panic if the self value equals `None` with a custom panic message provided by `msg`.
+// or panic if the `o` value equals `None` with a custom panic message provided by `msg`.
 func (o Option[T]) Expect(msg string) T {
 	if o.v == nil {
 		panic(msg)
 	}
+
 	return *o.v
 }
 
-// Unwrap returns the contained `Some` value, or panic if the self value equals `None`.
+// Unwrap returns the contained `Some` value, or panic if the `o` value equals `None`.
 func (o Option[T]) Unwrap() T {
 	return o.Expect("Unwrap on a `None` value")
 }
@@ -36,6 +37,7 @@ func (o Option[T]) UnwrapOr(defaultValue T) T {
 	if o.v == nil {
 		return defaultValue
 	}
+
 	return *o.v
 }
 
@@ -44,6 +46,7 @@ func (o Option[T]) UnwrapOrElse(f func() T) T {
 	if o.v == nil {
 		return f()
 	}
+
 	return *o.v
 }
 
@@ -63,6 +66,7 @@ func (o Option[T]) OkOr(e error) (v T, err error) {
 	} else {
 		err = e
 	}
+
 	return
 }
 
@@ -73,6 +77,7 @@ func (o Option[T]) OkOrElse(f func() error) (v T, err error) {
 	} else {
 		err = f()
 	}
+
 	return
 }
 
@@ -94,7 +99,8 @@ func MapOr[T, U any](o Option[T], defaultValue U, f func(T) U) Option[U] {
 	return Some(f(*o.v))
 }
 
-// MapOrElse computes a default function result (if none), or applies a different function to the contained value (if any).
+// MapOrElse computes a default function result (if none),
+// or applies a different function to the contained value (if any).
 func MapOrElse[T, U any](o Option[T], defaultValue func() U, f func(T) U) Option[U] {
 	if o.v == nil {
 		return Some(defaultValue())
@@ -112,7 +118,8 @@ func And[T, U any](o Option[T], b Option[U]) Option[U] {
 	return b
 }
 
-// AndThen returns `None` if the option `o` is `None`, otherwise calls `f` with the wrapped value and returns the result.
+// AndThen returns `None` if the option `o` is `None`,
+// otherwise calls `f` with the wrapped value and returns the result.
 func AndThen[T, U any](o Option[T], f func(T) Option[U]) Option[U] {
 	if o.v == nil {
 		return None[U]()

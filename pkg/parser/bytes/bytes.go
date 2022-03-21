@@ -14,11 +14,13 @@ func Cmp[S stream.Stream[byte]](s []byte, cmp func(l, r byte) bool) parser.Func[
 
 	return func(input S) (out []byte, remaining S, err error) {
 		var bytes []byte
+
 		if bytes, remaining, err = p(input); err != nil {
 			remaining = input
 		} else {
 			out = bytes
 		}
+
 		return
 	}
 }

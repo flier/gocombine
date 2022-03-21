@@ -17,7 +17,6 @@ func Any[S stream.Stream[T], T stream.Token]() parser.Func[S, T, T] {
 func Token[S stream.Stream[T], T stream.Token](tok T) parser.Func[S, T, T] {
 	return combinator.Attempt(func(input S) (actual T, remaining S, err error) {
 		if actual, remaining, err = stream.Uncons(input); err != nil {
-
 		} else if actual != tok {
 			err = parser.Unexpected([]T{tok}, []T{actual})
 		}
@@ -39,12 +38,14 @@ func Tokens[S stream.Stream[T], T stream.Token](cmp func(lhs, rhs T) bool, expec
 		for i, tok := range tokens {
 			if actual[i], remaining, err = stream.Uncons(remaining); err != nil {
 				actual = actual[:i]
+
 				break
 			}
 
 			if !cmp(actual[i], tok) {
 				actual = actual[:i+1]
 				err = parser.Unexpected(expected, actual)
+
 				break
 			}
 		}
@@ -67,6 +68,7 @@ func OneOf[S stream.Stream[T], T stream.Token](tokens S) parser.Func[S, T, T] {
 		}
 
 		err = parser.Unexpected(tokens, []T{actual})
+
 		return
 	})
 }
@@ -81,6 +83,7 @@ func NoneOf[S stream.Stream[T], T stream.Token](tokens S) parser.Func[S, T, T] {
 		for _, tok := range tokens {
 			if actual == tok {
 				err = parser.Unexpected(nil, []T{actual})
+
 				return
 			}
 		}

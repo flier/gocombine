@@ -9,13 +9,17 @@ type Input interface {
 func New[S Stream[T], T Token, I Input](input I) (s S) {
 	switch v := interface{}(input).(type) {
 	case []byte:
-		s = interface{}(v).([]T)
+		s, _ = interface{}(v).([]T)
+
 	case []uint16:
-		s = interface{}(v).([]T)
+		s, _ = interface{}(v).([]T)
+
 	case []rune:
-		s = interface{}(v).([]T)
+		s, _ = interface{}(v).([]T)
+
 	case string:
-		s = interface{}([]rune(v)).([]T)
+		s, _ = interface{}([]rune(v)).([]T)
 	}
+
 	return
 }

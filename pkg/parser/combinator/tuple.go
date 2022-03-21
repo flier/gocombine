@@ -33,6 +33,7 @@ func Tuple3[
 		}
 
 		out = tuple.New3(o1, o2, o3)
+
 		return
 	})
 }
@@ -70,6 +71,7 @@ func Tuple4[
 		}
 
 		out = tuple.New4(o1, o2, o3, o4)
+
 		return
 	})
 }
@@ -113,6 +115,7 @@ func Tuple5[
 		}
 
 		out = tuple.New5(o1, o2, o3, o4, o5)
+
 		return
 	})
 }

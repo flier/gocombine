@@ -9,12 +9,16 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
+const numOfLocs = 2
+
 // Captures matches `re` on the input by running `Find[String]SubmatchIndex` on the input.
 /// Returns the captures of the first match and consumes the input up until the end of that match.
 func Captures[
 	S stream.Stream[T],
 	T stream.Token,
-](re *regexp.Regexp) parser.Func[S, T, []S] {
+](
+	re *regexp.Regexp,
+) parser.Func[S, T, []S] {
 	return func(input S) (captured []S, remaining S, err error) {
 		var loc []int
 
@@ -39,11 +43,11 @@ func Captures[
 		if loc == nil {
 			remaining = input
 		} else {
-			captured = make([]S, len(loc)/2)
+			captured = make([]S, len(loc)/numOfLocs)
 
 			for i := 0; i < len(captured); i++ {
-				captured[i], remaining, _ = stream.UnconsRange(input, loc[i*2+1])
-				_, captured[i], _ = stream.UnconsRange(captured[i], loc[i*2])
+				captured[i], remaining, _ = stream.UnconsRange(input, loc[i*numOfLocs+1])
+				_, captured[i], _ = stream.UnconsRange(captured[i], loc[i*numOfLocs])
 			}
 		}
 
@@ -56,7 +60,9 @@ func Captures[
 func CapturesMany[
 	S stream.Stream[T],
 	T stream.Token,
-](re *regexp.Regexp) parser.Func[S, T, [][]S] {
+](
+	re *regexp.Regexp,
+) parser.Func[S, T, [][]S] {
 	return func(input S) (captured [][]S, remaining S, err error) {
 		var locs [][]int
 
@@ -84,12 +90,12 @@ func CapturesMany[
 			captured = make([][]S, len(locs))
 
 			for i, loc := range locs {
-				captured[i] = make([]S, len(loc)/2)
+				captured[i] = make([]S, len(loc)/numOfLocs)
 
 				for j := 0; j < len(captured[i]); j++ {
-					if loc[j*2+1] >= 0 && loc[j*2] >= 0 {
-						captured[i][j], remaining, _ = stream.UnconsRange(input, loc[j*2+1])
-						_, captured[i][j], _ = stream.UnconsRange(captured[i][j], loc[j*2])
+					if loc[j*numOfLocs+1] >= 0 && loc[j*numOfLocs] >= 0 {
+						captured[i][j], remaining, _ = stream.UnconsRange(input, loc[j*numOfLocs+1])
+						_, captured[i][j], _ = stream.UnconsRange(captured[i][j], loc[j*numOfLocs])
 					}
 				}
 			}

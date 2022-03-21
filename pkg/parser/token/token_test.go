@@ -67,7 +67,9 @@ func TestTokens(t *testing.T) {
 			})
 		})
 
-		p2 := token.Tokens(func(lhs, rhs rune) bool { return unicode.ToLower(lhs) == unicode.ToLower(rhs) }, []rune("[fF][oO][oO]"), []rune("foo"))
+		p2 := token.Tokens(func(lhs, rhs rune) bool {
+			return unicode.ToLower(lhs) == unicode.ToLower(rhs)
+		}, []rune("[fF][oO][oO]"), []rune("foo"))
 
 		Convey("When parse case insensitive string ", func() {
 			a, s, err := p2([]rune("foobar"))
@@ -139,7 +141,9 @@ func ExampleToken() {
 }
 
 func ExampleTokens() {
-	p := token.Tokens(func(l, r rune) bool { return unicode.ToLower(l) == unicode.ToLower(r) }, []rune("foo"), []rune("foo"))
+	p := token.Tokens(func(l, r rune) bool {
+		return unicode.ToLower(l) == unicode.ToLower(r)
+	}, []rune("foo"), []rune("foo"))
 
 	fmt.Println(p([]rune("apple")))
 	fmt.Println(p([]rune("FooBar")))

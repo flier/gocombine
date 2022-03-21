@@ -31,12 +31,15 @@ func Expected[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-](parser Func[S, T, O], msg string) Func[S, T, O] {
+](
+	parser Func[S, T, O], msg string,
+) Func[S, T, O] {
 	return func(input S) (parsed O, remaining S, err error) {
 		parsed, remaining, err = parser(input)
 		if err != nil {
 			err = fmt.Errorf("%s, %w", msg, err)
 		}
+
 		return
 	}
 }
@@ -51,12 +54,15 @@ func Message[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-](parser Func[S, T, O], msg string) Func[S, T, O] {
+](
+	parser Func[S, T, O], msg string,
+) Func[S, T, O] {
 	return func(input S) (parsed O, remaining S, err error) {
 		parsed, remaining, err = parser(input)
 		if err != nil {
 			err = multierror.Append(err, errors.New(msg))
 		}
+
 		return
 	}
 }

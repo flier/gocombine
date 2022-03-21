@@ -5,7 +5,7 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
-// FlatMap uses `f` to map over the output of `self`. If `f` returns an error the parser fails.
+// FlatMap uses `f` to map over the output of `parser`. If `f` returns an error the parser fails.
 func FlatMap[
 	S stream.Stream[T],
 	T stream.Token,
@@ -16,12 +16,13 @@ func FlatMap[
 ) parser.Func[S, T, P] {
 	return func(input S) (out P, remaining S, err error) {
 		var o O
-		o, remaining, err = parser(input)
-		if err != nil {
+
+		if o, remaining, err = parser(input); err != nil {
 			return
 		}
 
 		out, err = f(o)
+
 		return
 	}
 }

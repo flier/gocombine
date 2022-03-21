@@ -12,6 +12,7 @@ func Attempt[S stream.Stream[T], T stream.Token, O any](parser parser.Func[S, T,
 		if err != nil {
 			remaining = input
 		}
+
 		return
 	}
 }

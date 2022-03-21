@@ -13,13 +13,14 @@ func Or[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-](parsers ...parser.Func[S, T, O]) parser.Func[S, T, O] {
+](
+	parsers ...parser.Func[S, T, O],
+) parser.Func[S, T, O] {
 	return combinator.Attempt(func(input S) (out O, remaining S, err error) {
 		var errs error
 
 		for _, p := range parsers {
-			out, remaining, err = p(input)
-			if err != nil {
+			if out, remaining, err = p(input); err != nil {
 				errs = multierror.Append(errs, err)
 			} else {
 				return
@@ -27,6 +28,7 @@ func Or[
 		}
 
 		err = errs
+
 		return
 	})
 }

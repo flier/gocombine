@@ -11,13 +11,16 @@ func Optional[
 	S stream.Stream[T],
 	T stream.Token,
 	O any,
-](parser parser.Func[S, T, O]) parser.Func[S, T, option.Option[O]] {
+](
+	parser parser.Func[S, T, O],
+) parser.Func[S, T, option.Option[O]] {
 	return func(input S) (parsed option.Option[O], remaining S, err error) {
 		var o O
-		o, remaining, err = parser(input)
-		if err != nil {
+
+		if o, remaining, err = parser(input); err != nil {
 			return option.None[O](), input, nil
 		}
+
 		return option.Some(o), remaining, nil
 	}
 }

@@ -34,6 +34,7 @@ func Uncons[S Stream[T], T Token](input S) (tok T, remaining S, err error) {
 	} else {
 		tok, remaining = input[0], input[1:]
 	}
+
 	return
 }
 
@@ -45,6 +46,7 @@ func UnconsRange[S Stream[T], T Token](input S, size int) (tokens []T, remaining
 	} else {
 		tokens, remaining = input[:size], input[size:]
 	}
+
 	return
 }
 
@@ -72,6 +74,7 @@ func UnconsUntil[S Stream[T], T Token](input S, predicate func(T) bool) (tokens 
 	default:
 		tokens, remaining = input[:i-1], input[i-1:]
 	}
+
 	return
 }
 
@@ -90,6 +93,7 @@ func Index[S Stream[T], T Token](s S, sep []T) int {
 		if slices.Equal(s, sep) {
 			return 0
 		}
+
 		return -1
 
 	default: // slow path
@@ -98,6 +102,7 @@ func Index[S Stream[T], T Token](s S, sep []T) int {
 				return i
 			}
 		}
+
 		return -1
 	}
 }

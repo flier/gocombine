@@ -14,7 +14,9 @@ import (
 func Match[
 	S stream.Stream[T],
 	T stream.Token,
-](re *regexp.Regexp) parser.Func[S, T, bool] {
+](
+	re *regexp.Regexp,
+) parser.Func[S, T, bool] {
 	return func(input S) (matched bool, remaining S, err error) {
 		switch v := interface{}(input).(type) {
 		case []byte:
@@ -35,6 +37,7 @@ func Match[
 		}
 
 		remaining = input
+
 		return
 	}
 }

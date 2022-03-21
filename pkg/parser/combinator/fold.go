@@ -17,8 +17,10 @@ func Fold[
 ) parser.Func[S, T, B] {
 	return func(input S) (acc B, remaining S, err error) {
 		var items []I
+
 		if items, remaining, err = parser(input); err != nil {
 			remaining = input
+
 			return
 		}
 

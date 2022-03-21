@@ -14,6 +14,7 @@ func ExampleFlatMap() {
 		ranges.Take[[]rune](4),
 		func(input []rune) (out []rune, err error) {
 			out, _, err = repeat.Many(char.Digit[[]rune]()).Parse(input)
+
 			return
 		},
 	)

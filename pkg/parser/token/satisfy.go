@@ -12,7 +12,7 @@ import (
 func Satisfy[S stream.Stream[T], T stream.Token](predicate func(T) bool) parser.Func[S, T, T] {
 	return combinator.Attempt(func(input S) (actual T, remaining S, err error) {
 		if actual, remaining, err = stream.Uncons(input); err != nil {
-
+			// pass
 		} else if !predicate(actual) {
 			err = fmt.Errorf("satisfy, %w", parser.ErrExpected)
 		}
@@ -27,7 +27,7 @@ func SatisfyMap[S stream.Stream[T], T stream.Token, O any](predicate func(T) (O,
 	return combinator.Attempt(func(input S) (out O, remaining S, err error) {
 		var tok T
 		if tok, remaining, err = stream.Uncons(input); err != nil {
-
+			// pass
 		} else if out, err = predicate(tok); err != nil {
 			err = fmt.Errorf("satisfy and map, %w", parser.ErrExpected)
 		}

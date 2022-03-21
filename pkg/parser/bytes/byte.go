@@ -15,14 +15,14 @@ func Byte[S stream.Stream[byte]](b byte) parser.Func[S, byte, byte] {
 	return token.Token[S](b)
 }
 
-// Space parse a single whitespace
+// Space parse a single whitespace.
 func Space[S stream.Stream[byte]]() parser.Func[S, byte, byte] {
 	return token.Satisfy[S](func(b byte) bool {
 		return unicode.IsSpace(rune(b))
 	}).Expected("whitespace")
 }
 
-// Spaces parse zero or more spaces
+// Spaces parse zero or more spaces.
 func Spaces[S stream.Stream[byte]]() parser.Func[S, byte, []byte] {
 	return repeat.Many(Space[S]()).Expected("whitespaces")
 }
@@ -45,28 +45,28 @@ func Tab[S stream.Stream[byte]]() parser.Func[S, byte, byte] {
 	return token.Token[S]('\t').Expected("tab")
 }
 
-// Upper parses an uppercase letter
+// Upper parses an uppercase letter.
 func Upper[S stream.Stream[byte]]() parser.Func[S, byte, byte] {
 	return token.Satisfy[S](func(b byte) bool {
 		return unicode.IsUpper(rune(b))
 	}).Expected("uppercase letter")
 }
 
-// Lower parses a lowercase letter
+// Lower parses a lowercase letter.
 func Lower[S stream.Stream[byte]]() parser.Func[S, byte, byte] {
 	return token.Satisfy[S](func(b byte) bool {
 		return unicode.IsLower(rune(b))
 	}).Expected("lowercase letter")
 }
 
-// Letter parses an alphabet letter
+// Letter parses an alphabet letter.
 func Letter[S stream.Stream[byte]]() parser.Func[S, byte, byte] {
 	return token.Satisfy[S](func(b byte) bool {
 		return unicode.IsLetter(rune(b))
 	}).Expected("letter")
 }
 
-// AlphaNum parses either an alphabet letter or digit
+// AlphaNum parses either an alphabet letter or digit.
 func AlphaNum[S stream.Stream[byte]]() parser.Func[S, byte, byte] {
 	return choice.Or(
 		Letter[S](),

@@ -5,7 +5,8 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
-// Until parses `parser` zero or more times until `end` is encountered or `end` indicates that it has committed input before failing.
+// Until parses `parser` zero or more times until `end` is encountered
+// or `end` indicates that it has committed input before failing.
 func Until[
 	S stream.Stream[T],
 	T stream.Token,
@@ -23,7 +24,9 @@ func Until[
 			}
 
 			var o O
+
 			var rest S
+
 			if o, rest, err = parser(remaining); err != nil {
 				return
 			}

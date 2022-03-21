@@ -28,6 +28,7 @@ func TakeWhile1[S stream.Stream[T], T stream.Token](f func(T) bool) parser.Func[
 		if err == nil && len(out) == 0 {
 			err = fmt.Errorf("one or more elements, %w", parser.ErrExpected)
 		}
+
 		return
 	}
 }

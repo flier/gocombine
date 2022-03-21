@@ -27,5 +27,4 @@ func ExampleOr() {
 	// 	* expected `[108 101 116]`, actual `[108 111]`, unexpected
 	// 	* digit, satisfy, expected
 	// 	* expected `[108 101 100]`, actual `[108 111]`, unexpected
-
 }

@@ -11,6 +11,7 @@ import (
 func Unexpected[S stream.Stream[T], T stream.Token, O any](msg string) parser.Func[S, T, O] {
 	return func(input S) (out O, remaining S, err error) {
 		remaining, err = input, fmt.Errorf("%s, %w", msg, parser.ErrUnexpected)
+
 		return
 	}
 }

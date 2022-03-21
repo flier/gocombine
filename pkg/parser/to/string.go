@@ -39,7 +39,9 @@ func String[
 	S stream.Stream[T],
 	T stream.Token,
 	O StringLike,
-](parser parser.Func[S, T, O]) parser.Func[S, T, string] {
+](
+	parser parser.Func[S, T, O],
+) parser.Func[S, T, string] {
 	return combinator.Map(parser, Str[O])
 }
 
@@ -48,12 +50,15 @@ func StringSlice[
 	S stream.Stream[T],
 	T stream.Token,
 	O StringLike,
-](parser parser.Func[S, T, []O]) parser.Func[S, T, []string] {
+](
+	parser parser.Func[S, T, []O],
+) parser.Func[S, T, []string] {
 	return combinator.Map(parser, func(s []O) (r []string) {
 		r = make([]string, len(s))
 		for i, v := range s {
 			r[i] = Str(v)
 		}
+
 		return
 	})
 }

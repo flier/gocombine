@@ -25,8 +25,19 @@ func ExampleTake() {
 	// [] [49 50 51] unexpected EOF
 }
 
+func ExampleTakeOf() {
+	p := bytes.TakeOf[uint32]()
+
+	fmt.Println(p([]byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08}))
+	fmt.Println(p(nil))
+
+	// Output:
+	// [1 2 3 4] [5 6 7 8] <nil>
+	// [] [] unexpected EOF
+}
+
 func ExampleTakeWhile() {
-	p := ranges.TakeWhile[byte](func(b byte) bool { return '0' <= b && b <= '9' })
+	p := ranges.TakeWhile(func(b byte) bool { return '0' <= b && b <= '9' })
 
 	fmt.Println(p([]byte("123abc")))
 	fmt.Println(p([]byte("abc")))
@@ -37,7 +48,7 @@ func ExampleTakeWhile() {
 }
 
 func ExampleTakeWhile1() {
-	p := ranges.TakeWhile1[byte](func(b byte) bool { return '0' <= b && b <= '9' })
+	p := ranges.TakeWhile1(func(b byte) bool { return '0' <= b && b <= '9' })
 
 	fmt.Println(p([]byte("123abc")))
 	fmt.Println(p([]byte("abc")))

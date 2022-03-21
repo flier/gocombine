@@ -17,7 +17,7 @@ func Between[
 	parser parser.Func[T, O3],
 ) parser.Func[T, O3] {
 	return combinator.Attempt(func(input []T) (out O3, remaining []T, err error) {
-		if _, remaining, err = open.Parse(input); err != nil {
+		if _, remaining, err = open(input); err != nil {
 			return
 		}
 
@@ -25,7 +25,7 @@ func Between[
 			return
 		}
 
-		if _, remaining, err = closing.Parse(remaining); err != nil {
+		if _, remaining, err = closing(remaining); err != nil {
 			return
 		}
 

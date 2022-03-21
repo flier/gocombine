@@ -16,7 +16,9 @@ func Then[T stream.Token, I, O any](parser parser.Func[T, I], f func(I) parser.F
 			return
 		}
 
-		out, remaining, err = f(in).Parse(remaining)
+		p := f(in)
+
+		out, remaining, err = p(remaining)
 
 		return
 	})

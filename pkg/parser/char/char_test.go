@@ -6,6 +6,17 @@ import (
 	"github.com/flier/gocombine/pkg/parser/char"
 )
 
+func ExampleAny() {
+	p := char.Any()
+
+	fmt.Println(p([]rune("apple")))
+	fmt.Println(p(nil))
+
+	// Output:
+	// 97 [112 112 108 101] <nil>
+	// 0 [] unexpected EOF
+}
+
 func ExampleChar() {
 	p := char.Char('!')
 

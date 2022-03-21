@@ -12,7 +12,7 @@ func ExampleFlatMap() {
 	p := combinator.FlatMap(
 		char.Take(4),
 		func(input []rune) (out []rune, err error) {
-			out, _, err = repeat.Many(char.Digit()).Parse(input)
+			out, _, err = repeat.Many(char.Digit())(input)
 
 			return
 		},

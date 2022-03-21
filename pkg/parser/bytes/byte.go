@@ -7,7 +7,15 @@ import (
 	"github.com/flier/gocombine/pkg/parser/choice"
 	"github.com/flier/gocombine/pkg/parser/repeat"
 	"github.com/flier/gocombine/pkg/parser/token"
+	"github.com/flier/gocombine/pkg/stream"
 )
+
+// Any parses any byte.
+func Any() parser.Func[byte, byte] {
+	return func(input []byte) (byte, []byte, error) {
+		return stream.Uncons(input)
+	}
+}
 
 // Byte parses a byte and succeeds if the byte is equal to `b`.
 func Byte(b byte) parser.Func[byte, byte] {

@@ -17,7 +17,7 @@ func ExampleThen() {
 			return c != '\n'
 		})))
 
-	p := to.String(sequence.Then(token.Any[rune](), func(c rune) parser.Func[rune, []rune] {
+	p := to.String(sequence.Then(char.Any(), func(c rune) parser.Func[rune, []rune] {
 		if c == '#' {
 			return comment
 		}

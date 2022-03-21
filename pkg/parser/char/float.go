@@ -11,7 +11,7 @@ import (
 
 // Float parses a floating-point numbers.
 func Float() parser.Func[rune, []rune] {
-	sign := token.OneOf([]rune("+-"))
+	sign := OneOf("+-")
 	integer := repeat.Many1(Digit())
 	frac := combinator.Pair(Char('.'), repeat.Many(Digit()))
 	e := token.Satisfy(func(r rune) bool { return r == 'e' || r == 'E' })

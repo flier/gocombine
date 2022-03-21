@@ -6,14 +6,13 @@ import (
 	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/parser/choice"
 	"github.com/flier/gocombine/pkg/parser/to"
-	"github.com/flier/gocombine/pkg/parser/token"
 )
 
 func ExampleBool() {
 	p := to.Bool(choice.Or(
 		to.String(char.StringFold("true")),
 		to.String(char.StringFold("false")),
-		to.String(token.OneOf([]rune("tTfF10"))),
+		to.String(char.OneOf("tTfF10")),
 	))
 
 	fmt.Println(p([]rune("t")))

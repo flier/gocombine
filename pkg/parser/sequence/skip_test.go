@@ -11,7 +11,7 @@ import (
 func ExampleSkip() {
 	p := sequence.Skip(repeat.Many(char.Digit()), char.Char('i'))
 
-	fmt.Println(p.Parse([]rune("123i456")))
+	fmt.Println(p([]rune("123i456")))
 
 	// Output:
 	// [49 50 51] [52 53 54] <nil>

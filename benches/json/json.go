@@ -111,7 +111,7 @@ func JsonString() parser.Func[rune, string] {
 	c := choice.Or(
 		sequence.With(
 			token.Token('\\'),
-			token.OneOf([]rune(`"\/bfnrt`)).Map(
+			char.OneOf(`"\/bfnrt`).Map(
 				func(c rune) rune {
 					switch c {
 					case 'b':
@@ -129,7 +129,7 @@ func JsonString() parser.Func[rune, string] {
 					}
 				}),
 		),
-		token.NoneOf([]rune(`"`)),
+		char.NoneOf(`"`),
 	)
 
 	return to.String(sequence.Between(

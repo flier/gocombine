@@ -11,7 +11,7 @@ import (
 func ExampleWith() {
 	p := sequence.With(repeat.Many(char.Digit()), char.Char('i'))
 
-	fmt.Println(p.Parse([]rune("123i456")))
+	fmt.Println(p([]rune("123i456")))
 
 	// Output:
 	// 105 [52 53 54] <nil>

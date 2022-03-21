@@ -14,7 +14,7 @@ func ExampleBetween() {
 		char.Char(']'),
 		to.String(char.String("Golang")))
 
-	fmt.Println(p.Parse([]rune("[Golang]")))
+	fmt.Println(p([]rune("[Golang]")))
 
 	// Output:
 	// Golang [] <nil>

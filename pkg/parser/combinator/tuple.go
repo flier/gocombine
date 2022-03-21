@@ -17,17 +17,17 @@ func Tuple3[
 ) parser.Func[T, tuple.Tuple3[O1, O2, O3]] {
 	return Attempt(func(input []T) (out tuple.Tuple3[O1, O2, O3], remaining []T, err error) {
 		var o1 O1
-		if o1, remaining, err = p1.Parse(input); err != nil {
+		if o1, remaining, err = p1(input); err != nil {
 			return
 		}
 
 		var o2 O2
-		if o2, remaining, err = p2.Parse(remaining); err != nil {
+		if o2, remaining, err = p2(remaining); err != nil {
 			return
 		}
 
 		var o3 O3
-		if o3, remaining, err = p3.Parse(remaining); err != nil {
+		if o3, remaining, err = p3(remaining); err != nil {
 			return
 		}
 
@@ -49,22 +49,22 @@ func Tuple4[
 ) parser.Func[T, tuple.Tuple4[O1, O2, O3, O4]] {
 	return Attempt(func(input []T) (out tuple.Tuple4[O1, O2, O3, O4], remaining []T, err error) {
 		var o1 O1
-		if o1, remaining, err = p1.Parse(input); err != nil {
+		if o1, remaining, err = p1(input); err != nil {
 			return
 		}
 
 		var o2 O2
-		if o2, remaining, err = p2.Parse(remaining); err != nil {
+		if o2, remaining, err = p2(remaining); err != nil {
 			return
 		}
 
 		var o3 O3
-		if o3, remaining, err = p3.Parse(remaining); err != nil {
+		if o3, remaining, err = p3(remaining); err != nil {
 			return
 		}
 
 		var o4 O4
-		if o4, remaining, err = p4.Parse(remaining); err != nil {
+		if o4, remaining, err = p4(remaining); err != nil {
 			return
 		}
 
@@ -87,27 +87,27 @@ func Tuple5[
 ) parser.Func[T, tuple.Tuple5[O1, O2, O3, O4, O5]] {
 	return Attempt(func(input []T) (out tuple.Tuple5[O1, O2, O3, O4, O5], remaining []T, err error) {
 		var o1 O1
-		if o1, remaining, err = p1.Parse(input); err != nil {
+		if o1, remaining, err = p1(input); err != nil {
 			return
 		}
 
 		var o2 O2
-		if o2, remaining, err = p2.Parse(remaining); err != nil {
+		if o2, remaining, err = p2(remaining); err != nil {
 			return
 		}
 
 		var o3 O3
-		if o3, remaining, err = p3.Parse(remaining); err != nil {
+		if o3, remaining, err = p3(remaining); err != nil {
 			return
 		}
 
 		var o4 O4
-		if o4, remaining, err = p4.Parse(remaining); err != nil {
+		if o4, remaining, err = p4(remaining); err != nil {
 			return
 		}
 
 		var o5 O5
-		if o5, remaining, err = p5.Parse(remaining); err != nil {
+		if o5, remaining, err = p5(remaining); err != nil {
 			return
 		}
 

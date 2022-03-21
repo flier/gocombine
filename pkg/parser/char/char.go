@@ -7,7 +7,15 @@ import (
 	"github.com/flier/gocombine/pkg/parser/choice"
 	"github.com/flier/gocombine/pkg/parser/repeat"
 	"github.com/flier/gocombine/pkg/parser/token"
+	"github.com/flier/gocombine/pkg/stream"
 )
+
+// Any parses any char.
+func Any() parser.Func[rune, rune] {
+	return func(input []rune) (rune, []rune, error) {
+		return stream.Uncons(input)
+	}
+}
 
 // Char parses a character and succeeds if the character is equal to `c`.
 func Char(c rune) parser.Func[rune, rune] {
@@ -63,4 +71,14 @@ func AlphaNum() parser.Func[rune, rune] {
 		Letter(),
 		Digit(),
 	).Expected("letter or digit")
+}
+
+// OneOf extract one token and succeeds if it is part of `tokens`.
+func OneOf(tokens string) parser.Func[rune, rune] {
+	return token.OneOf([]rune(tokens))
+}
+
+// NoneOf extract one token and succeeds if it is not part of `tokens`.
+func NoneOf(tokens string) parser.Func[rune, rune] {
+	return token.NoneOf([]rune(tokens))
 }

@@ -16,9 +16,9 @@ func ExampleOr() {
 		to.String(char.String("led")),
 	)
 
-	fmt.Println(p.Parse([]rune("let")))
-	fmt.Println(p.Parse([]rune("1")))
-	fmt.Println(p.Parse([]rune("lost")))
+	fmt.Println(p([]rune("let")))
+	fmt.Println(p([]rune("1")))
+	fmt.Println(p([]rune("lost")))
 
 	// Output:
 	// let [] <nil>

@@ -41,7 +41,7 @@ func main() {
 
 ```
 
-Larger examples can be found in the [examples][] and [benches][] folders.
+Larger examples can be found in the [examples](examples) and [benches](benches) folders.
 
 ## About
 
@@ -55,9 +55,7 @@ If you end up trying it I welcome any feedback from your experience with it. I a
 
 This project is licensed under either of Apache License ([LICENSE-APACHE](LICENSE-APACHE)) or MIT license ([LICENSE-MIT](LICENSE-MIT)) at your option.
 
-[benches]:https://github.com/flier/gocombine/tree/master/benches
 [combine]:https://github.com/Marwes/combine
-[examples]:https://github.com/flier/gocombine/tree/master/examples
 [LL(1)]:https://en.wikipedia.org/wiki/LL_parser
 [Many]:https://pkg.go.dev/github.com/flier/gocombine/pkg/repeat#Many
 [Parsec]:https://hackage.haskell.org/package/parsec

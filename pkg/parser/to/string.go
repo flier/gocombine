@@ -35,24 +35,12 @@ func Str[S StringLike](s S) string {
 }
 
 // String convert the result of `parser` to a string.
-func String[
-
-	T stream.Token,
-	O StringLike,
-](
-	parser parser.Func[T, O],
-) parser.Func[T, string] {
+func String[T stream.Token, O StringLike](parser parser.Func[T, O]) parser.Func[T, string] {
 	return combinator.Map(parser, Str[O])
 }
 
 // StringSlice convert the result of `parser` to a string slice.
-func StringSlice[
-
-	T stream.Token,
-	O StringLike,
-](
-	parser parser.Func[T, []O],
-) parser.Func[T, []string] {
+func StringSlice[T stream.Token, O StringLike](parser parser.Func[T, []O]) parser.Func[T, []string] {
 	return combinator.Map(parser, func(s []O) (r []string) {
 		r = make([]string, len(s))
 		for i, v := range s {

@@ -11,12 +11,7 @@ import (
 //
 // Can be used to effectively reduce the size of deeply nested parsers as only
 // the function producing the parser is stored.
-func Lazy[
-
-	T stream.Token,
-	O any](
-	f func() parser.Func[T, O],
-) parser.Func[T, O] {
+func Lazy[T stream.Token, O any](f func() parser.Func[T, O]) parser.Func[T, O] {
 	var p parser.Func[T, O]
 
 	var init sync.Once

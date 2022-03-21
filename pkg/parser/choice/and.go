@@ -12,13 +12,7 @@ import (
 // And parses with `parsers`.
 // Succeeds if all parsers succeed, otherwise fails.
 // Returns a slice with all values on success.
-func And[
-
-	T stream.Token,
-	O any,
-](
-	parsers ...parser.Func[T, O],
-) parser.Func[T, []O] {
+func And[T stream.Token, O any](parsers ...parser.Func[T, O]) parser.Func[T, []O] {
 	return combinator.Attempt(func(input []T) (out []O, remaining []T, err error) {
 		out = make([]O, len(parsers))
 

@@ -27,12 +27,7 @@ func (f Func[T, O]) Expected(msg string) Func[T, O] {
 
 // Expected parses with `parser` and if it fails without consuming any input any expected errors are replaced by `msg`.
 // `msg` is then used in error messages as "Expected `msg`".
-func Expected[
-	T stream.Token,
-	O any,
-](
-	parser Func[T, O], msg string,
-) Func[T, O] {
+func Expected[T stream.Token, O any](parser Func[T, O], msg string) Func[T, O] {
 	return func(input []T) (parsed O, remaining []T, err error) {
 		parsed, remaining, err = parser(input)
 		if err != nil {
@@ -49,17 +44,44 @@ func (f Func[T, O]) Message(msg string) Func[T, O] {
 }
 
 // Message parses with `parser` and if it fails, adds the message `msg` to the error.
-func Message[
-
-	T stream.Token,
-	O any,
-](
-	parser Func[T, O], msg string,
-) Func[T, O] {
+func Message[T stream.Token, O any](parser Func[T, O], msg string) Func[T, O] {
 	return func(input []T) (parsed O, remaining []T, err error) {
 		parsed, remaining, err = parser(input)
 		if err != nil {
 			err = multierror.Append(err, errors.New(msg))
+		}
+
+		return
+	}
+}
+
+// Map uses `fn` to map over the parsed value.
+func (f Func[T, O]) Map(fn func(O) O) Func[T, O] {
+	return func(input []T) (parsed O, remaining []T, err error) {
+		var o O
+
+		if o, remaining, err = f(input); err != nil {
+			return
+		}
+
+		parsed = fn(o)
+
+		return
+	}
+}
+
+// AndThen parses with `f` and applies `fn` on the result if `parser` parses successfully.
+// `fn` may optionally fail with an error.
+func (f Func[T, O]) AndThen(fn func(O) (O, error)) Func[T, O] {
+	return func(input []T) (parsed O, remaining []T, err error) {
+		var o O
+
+		if o, remaining, err = f(input); err != nil {
+			return
+		}
+
+		if parsed, err = fn(o); err != nil {
+			remaining = input
 		}
 
 		return

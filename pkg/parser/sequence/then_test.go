@@ -5,7 +5,6 @@ import (
 
 	"github.com/flier/gocombine/pkg/parser"
 	"github.com/flier/gocombine/pkg/parser/char"
-	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/parser/repeat"
 	"github.com/flier/gocombine/pkg/parser/sequence"
 	"github.com/flier/gocombine/pkg/parser/to"
@@ -23,7 +22,7 @@ func ExampleThen() {
 			return comment
 		}
 
-		return combinator.Map(repeat.Many1(char.Letter()), func(s []rune) []rune {
+		return repeat.Many1(char.Letter()).Map(func(s []rune) []rune {
 			return append([]rune{c}, s...)
 		})
 	}))

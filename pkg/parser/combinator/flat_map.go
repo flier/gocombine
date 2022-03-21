@@ -6,23 +6,16 @@ import (
 )
 
 // FlatMap uses `f` to map over the output of `parser`. If `f` returns an error the parser fails.
-func FlatMap[
+func FlatMap[T stream.Token, O any](parser parser.Func[T, []T], f func([]T) (O, error)) parser.Func[T, O] {
+	return Attempt(func(input []T) (out O, remaining []T, err error) {
+		var parsed []T
 
-	T stream.Token,
-	O, P any,
-](
-	parser parser.Func[T, O],
-	f func(O) (P, error),
-) parser.Func[T, P] {
-	return func(input []T) (out P, remaining []T, err error) {
-		var o O
-
-		if o, remaining, err = parser(input); err != nil {
+		if parsed, remaining, err = parser(input); err != nil {
 			return
 		}
 
-		out, err = f(o)
+		out, err = f(parsed)
 
 		return
-	}
+	})
 }

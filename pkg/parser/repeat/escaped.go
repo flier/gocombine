@@ -10,14 +10,7 @@ import (
 // Once `parser` can not consume any more input it checks if the next token is `escape`.
 // If it is then `escapeParser` is used to parse the escaped character and then resumes parsing using `parser`.
 // If `escape` was not found then the parser finishes successfully.
-func Escaped[
-
-	T stream.Token,
-](
-	parser parser.Func[T, []T],
-	escape T,
-	escapeParser parser.Func[T, T],
-) parser.Func[T, []T] {
+func Escaped[T stream.Token](parser parser.Func[T, []T], escape T, escapeParser parser.Func[T, T]) parser.Func[T, []T] {
 	return func(input []T) (parsed []T, remaining []T, err error) {
 		remaining = input
 

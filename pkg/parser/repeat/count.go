@@ -9,28 +9,14 @@ import (
 )
 
 // Count parses `parser` from zero up to `count` times.
-func Count[
-
-	T stream.Token,
-	O any,
-](
-	count int,
-	parser parser.Func[T, O],
-) parser.Func[T, []O] {
+func Count[T stream.Token, O any](count int, parser parser.Func[T, O]) parser.Func[T, []O] {
 	return CountMinMax(0, count, parser)
 }
 
 var errExpected = parser.ErrExpected
 
 // CountMinMax parses `parser` from `min` to `max` times (including `min` and `max`).
-func CountMinMax[
-
-	T stream.Token,
-	O any,
-](
-	min, max int,
-	parser parser.Func[T, O],
-) parser.Func[T, []O] {
+func CountMinMax[T stream.Token, O any](min, max int, parser parser.Func[T, O]) parser.Func[T, []O] {
 	return func(input []T) (parsed []O, remaining []T, err error) {
 		remaining = input
 		parsed = make([]O, 0, max)
@@ -56,26 +42,12 @@ func CountMinMax[
 }
 
 // SkipCount parses `parser` from zero up to `count` times skipping the output of `parser`.
-func SkipCount[
-
-	T stream.Token,
-	O any,
-](
-	count int,
-	parser parser.Func[T, O],
-) parser.Func[T, any] {
+func SkipCount[T stream.Token, O any](count int, parser parser.Func[T, O]) parser.Func[T, any] {
 	return combinator.Ignore(Count(count, parser))
 }
 
 // SkipCountMinMax parses `parser` from `min` to `max` times (including `min` and `max`)
 // skipping the output of `parser`.
-func SkipCountMinMax[
-
-	T stream.Token,
-	O any,
-](
-	min, max int,
-	parser parser.Func[T, O],
-) parser.Func[T, any] {
+func SkipCountMinMax[T stream.Token, O any](min, max int, parser parser.Func[T, O]) parser.Func[T, any] {
 	return combinator.Ignore(CountMinMax(min, max, parser))
 }

@@ -8,7 +8,6 @@ import (
 
 // Tuple3 parses a tuple of heterogeneous values.
 func Tuple3[
-
 	T stream.Token,
 	O1, O2, O3 any,
 ](
@@ -40,7 +39,6 @@ func Tuple3[
 
 // Tuple4 parses a tuple of heterogeneous values.
 func Tuple4[
-
 	T stream.Token,
 	O1, O2, O3, O4 any,
 ](
@@ -78,7 +76,6 @@ func Tuple4[
 
 // Tuple5 parses a tuple of heterogeneous values.
 func Tuple5[
-
 	T stream.Token,
 	O1, O2, O3, O4, O5 any,
 ](

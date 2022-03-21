@@ -10,14 +10,7 @@ import (
 // ChainL1 parses `parser` one or more times separated by `op`.
 // The value returned is the one produced
 // by the left associative application of the function returned by the parser `op`.
-func ChainL1[
-
-	T stream.Token,
-	O any,
-](
-	parser parser.Func[T, O],
-	op parser.Func[T, func(l, h O) O],
-) parser.Func[T, O] {
+func ChainL1[T stream.Token, O any](parser parser.Func[T, O], op parser.Func[T, func(l, h O) O]) parser.Func[T, O] {
 	return combinator.Map(
 		combinator.Pair(parser, Many1(combinator.Pair(op, parser))),
 		func(p pair.Pair[O, []pair.Pair[func(l, h O) O, O]]) (acc O) {
@@ -34,14 +27,7 @@ func ChainL1[
 // ChainR1 parses `p` one or more times separated by `op`.
 // The value returned is the one produced
 // by the right associative application of the function returned by `op`.
-func ChainR1[
-
-	T stream.Token,
-	O any,
-](
-	parser parser.Func[T, O],
-	op parser.Func[T, func(l, h O) O],
-) parser.Func[T, O] {
+func ChainR1[T stream.Token, O any](parser parser.Func[T, O], op parser.Func[T, func(l, h O) O]) parser.Func[T, O] {
 	return combinator.Map(
 		combinator.Pair(Many1(combinator.Pair(parser, op)), parser),
 		func(p pair.Pair[[]pair.Pair[O, func(l, h O) O], O]) (acc O) {

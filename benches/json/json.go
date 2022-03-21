@@ -111,8 +111,7 @@ func JsonString() parser.Func[rune, string] {
 	c := choice.Or(
 		sequence.With(
 			token.Token('\\'),
-			combinator.Map(
-				token.OneOf([]rune(`"\/bfnrt`)),
+			token.OneOf([]rune(`"\/bfnrt`)).Map(
 				func(c rune) rune {
 					switch c {
 					case 'b':

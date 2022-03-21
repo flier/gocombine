@@ -8,13 +8,7 @@ import (
 )
 
 // Int parses a string-like data and converts it to an integer.
-func Int[
-
-	T stream.Token,
-	O StringLike,
-](
-	parser parser.Func[T, O],
-) parser.Func[T, int] {
+func Int[T stream.Token, O StringLike](parser parser.Func[T, O]) parser.Func[T, int] {
 	return func(input []T) (out int, remaining []T, err error) {
 		var o O
 

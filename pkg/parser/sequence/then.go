@@ -8,13 +8,7 @@ import (
 
 // Then parses using `parser` and then passes the value to `f`
 // which returns a parser used to parse the rest of the input.
-func Then[
-
-	T stream.Token,
-	I, O any,
-](
-	parser parser.Func[T, I], f func(I) parser.Func[T, O],
-) parser.Func[T, O] {
+func Then[T stream.Token, I, O any](parser parser.Func[T, I], f func(I) parser.Func[T, O]) parser.Func[T, O] {
 	return combinator.Attempt(func(input []T) (out O, remaining []T, err error) {
 		var in I
 

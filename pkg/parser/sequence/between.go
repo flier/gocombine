@@ -9,7 +9,6 @@ import (
 // Between parses `open` followed by `parser` followed by `closing`.
 /// Returns the value of `parser`.
 func Between[
-
 	T stream.Token,
 	O1, O2, O3 any,
 ](

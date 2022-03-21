@@ -6,15 +6,7 @@ import (
 )
 
 // Fold every element into an accumulator by applying an operation, returning the final result.
-func Fold[
-
-	T stream.Token,
-	I, B any,
-](
-	parser parser.Func[T, []I],
-	init func() B,
-	f func(B, I),
-) parser.Func[T, B] {
+func Fold[T stream.Token, I, B any](parser parser.Func[T, []I], init func() B, f func(B, I)) parser.Func[T, B] {
 	return func(input []T) (acc B, remaining []T, err error) {
 		var items []I
 

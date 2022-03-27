@@ -1,4 +1,4 @@
-package combinator_test
+package errors_test
 
 import (
 	"fmt"
@@ -6,15 +6,16 @@ import (
 	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/parser/choice"
 	"github.com/flier/gocombine/pkg/parser/combinator"
+	"github.com/flier/gocombine/pkg/parser/errors"
 )
 
 func ExampleUnexpected() {
-	p := choice.Or(char.Char('a'), combinator.Unexpected[rune, rune]("token"))
+	p := choice.Or(combinator.Ignore(char.Char('a')), errors.Unexpected[rune]("token"))
 
 	fmt.Println(p([]rune("b")))
 
 	// Output:
-	// 0 [98] 2 errors occurred:
-	// 	* expected `[97]`, actual `[98]`, unexpected
+	// <nil> [98] 2 errors occurred:
+	// 	* expected 'a', actual 'b', unexpected
 	// 	* token, unexpected
 }

@@ -14,7 +14,7 @@ func ExampleDigit() {
 
 	// Output:
 	// 57 [] <nil>
-	// 65 [65] digit, satisfy, expected
+	// 65 [65] digit, satisfy, actual 'A', unexpected
 }
 
 func ExampleOctDigit() {
@@ -25,7 +25,7 @@ func ExampleOctDigit() {
 
 	// Output:
 	// 55 [] <nil>
-	// 56 [56] octal digit, satisfy, expected
+	// 56 [56] octal digit, satisfy, actual '8', unexpected
 }
 
 func ExampleHexDigit() {
@@ -38,5 +38,5 @@ func ExampleHexDigit() {
 	// Output:
 	// 55 [] <nil>
 	// 70 [] <nil>
-	// 104 [104] octal digit, satisfy, expected
+	// 104 [104] octal digit, satisfy, actual 'h', unexpected
 }

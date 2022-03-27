@@ -27,7 +27,7 @@ func TestToken(t *testing.T) {
 				Convey("Then parse again should get an error", func() {
 					c, s, err = p([]rune(s))
 
-					So(err, ShouldBeError, parser.Unexpected([]rune{'h'}, []rune{'e'}))
+					So(err, ShouldBeError, parser.UnexpectedToken('e', 'h'))
 					So(string(s), ShouldEqual, "ello")
 				})
 			})
@@ -57,7 +57,7 @@ func TestTokens(t *testing.T) {
 			Convey("Then parse again should get an error", func() {
 				_, _, err = p(s)
 
-				So(err, ShouldBeError, parser.Unexpected([]byte("foo"), []byte("b")))
+				So(err, ShouldBeError, parser.UnexpectedRange([]byte("foo"), []byte("b")))
 			})
 
 			Convey("When I parse a empty string", func() {
@@ -94,41 +94,6 @@ func ExampleAny() {
 	// 0 [] unexpected EOF
 }
 
-func ExampleSatisfy() {
-	p := token.Satisfy(func(c rune) bool { return c == '!' || c == '?' })
-
-	fmt.Println(p([]rune("!")))
-	fmt.Println(p([]rune("?")))
-	fmt.Println(p([]rune("#")))
-
-	// Output:
-	// 33 [] <nil>
-	// 63 [] <nil>
-	// 35 [35] satisfy, expected
-}
-
-func ExampleSatisfyMap() {
-	p := token.SatisfyMap(func(c rune) (bool, error) {
-		switch c {
-		case 'y', 'Y':
-			return true, nil
-		case 'n', 'N':
-			return false, nil
-		default:
-			return false, parser.Unexpected([]rune{'y', 'Y', 'n', 'N'}, []rune{c})
-		}
-	})
-
-	fmt.Println(p([]rune("y")))
-	fmt.Println(p([]rune("N")))
-	fmt.Println(p([]rune("#")))
-
-	// Output:
-	// true [] <nil>
-	// false [] <nil>
-	// false [35] satisfy and map, expected
-}
-
 func ExampleToken() {
 	p := token.Token('a')
 
@@ -137,7 +102,7 @@ func ExampleToken() {
 
 	// Output:
 	// 97 [112 112 108 101] <nil>
-	// 102 [102 111 111 98 97 114] expected `[97]`, actual `[102]`, unexpected
+	// 102 [102 111 111 98 97 114] expected 'a', actual 'f', unexpected
 }
 
 func ExampleTokens() {
@@ -149,7 +114,7 @@ func ExampleTokens() {
 	fmt.Println(p([]rune("FooBar")))
 
 	// Output:
-	// [97] [97 112 112 108 101] expected `[102 111 111]`, actual `[97]`, unexpected
+	// [97] [97 112 112 108 101] expected "foo", actual "a", unexpected
 	// [70 111 111] [66 97 114] <nil>
 }
 
@@ -161,7 +126,7 @@ func ExampleOneOf() {
 
 	// Output:
 	// 97 [112 112 108 101] <nil>
-	// 102 [102 111 111 98 97 114] expected `[97 98 99]`, actual `[102]`, unexpected
+	// 102 [102 111 111 98 97 114] expected one of "abc", got satisfy, actual 'f', unexpected
 }
 
 func ExampleNoneOf() {
@@ -171,7 +136,7 @@ func ExampleNoneOf() {
 	fmt.Println(p([]rune("foobar")))
 
 	// Output:
-	// 97 [97 112 112 108 101] actual `[97]`, unexpected
+	// 97 [97 112 112 108 101] expected none of "abc", got satisfy, actual 'a', unexpected
 	// 102 [111 111 98 97 114] <nil>
 }
 
@@ -183,5 +148,5 @@ func ExampleEOF() {
 
 	// Output:
 	// true [] <nil>
-	// false [102 111 111 98 97 114] actual `[102 111 111 98 97 114]`, unexpected
+	// false [102 111 111 98 97 114] expected end of input, actual "foobar", unexpected
 }

@@ -25,7 +25,7 @@ func ExampleChar() {
 
 	// Output:
 	// 33 [] <nil>
-	// 65 [65] expected `[33]`, actual `[65]`, unexpected
+	// 65 [65] expected '!', actual 'A', unexpected
 }
 
 func ExampleSpace() {
@@ -39,7 +39,7 @@ func ExampleSpace() {
 	// Output:
 	// 32 [] <nil>
 	// 32 [32] <nil>
-	// 33 [33] whitespace, satisfy, expected
+	// 33 [33] whitespace, satisfy, actual '!', unexpected
 	// 0 [] whitespace, unexpected EOF
 }
 
@@ -65,7 +65,7 @@ func ExampleNewLine() {
 	fmt.Println(p([]rune("\n")))
 
 	// Output:
-	// 13 [13] newline, expected `[10]`, actual `[13]`, unexpected
+	// 13 [13] newline, expected '\n', actual '\r', unexpected
 	// 10 [] <nil>
 }
 
@@ -79,7 +79,7 @@ func ExampleCrLf() {
 	// Output:
 	// [13 10] [] <nil>
 	// [13] [13] crlf, unexpected EOF
-	// [10] [10] crlf, expected `[13]`, actual `[10]`, unexpected
+	// [10] [10] crlf, expected '\r', actual '\n', unexpected
 }
 
 func ExampleTab() {
@@ -90,7 +90,7 @@ func ExampleTab() {
 
 	// Output:
 	// 9 [] <nil>
-	// 32 [32] tab, expected `[9]`, actual `[32]`, unexpected
+	// 32 [32] tab, expected '\t', actual ' ', unexpected
 }
 
 func ExampleUpper() {
@@ -100,7 +100,7 @@ func ExampleUpper() {
 	fmt.Println(p([]rune("A")))
 
 	// Output:
-	// 97 [97] uppercase letter, satisfy, expected
+	// 97 [97] uppercase letter, satisfy, actual 'a', unexpected
 	// 65 [] <nil>
 }
 
@@ -112,7 +112,7 @@ func ExampleLower() {
 
 	// Output:
 	// 97 [] <nil>
-	// 65 [65] lowercase letter, satisfy, expected
+	// 65 [65] lowercase letter, satisfy, actual 'A', unexpected
 }
 
 func ExampleLetter() {
@@ -125,7 +125,7 @@ func ExampleLetter() {
 	// Output:
 	// 97 [] <nil>
 	// 65 [] <nil>
-	// 57 [57] letter, satisfy, expected
+	// 57 [57] letter, satisfy, actual '9', unexpected
 }
 
 func ExampleAlphaNum() {
@@ -139,6 +139,6 @@ func ExampleAlphaNum() {
 	// 97 [] <nil>
 	// 57 [] <nil>
 	// 33 [33] letter or digit, 2 errors occurred:
-	// 	* letter, satisfy, expected
-	// 	* digit, satisfy, expected
+	// 	* letter, satisfy, actual '!', unexpected
+	// 	* digit, satisfy, actual '!', unexpected
 }

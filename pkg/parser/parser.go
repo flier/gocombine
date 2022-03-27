@@ -70,6 +70,18 @@ func (f Func[T, O]) Map(fn func(O) O) Func[T, O] {
 	}
 }
 
+// MapErr uses `fn` to map over the error.
+func (f Func[T, O]) MapErr(fn func(error) error) Func[T, O] {
+	return func(input []T) (parsed O, remaining []T, err error) {
+		parsed, remaining, err = f(input)
+		if err != nil {
+			err = fn(err)
+		}
+
+		return
+	}
+}
+
 // AndThen parses with `f` and applies `fn` on the result if `parser` parses successfully.
 // `fn` may optionally fail with an error.
 func (f Func[T, O]) AndThen(fn func(O) (O, error)) Func[T, O] {

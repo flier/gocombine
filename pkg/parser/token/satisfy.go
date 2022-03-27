@@ -14,7 +14,7 @@ func Satisfy[T stream.Token](predicate func(T) bool) parser.Func[T, T] {
 		if actual, remaining, err = stream.Uncons(input); err != nil {
 			// pass
 		} else if !predicate(actual) {
-			err = fmt.Errorf("satisfy, %w", parser.ErrExpected)
+			err = fmt.Errorf("satisfy, %w", parser.UnexpectedToken(actual))
 		}
 
 		return

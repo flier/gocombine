@@ -1,9 +1,12 @@
 package token
 
 import (
+	"fmt"
+
 	"github.com/flier/gocombine/pkg/parser"
 	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/stream"
+	"golang.org/x/exp/slices"
 )
 
 // Any parses any token.
@@ -17,8 +20,9 @@ func Any[T stream.Token]() parser.Func[T, T] {
 func Token[T stream.Token](tok T) parser.Func[T, T] {
 	return combinator.Attempt(func(input []T) (actual T, remaining []T, err error) {
 		if actual, remaining, err = stream.Uncons(input); err != nil {
+			// pass
 		} else if actual != tok {
-			err = parser.Unexpected([]T{tok}, []T{actual})
+			err = parser.UnexpectedToken(actual, tok)
 		}
 
 		return
@@ -44,7 +48,7 @@ func Tokens[T stream.Token](cmp func(lhs, rhs T) bool, expected, tokens []T) par
 
 			if !cmp(actual[i], tok) {
 				actual = actual[:i+1]
-				err = parser.Unexpected(expected, actual)
+				err = parser.UnexpectedRange(expected, actual)
 
 				break
 			}
@@ -56,39 +60,15 @@ func Tokens[T stream.Token](cmp func(lhs, rhs T) bool, expected, tokens []T) par
 
 // OneOf extract one token and succeeds if it is part of `tokens`.
 func OneOf[T stream.Token](tokens []T) parser.Func[T, T] {
-	return combinator.Attempt(func(input []T) (actual T, remaining []T, err error) {
-		if actual, remaining, err = stream.Uncons(input); err != nil {
-			return
-		}
-
-		for _, tok := range tokens {
-			if actual == tok {
-				return
-			}
-		}
-
-		err = parser.Unexpected(tokens, []T{actual})
-
-		return
+	return Satisfy(func(t T) bool { return slices.Contains(tokens, t) }).MapErr(func(err error) error {
+		return fmt.Errorf("expected one of %s, got %v", parser.FormatRange(tokens), err)
 	})
 }
 
 // NoneOf extract one token and succeeds if it is not part of `tokens`.
 func NoneOf[T stream.Token](tokens []T) parser.Func[T, T] {
-	return combinator.Attempt(func(input []T) (actual T, remaining []T, err error) {
-		if actual, remaining, err = stream.Uncons(input); err != nil {
-			return
-		}
-
-		for _, tok := range tokens {
-			if actual == tok {
-				err = parser.Unexpected(nil, []T{actual})
-
-				return
-			}
-		}
-
-		return
+	return Satisfy(func(t T) bool { return !slices.Contains(tokens, t) }).MapErr(func(err error) error {
+		return fmt.Errorf("expected none of %s, got %v", parser.FormatRange(tokens), err)
 	})
 }
 
@@ -99,6 +79,6 @@ func EOF[T stream.Token]() parser.Func[T, bool] {
 			return true, input, nil
 		}
 
-		return false, input, parser.Unexpected(nil, input)
+		return false, input, parser.UnexpectedRange(nil, input)
 	}
 }

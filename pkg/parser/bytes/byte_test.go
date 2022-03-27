@@ -26,7 +26,7 @@ func ExampleByte() {
 
 	// Output:
 	// 33 [] <nil>
-	// 97 [97] expected `[33]`, actual `[97]`, unexpected
+	// 97 [97] expected '0x21', actual '0x61', unexpected
 	// 0 [] unexpected EOF
 }
 
@@ -41,7 +41,7 @@ func ExampleSpace() {
 	// Output:
 	// 32 [] <nil>
 	// 32 [32] <nil>
-	// 33 [33] whitespace, satisfy, expected
+	// 33 [33] whitespace, satisfy, actual '0x21', unexpected
 	// 0 [] whitespace, unexpected EOF
 }
 
@@ -67,7 +67,7 @@ func ExampleNewLine() {
 	fmt.Println(p([]byte("\n")))
 
 	// Output:
-	// 13 [13] newline, expected `[10]`, actual `[13]`, unexpected
+	// 13 [13] newline, expected '0x0a', actual '0x0d', unexpected
 	// 10 [] <nil>
 }
 
@@ -81,7 +81,7 @@ func ExampleCrLf() {
 	// Output:
 	// [13 10] [] <nil>
 	// [13] [13] crlf, unexpected EOF
-	// [10] [10] crlf, expected `[13]`, actual `[10]`, unexpected
+	// [10] [10] crlf, expected '0x0d', actual '0x0a', unexpected
 }
 
 func ExampleTab() {
@@ -92,7 +92,7 @@ func ExampleTab() {
 
 	// Output:
 	// 9 [] <nil>
-	// 32 [32] tab, expected `[9]`, actual `[32]`, unexpected
+	// 32 [32] tab, expected '0x09', actual '0x20', unexpected
 }
 
 func ExampleUpper() {
@@ -102,7 +102,7 @@ func ExampleUpper() {
 	fmt.Println(p([]byte("A")))
 
 	// Output:
-	// 97 [97] uppercase letter, satisfy, expected
+	// 97 [97] uppercase letter, satisfy, actual '0x61', unexpected
 	// 65 [] <nil>
 }
 
@@ -114,7 +114,7 @@ func ExampleLower() {
 
 	// Output:
 	// 97 [] <nil>
-	// 65 [65] lowercase letter, satisfy, expected
+	// 65 [65] lowercase letter, satisfy, actual '0x41', unexpected
 }
 
 func ExampleLetter() {
@@ -127,7 +127,7 @@ func ExampleLetter() {
 	// Output:
 	// 97 [] <nil>
 	// 65 [] <nil>
-	// 57 [57] letter, satisfy, expected
+	// 57 [57] letter, satisfy, actual '0x39', unexpected
 }
 
 func ExampleAlphaNum() {
@@ -141,6 +141,6 @@ func ExampleAlphaNum() {
 	// 97 [] <nil>
 	// 57 [] <nil>
 	// 33 [33] letter or digit, 2 errors occurred:
-	// 	* letter, satisfy, expected
-	// 	* digit, satisfy, expected
+	// 	* letter, satisfy, actual '0x21', unexpected
+	// 	* digit, satisfy, actual '0x21', unexpected
 }

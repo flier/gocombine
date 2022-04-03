@@ -26,7 +26,7 @@ func ExampleSepBy1() {
 
 	// Output:
 	// [49 50 51] [] <nil>
-	// [] [] digit, unexpected EOF
+	// [] [] sep by1, digit, unexpected EOF
 }
 
 func ExampleSepEndBy() {
@@ -48,5 +48,5 @@ func ExampleSepEndBy1() {
 
 	// Output:
 	// [49 50 51] [] <nil>
-	// [] [] digit, unexpected EOF
+	// [] [] sep end by1, many1, digit, unexpected EOF
 }

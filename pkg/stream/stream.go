@@ -72,32 +72,3 @@ func UnconsUntil[T Token](input []T, predicate func(T) bool) (tokens []T, remain
 
 	return
 }
-
-// Index returns the index of the first instance of sep in s, or -1 if sep is not present in s.
-func Index[T Token](s []T, sep []T) int {
-	n := len(sep)
-
-	switch {
-	case n == 0:
-		return 0
-
-	case n == 1:
-		return slices.Index(s, sep[0])
-
-	case n == Len(s):
-		if slices.Equal(s, sep) {
-			return 0
-		}
-
-		return -1
-
-	default: // slow path
-		for i := 0; i < Len(s)-n+1; i++ {
-			if slices.Equal(s[i:i+n], sep) {
-				return i
-			}
-		}
-
-		return -1
-	}
-}

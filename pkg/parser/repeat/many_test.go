@@ -26,7 +26,7 @@ func ExampleMany1() {
 	// Output:
 	// [49] [] <nil>
 	// [49 50 51] [65] <nil>
-	// [] [65] digit, satisfy, actual 'A', unexpected
+	// [] [65] many1, digit, satisfy, actual 'A', unexpected
 }
 
 func ExampleSkipMany() {
@@ -48,5 +48,5 @@ func ExampleSkipMany1() {
 	// Output:
 	// <nil> [] <nil>
 	// <nil> [65] <nil>
-	// <nil> [65] digit, satisfy, actual 'A', unexpected
+	// <nil> [65] skip, many1, digit, satisfy, actual 'A', unexpected
 }

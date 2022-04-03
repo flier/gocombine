@@ -60,16 +60,14 @@ func Tokens[T stream.Token](cmp func(lhs, rhs T) bool, expected, tokens []T) par
 
 // OneOf extract one token and succeeds if it is part of `tokens`.
 func OneOf[T stream.Token](tokens []T) parser.Func[T, T] {
-	return Satisfy(func(t T) bool { return slices.Contains(tokens, t) }).MapErr(func(err error) error {
-		return fmt.Errorf("expected one of %s, got %v", parser.FormatRange(tokens), err)
-	})
+	return Satisfy(func(t T) bool { return slices.Contains(tokens, t) }).
+		Expected(fmt.Sprintf("one of %s", parser.FormatRange(tokens)))
 }
 
 // NoneOf extract one token and succeeds if it is not part of `tokens`.
 func NoneOf[T stream.Token](tokens []T) parser.Func[T, T] {
-	return Satisfy(func(t T) bool { return !slices.Contains(tokens, t) }).MapErr(func(err error) error {
-		return fmt.Errorf("expected none of %s, got %v", parser.FormatRange(tokens), err)
-	})
+	return Satisfy(func(t T) bool { return !slices.Contains(tokens, t) }).
+		Expected(fmt.Sprintf("none of %s", parser.FormatRange(tokens)))
 }
 
 // EOF succeeds only if the stream is at end of input, fails otherwise.

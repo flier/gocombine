@@ -15,7 +15,7 @@ func ExampleUnexpected() {
 	fmt.Println(p([]rune("b")))
 
 	// Output:
-	// <nil> [98] 2 errors occurred:
+	// <nil> [98] or, 2 errors occurred:
 	// 	* expected 'a', actual 'b', unexpected
 	// 	* token, unexpected
 }

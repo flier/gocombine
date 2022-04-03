@@ -70,16 +70,21 @@ func (f Func[T, O]) Map(fn func(O) O) Func[T, O] {
 	}
 }
 
-// MapErr uses `fn` to map over the error.
-func (f Func[T, O]) MapErr(fn func(error) error) Func[T, O] {
+// MapErr uses `f` to map over the parser `p` error.
+func MapErr[T stream.Token, O any](p Func[T, O], f func(error) error) Func[T, O] {
 	return func(input []T) (parsed O, remaining []T, err error) {
-		parsed, remaining, err = f(input)
+		parsed, remaining, err = p(input)
 		if err != nil {
-			err = fn(err)
+			err = f(err)
 		}
 
 		return
 	}
+}
+
+// MapErr uses `fn` to map over the error.
+func (f Func[T, O]) MapErr(fn func(error) error) Func[T, O] {
+	return MapErr(f, fn)
 }
 
 // AndThen parses with `f` and applies `fn` on the result if `parser` parses successfully.

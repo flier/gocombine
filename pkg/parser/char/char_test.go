@@ -138,7 +138,7 @@ func ExampleAlphaNum() {
 	// Output:
 	// 97 [] <nil>
 	// 57 [] <nil>
-	// 33 [33] letter or digit, 2 errors occurred:
+	// 33 [33] letter or digit, or, 2 errors occurred:
 	// 	* letter, satisfy, actual '!', unexpected
 	// 	* digit, satisfy, actual '!', unexpected
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"unicode"
 	"unicode/utf16"
 
 	"github.com/flier/gocombine/pkg/stream"
@@ -72,6 +73,18 @@ type RangeInfo[T stream.Token] struct {
 func FormatRange[T stream.Token](r []T) string {
 	switch r := interface{}(r).(type) {
 	case []byte:
+		printable := true
+
+		for _, c := range r {
+			if !unicode.IsPrint(rune(c)) {
+				printable = false
+			}
+		}
+
+		if printable {
+			return strconv.Quote(string(r))
+		}
+
 		var o strings.Builder
 
 		o.WriteRune('[')

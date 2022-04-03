@@ -126,7 +126,7 @@ func ExampleOneOf() {
 
 	// Output:
 	// 97 [112 112 108 101] <nil>
-	// 102 [102 111 111 98 97 114] expected one of "abc", got satisfy, actual 'f', unexpected
+	// 102 [102 111 111 98 97 114] one of "abc", satisfy, actual 'f', unexpected
 }
 
 func ExampleNoneOf() {
@@ -136,7 +136,7 @@ func ExampleNoneOf() {
 	fmt.Println(p([]rune("foobar")))
 
 	// Output:
-	// 97 [97 112 112 108 101] expected none of "abc", got satisfy, actual 'a', unexpected
+	// 97 [97 112 112 108 101] none of "abc", satisfy, actual 'a', unexpected
 	// 102 [111 111 98 97 114] <nil>
 }
 

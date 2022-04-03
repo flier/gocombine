@@ -12,26 +12,26 @@ import (
 
 // SepBy parses `parser` zero or more time separated by `separator`, returning a collection with the values from `p`.
 func SepBy[T stream.Token, O, P any](parser parser.Func[T, O], separator parser.Func[T, P]) parser.Func[T, []O] {
-	return combinator.Attempt(choice.Or(SepBy1(parser, separator), token.Value[T]([]O{})))
+	return choice.Or(SepBy1(parser, separator), token.Value[T]([]O{})).Expected("sep by")
 }
 
 // SepBy1 parses `parser` one or more time separated by `separator`,
 // returning a collection with the values from `parser`.
 func SepBy1[T stream.Token, O, P any](parser parser.Func[T, O], separator parser.Func[T, P]) parser.Func[T, []O] {
-	return combinator.Attempt(combinator.Map(
+	return combinator.Map(
 		combinator.Pair(parser, Many(sequence.With(separator, parser))),
 		func(p pair.Pair[O, []O]) []O { return append([]O{p.First}, p.Second...) },
-	))
+	).Expected("sep by1")
 }
 
 // SepEndBy parses `parser` zero or more times separated and ended by `separator`,
 // returning a collection with the values from `parser`.
 func SepEndBy[T stream.Token, O, P any](parser parser.Func[T, O], separator parser.Func[T, P]) parser.Func[T, []O] {
-	return Many(sequence.Skip(parser, separator))
+	return Many(sequence.Skip(parser, separator)).Expected("sep end by")
 }
 
 // SepEndBy1 parses `parser` one or more times separated and ended by `separator`,
 // returning a collection with the values from `p`.
 func SepEndBy1[T stream.Token, O, P any](parser parser.Func[T, O], separator parser.Func[T, P]) parser.Func[T, []O] {
-	return Many1(sequence.Skip(parser, separator))
+	return Many1(sequence.Skip(parser, separator)).Expected("sep end by1")
 }

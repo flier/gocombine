@@ -54,7 +54,10 @@ func properties() parser.Func[rune, Properties] {
 	return combinator.Fold(
 		repeat.Many(sequence.Skip(property(), whitespace())),
 		func() Properties { return make(Properties) },
-		func(m Properties, s []string) { m[s[0]] = s[1] },
+		func(m Properties, s []string) Properties {
+			m[s[0]] = s[1]
+			return m
+		},
 	).Message("while parsing properties")
 }
 
@@ -68,7 +71,10 @@ func sections() parser.Func[rune, Sections] {
 	return combinator.Fold(
 		repeat.Many(combinator.Pair(sequence.Skip(name, whitespace()), properties())),
 		func() Sections { return make(Sections) },
-		func(s Sections, p pair.Pair[string, Properties]) { s[p.First] = p.Second },
+		func(s Sections, p pair.Pair[string, Properties]) Sections {
+			s[p.First] = p.Second
+			return s
+		},
 	).Message("while parsing sections")
 }
 

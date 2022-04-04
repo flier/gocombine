@@ -17,7 +17,9 @@ func ExampleEscaped() {
 	))
 
 	fmt.Println(p([]rune(`ab\"12\n\rc"`)))
+	fmt.Println(p([]rune(`\a`)))
 
 	// Output:
 	// ab\"12\n\rc [34] <nil>
+	//  [92 97] map, escaped, one of, one of "nrt\\\"", satisfy, actual 'a', unexpected
 }

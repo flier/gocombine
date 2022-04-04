@@ -148,5 +148,5 @@ func ExampleEOF() {
 
 	// Output:
 	// true [] <nil>
-	// false [102 111 111 98 97 114] expected end of input, actual "foobar", unexpected
+	// false [102 111 111 98 97 114] eof, expected end of input, actual "foobar", unexpected
 }

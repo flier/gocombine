@@ -5,13 +5,13 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
-// Escaped parses an escaped string by first applying `parser`
+// Escaped parses an escaped string by first applying `p`
 // which accept the normal characters which do not need escaping.
-// Once `parser` can not consume any more input it checks if the next token is `escape`.
-// If it is then `escapeParser` is used to parse the escaped character and then resumes parsing using `parser`.
+// Once `p` can not consume any more input it checks if the next token is `escape`.
+// If it is then `escapeParser` is used to parse the escaped character and then resumes parsing using `p`.
 // If `escape` was not found then the parser finishes successfully.
-func Escaped[T stream.Token](parser parser.Func[T, []T], escape T, escapeParser parser.Func[T, T]) parser.Func[T, []T] {
-	return func(input []T) (parsed []T, remaining []T, err error) {
+func Escaped[T stream.Token](p parser.Func[T, []T], escape T, escapeParser parser.Func[T, T]) parser.Func[T, []T] {
+	return parser.Expected(func(input []T) (parsed []T, remaining []T, err error) {
 		remaining = input
 
 		for {
@@ -19,7 +19,7 @@ func Escaped[T stream.Token](parser parser.Func[T, []T], escape T, escapeParser 
 
 			var rest []T
 
-			if outs, rest, err = parser(remaining); err != nil {
+			if outs, rest, err = p(remaining); err != nil {
 				var tok T
 
 				if tok, rest, err = stream.Uncons(remaining); err != nil {
@@ -44,5 +44,5 @@ func Escaped[T stream.Token](parser parser.Func[T, []T], escape T, escapeParser 
 		}
 
 		return
-	}
+	}, "escaped")
 }

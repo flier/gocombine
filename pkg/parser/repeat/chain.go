@@ -21,7 +21,7 @@ func ChainL1[T stream.Token, O any](parser parser.Func[T, O], op parser.Func[T, 
 
 			return
 		},
-	)
+	).Expected("chain left1")
 }
 
 // ChainR1 parses `p` one or more times separated by `op`.
@@ -40,5 +40,5 @@ func ChainR1[T stream.Token, O any](parser parser.Func[T, O], op parser.Func[T, 
 
 			return
 		},
-	)
+	).Expected("chain right1")
 }

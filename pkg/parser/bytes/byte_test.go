@@ -14,7 +14,7 @@ func ExampleAny() {
 
 	// Output:
 	// 97 [112 112 108 101] <nil>
-	// 0 [] unexpected EOF
+	// 0 [] any, unexpected EOF
 }
 
 func ExampleByte() {
@@ -26,8 +26,8 @@ func ExampleByte() {
 
 	// Output:
 	// 33 [] <nil>
-	// 97 [97] expected '0x21', actual '0x61', unexpected
-	// 0 [] unexpected EOF
+	// 97 [97] byte, expected '0x21', actual '0x61', unexpected
+	// 0 [] byte, unexpected EOF
 }
 
 func ExampleSpace() {
@@ -42,7 +42,7 @@ func ExampleSpace() {
 	// 32 [] <nil>
 	// 32 [32] <nil>
 	// 33 [33] whitespace, satisfy, actual '0x21', unexpected
-	// 0 [] whitespace, unexpected EOF
+	// 0 [] whitespace, satisfy, unexpected EOF
 }
 
 func ExampleSpaces() {
@@ -80,8 +80,8 @@ func ExampleCrLf() {
 
 	// Output:
 	// [13 10] [] <nil>
-	// [13] [13] crlf, unexpected EOF
-	// [10] [10] crlf, expected '0x0d', actual '0x0a', unexpected
+	// [13] [13] crlf, and, unexpected EOF
+	// [10] [10] crlf, and, expected '0x0d', actual '0x0a', unexpected
 }
 
 func ExampleTab() {

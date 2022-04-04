@@ -14,7 +14,7 @@ func ExampleAny() {
 
 	// Output:
 	// 97 [112 112 108 101] <nil>
-	// 0 [] unexpected EOF
+	// 0 [] any, unexpected EOF
 }
 
 func ExampleChar() {
@@ -25,7 +25,7 @@ func ExampleChar() {
 
 	// Output:
 	// 33 [] <nil>
-	// 65 [65] expected '!', actual 'A', unexpected
+	// 65 [65] char, expected '!', actual 'A', unexpected
 }
 
 func ExampleSpace() {
@@ -40,7 +40,7 @@ func ExampleSpace() {
 	// 32 [] <nil>
 	// 32 [32] <nil>
 	// 33 [33] whitespace, satisfy, actual '!', unexpected
-	// 0 [] whitespace, unexpected EOF
+	// 0 [] whitespace, satisfy, unexpected EOF
 }
 
 func ExampleSpaces() {
@@ -78,8 +78,8 @@ func ExampleCrLf() {
 
 	// Output:
 	// [13 10] [] <nil>
-	// [13] [13] crlf, unexpected EOF
-	// [10] [10] crlf, expected '\r', actual '\n', unexpected
+	// [13] [13] crlf, and, unexpected EOF
+	// [10] [10] crlf, and, expected '\r', actual '\n', unexpected
 }
 
 func ExampleTab() {

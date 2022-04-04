@@ -6,10 +6,10 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
-// TakeUntil takes input until `end` is encountered or `end` indicates
-// that it has committed input before failing.
+// TakeUntil takes input until `end` is encountered
+// or `end` indicates that it has committed input before failing.
 func TakeUntil[T stream.Token, O any](end parser.Func[T, O]) parser.Func[T, []T] {
-	return func(input []T) (out []T, remaining []T, err error) {
+	return parser.Expected(func(input []T) (out []T, remaining []T, err error) {
 		remaining = input
 
 		for {
@@ -30,11 +30,11 @@ func TakeUntil[T stream.Token, O any](end parser.Func[T, O]) parser.Func[T, []T]
 		}
 
 		return
-	}
+	}, "take until")
 }
 
-// SkipUntil skips input until `end` is encountered or `end` indicates
-// that it has committed input before failing.
+// SkipUntil skips input until `end` is encountered
+// or `end` indicates that it has committed input before failing.
 func SkipUntil[T stream.Token, O any](end parser.Func[T, O]) parser.Func[T, any] {
-	return combinator.Ignore(TakeUntil(end))
+	return combinator.Ignore(TakeUntil(end)).Expected("skip until")
 }

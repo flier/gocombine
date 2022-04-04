@@ -1,44 +1,32 @@
 package char_test
 
 import (
-	"testing"
-
-	. "github.com/smartystreets/goconvey/convey"
+	"fmt"
 
 	"github.com/flier/gocombine/pkg/parser/char"
 	"github.com/flier/gocombine/pkg/parser/to"
 )
 
-func TestFloat(t *testing.T) {
-	Convey("Given a number parser", t, func() {
-		p := to.Float(char.Float())
+func ExampleFloat() {
+	p := to.Float(char.Float())
 
-		Convey("When parse a zero", func() {
-			r, s, err := p([]rune("0"))
-			So(err, ShouldBeNil)
-			So(s, ShouldBeEmpty)
-			So(r, ShouldEqual, 0.0)
-		})
+	fmt.Println(p([]rune("0")))
+	fmt.Println(p([]rune("123")))
+	fmt.Println(p([]rune("3.1415926")))
+	fmt.Println(p([]rune("31415926e-7")))
+	fmt.Println(p([]rune("nan")))
+	fmt.Println(p([]rune("-inf")))
+	fmt.Println(p([]rune("foobar")))
 
-		Convey("When parse a integer", func() {
-			r, s, err := p([]rune("123"))
-			So(err, ShouldBeNil)
-			So(s, ShouldBeEmpty)
-			So(r, ShouldEqual, 123)
-		})
-
-		Convey("When parse a number", func() {
-			r, s, err := p([]rune("3.1415926"))
-			So(err, ShouldBeNil)
-			So(s, ShouldBeEmpty)
-			So(r, ShouldEqual, 3.1415926)
-		})
-
-		Convey("When parse a number with exponent", func() {
-			r, s, err := p([]rune("31415926e-7"))
-			So(err, ShouldBeNil)
-			So(s, ShouldBeEmpty)
-			So(r, ShouldEqual, 3.1415926)
-		})
-	})
+	// Output:
+	// 0 [] <nil>
+	// 123 [] <nil>
+	// 3.1415926 [] <nil>
+	// 3.1415926 [] <nil>
+	// NaN [] <nil>
+	// -Inf [] <nil>
+	// 0 [102 111 111 98 97 114] float, and then, map, recognize, pair, or, 3 errors occurred:
+	// 	* char fold, char cmp, expected "nan", actual "f", unexpected
+	// 	* char fold, char cmp, expected "inf", actual "f", unexpected
+	// 	* recognize, tuple3, many1, digit, satisfy, actual 'f', unexpected
 }

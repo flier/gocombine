@@ -15,7 +15,7 @@ func Tuple3[
 	p2 parser.Func[T, O2],
 	p3 parser.Func[T, O3],
 ) parser.Func[T, tuple.Tuple3[O1, O2, O3]] {
-	return Attempt(func(input []T) (out tuple.Tuple3[O1, O2, O3], remaining []T, err error) {
+	return parser.Expected(func(input []T) (out tuple.Tuple3[O1, O2, O3], remaining []T, err error) {
 		var o1 O1
 		if o1, remaining, err = p1(input); err != nil {
 			return
@@ -34,7 +34,7 @@ func Tuple3[
 		out = tuple.New3(o1, o2, o3)
 
 		return
-	})
+	}, "tuple3")
 }
 
 // Tuple4 parses a tuple of heterogeneous values.
@@ -47,7 +47,7 @@ func Tuple4[
 	p3 parser.Func[T, O3],
 	p4 parser.Func[T, O4],
 ) parser.Func[T, tuple.Tuple4[O1, O2, O3, O4]] {
-	return Attempt(func(input []T) (out tuple.Tuple4[O1, O2, O3, O4], remaining []T, err error) {
+	return parser.Expected(func(input []T) (out tuple.Tuple4[O1, O2, O3, O4], remaining []T, err error) {
 		var o1 O1
 		if o1, remaining, err = p1(input); err != nil {
 			return
@@ -71,7 +71,7 @@ func Tuple4[
 		out = tuple.New4(o1, o2, o3, o4)
 
 		return
-	})
+	}, "tuple4")
 }
 
 // Tuple5 parses a tuple of heterogeneous values.
@@ -85,7 +85,7 @@ func Tuple5[
 	p4 parser.Func[T, O4],
 	p5 parser.Func[T, O5],
 ) parser.Func[T, tuple.Tuple5[O1, O2, O3, O4, O5]] {
-	return Attempt(func(input []T) (out tuple.Tuple5[O1, O2, O3, O4, O5], remaining []T, err error) {
+	return parser.Expected(func(input []T) (out tuple.Tuple5[O1, O2, O3, O4, O5], remaining []T, err error) {
 		var o1 O1
 		if o1, remaining, err = p1(input); err != nil {
 			return
@@ -114,5 +114,5 @@ func Tuple5[
 		out = tuple.New5(o1, o2, o3, o4, o5)
 
 		return
-	})
+	}, "tuple5")
 }

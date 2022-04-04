@@ -21,5 +21,5 @@ func Then[T stream.Token, I, O any](parser parser.Func[T, I], f func(I) parser.F
 		out, remaining, err = p(remaining)
 
 		return
-	})
+	}).Expected("then")
 }

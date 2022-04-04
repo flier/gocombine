@@ -12,7 +12,7 @@ import (
 // Find matches `re` on the input by running `find` on the input and returns the first match.
 // Consumes all input up until the end of the first match.
 func Find[T stream.Token](re *regexp.Regexp) parser.Func[T, []T] {
-	return func(input []T) (matched, remaining []T, err error) {
+	return parser.Expected(func(input []T) (matched, remaining []T, err error) {
 		var loc []int
 
 		switch v := interface{}(input).(type) {
@@ -38,13 +38,13 @@ func Find[T stream.Token](re *regexp.Regexp) parser.Func[T, []T] {
 		}
 
 		return
-	}
+	}, "find")
 }
 
 // FindMany matches `re` on the input by running `FindAll` on the input.
 /// Returns all matches until the end of the last match.
 func FindMany[T stream.Token](re *regexp.Regexp) parser.Func[T, [][]T] {
-	return func(input []T) (matched [][]T, remaining []T, err error) {
+	return parser.Expected(func(input []T) (matched [][]T, remaining []T, err error) {
 		var locs [][]int
 
 		switch v := interface{}(input).(type) {
@@ -74,5 +74,5 @@ func FindMany[T stream.Token](re *regexp.Regexp) parser.Func[T, [][]T] {
 		}
 
 		return
-	}
+	}, "find many")
 }

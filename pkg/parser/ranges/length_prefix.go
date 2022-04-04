@@ -9,7 +9,7 @@ import (
 // LengthPrefix takes a parser which parses a `length` then extracts a range of that length and returns it.
 // Commonly used in binary formats.
 func LengthPrefix[T stream.Token, N constraints.Integer](length parser.Func[T, N]) parser.Func[T, []T] {
-	return func(input []T) (out []T, remaining []T, err error) {
+	return parser.Expected(func(input []T) (out []T, remaining []T, err error) {
 		var n N
 
 		if n, remaining, err = length(input); err != nil {
@@ -17,7 +17,10 @@ func LengthPrefix[T stream.Token, N constraints.Integer](length parser.Func[T, N
 		}
 
 		out, remaining, err = stream.UnconsRange(remaining, int(n))
+		if err != nil {
+			remaining = input
+		}
 
 		return
-	}
+	}, "length prefix")
 }

@@ -31,5 +31,5 @@ func And[T stream.Token, O any](parsers ...parser.Func[T, O]) parser.Func[T, []O
 		}
 
 		return
-	})
+	}).Expected("and")
 }

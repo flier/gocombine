@@ -20,8 +20,8 @@ func Float() parser.Func[rune, []rune] {
 	return ranges.Recognize(combinator.Pair(
 		choice.Optional(sign),
 		choice.Or(
-			StringFold("nan"),
-			StringFold("inf"),
+			Fold("nan"),
+			Fold("inf"),
 			ranges.Recognize(combinator.Tuple3(
 				integer,
 				choice.Optional(frac),

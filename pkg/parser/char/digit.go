@@ -23,5 +23,5 @@ func OctDigit() parser.Func[rune, rune] {
 func HexDigit() parser.Func[rune, rune] {
 	return token.Satisfy(func(c rune) bool {
 		return unicode.IsDigit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F')
-	}).Expected("octal digit")
+	}).Expected("hex digit")
 }

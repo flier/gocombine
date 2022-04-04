@@ -19,14 +19,14 @@ func Pos[T Token](s []T) Offset {
 	return Offset(hdr.Data)
 }
 
-func Translate[T Token](s []T, off Offset) int {
+func Translate[T Token](s []T, off Offset) Position {
 	if off == EOI {
-		return len(s)
+		return Position(len(s))
 	}
 
 	hdr := (*reflect.SliceHeader)(unsafe.Pointer(&s))
 
-	return int(uintptr(off)-hdr.Data) / int(unsafe.Sizeof(T(0)))
+	return Position(uintptr(off)-hdr.Data) / Position(unsafe.Sizeof(T(0)))
 }
 
 func Distance[T Token](cur, end []T) int {
@@ -41,4 +41,31 @@ func Distance[T Token](cur, end []T) int {
 
 func Checkpoint[T Token](s []T) []T {
 	return s
+}
+
+type Position uint
+
+type LineNumber struct {
+	Line   int
+	Column int
+}
+
+func NewLineNumber[T Token](input []T) *LineNumber {
+	var line, column int
+
+	for _, t := range input {
+		if t == '\n' {
+			line++
+
+			column = 0
+		} else {
+			column++
+		}
+	}
+
+	return &LineNumber{line, column}
+}
+
+type Span struct {
+	Start, End Offset
 }

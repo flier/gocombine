@@ -11,13 +11,10 @@ import (
 func ExampleOptional() {
 	p := choice.Optional(to.String(char.String("hello")))
 
-	o, remaining, err := p([]rune("hello"))
-	fmt.Println(o.Unwrap(), remaining, err)
-
-	o, remaining, err = p([]rune("world"))
-	fmt.Println(o.HasSome(), remaining, err)
+	fmt.Println(p([]rune("hello")))
+	fmt.Println(p([]rune("world")))
 
 	// Output:
 	// hello [] <nil>
-	// false [119 111 114 108 100] <nil>
+	// <none> [119 111 114 108 100] <nil>
 }

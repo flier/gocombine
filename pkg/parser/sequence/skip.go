@@ -19,5 +19,5 @@ func Skip[T stream.Token, O1, O2 any](p1 parser.Func[T, O1], p2 parser.Func[T, O
 		}
 
 		return
-	})
+	}).Expected("skip")
 }

@@ -39,5 +39,5 @@ func ExampleSatisfyMap() {
 	// Output:
 	// true [] <nil>
 	// false [] <nil>
-	// false [35] satisfy and map, expected
+	// false [35] satisfy map, actual '#', unexpected
 }

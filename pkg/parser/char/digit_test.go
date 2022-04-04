@@ -38,5 +38,5 @@ func ExampleHexDigit() {
 	// Output:
 	// 55 [] <nil>
 	// 70 [] <nil>
-	// 104 [104] octal digit, satisfy, actual 'h', unexpected
+	// 104 [104] hex digit, satisfy, actual 'h', unexpected
 }

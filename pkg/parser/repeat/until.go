@@ -7,8 +7,8 @@ import (
 
 // Until parses `parser` zero or more times until `end` is encountered
 // or `end` indicates that it has committed input before failing.
-func Until[T stream.Token, O, E any](parser parser.Func[T, O], end parser.Func[T, E]) parser.Func[T, []O] {
-	return func(input []T) (out []O, remaining []T, err error) {
+func Until[T stream.Token, O, E any](p parser.Func[T, O], end parser.Func[T, E]) parser.Func[T, []O] {
+	return parser.Expected(func(input []T) (out []O, remaining []T, err error) {
 		remaining = input
 
 		for {
@@ -20,7 +20,7 @@ func Until[T stream.Token, O, E any](parser parser.Func[T, O], end parser.Func[T
 
 			var rest []T
 
-			if o, rest, err = parser(remaining); err != nil {
+			if o, rest, err = p(remaining); err != nil {
 				return
 			}
 
@@ -29,5 +29,5 @@ func Until[T stream.Token, O, E any](parser parser.Func[T, O], end parser.Func[T
 		}
 
 		return
-	}
+	}, "until")
 }

@@ -25,5 +25,5 @@ func OctDigit() parser.Func[byte, byte] {
 func HexDigit() parser.Func[byte, byte] {
 	return token.Satisfy(func(b byte) bool {
 		return unicode.IsDigit(rune(b)) || (b >= 'a' && b <= 'f') || (b >= 'A' && b <= 'F')
-	}).Expected("octal digit")
+	}).Expected("hex digit")
 }

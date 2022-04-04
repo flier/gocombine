@@ -10,7 +10,5 @@ import (
 
 // Bool convert the result of `parser` to a bool.
 func Bool[T stream.Token, O StringLike](parser parser.Func[T, O]) parser.Func[T, bool] {
-	return combinator.AndThen(String(parser), func(s string) (bool, error) {
-		return strconv.ParseBool(s)
-	})
+	return combinator.AndThen(String(parser), strconv.ParseBool).Expected("bool")
 }

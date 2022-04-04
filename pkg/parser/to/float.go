@@ -14,5 +14,5 @@ const bitsofFloat64 = 64
 func Float[T stream.Token, O StringLike](parser parser.Func[T, O]) parser.Func[T, float64] {
 	return combinator.AndThen(String(parser), func(s string) (float64, error) {
 		return strconv.ParseFloat(s, bitsofFloat64)
-	})
+	}).Expected("float")
 }

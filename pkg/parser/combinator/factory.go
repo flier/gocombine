@@ -7,11 +7,11 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
-// Factor constructs the `parser` lazily.
+// Factory constructs the `parser` lazily.
 //
 // This is similar to `Lazy` but it takes `input` as an argument and allows different parsers to be returned
 // on each call to `p` while still reporting the correct errors.
-func Factor[T stream.Token, O any](f func([]T) parser.Func[T, O]) parser.Func[T, O] {
+func Factory[T stream.Token, O any](f func([]T) parser.Func[T, O]) parser.Func[T, O] {
 	var p parser.Func[T, O]
 
 	var init sync.Once

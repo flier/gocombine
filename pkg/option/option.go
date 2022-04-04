@@ -1,8 +1,22 @@
 package option
 
+import "fmt"
+
 // Option represents an optional value: every Option is either Some and contains a value, or None, and does not.
 type Option[T any] struct {
 	v *T
+}
+
+func (o Option[T]) String() string {
+	if o.v != nil {
+		if s, ok := interface{}(o.v).(fmt.Stringer); ok {
+			return s.String()
+		}
+
+		return fmt.Sprintf("%v", *o.v)
+	}
+
+	return "<none>"
 }
 
 // Some value of type T.

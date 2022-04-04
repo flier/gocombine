@@ -12,14 +12,14 @@ import (
 
 // Any parses any byte.
 func Any() parser.Func[byte, byte] {
-	return func(input []byte) (byte, []byte, error) {
+	return parser.Expected(func(input []byte) (byte, []byte, error) {
 		return stream.Uncons(input)
-	}
+	}, "any")
 }
 
 // Byte parses a byte and succeeds if the byte is equal to `b`.
 func Byte(b byte) parser.Func[byte, byte] {
-	return token.Token(b)
+	return token.Token(b).Expected("byte")
 }
 
 // Space parse a single whitespace.

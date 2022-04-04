@@ -17,5 +17,5 @@ func AndThen[T stream.Token, I, O any](parser parser.Func[T, I], f func(I) (O, e
 		parsed, err = f(i)
 
 		return
-	})
+	}).Expected("and then")
 }

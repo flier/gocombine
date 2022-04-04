@@ -10,8 +10,8 @@ import (
 
 func ExampleBool() {
 	p := to.Bool(choice.Or(
-		to.String(char.StringFold("true")),
-		to.String(char.StringFold("false")),
+		to.String(char.Fold("true")),
+		to.String(char.Fold("false")),
 		to.String(char.OneOf("tTfF10")),
 	))
 

@@ -55,8 +55,9 @@ func MessageHeader() parser.Func[byte, http.Header] {
 	return combinator.Fold(
 		repeat.Many(combinator.Tuple3(name, sep, value)),
 		func() http.Header { return make(http.Header) },
-		func(header http.Header, t tuple.Tuple3[string, byte, []string]) {
+		func(header http.Header, t tuple.Tuple3[string, byte, []string]) http.Header {
 			header[t.V1] = t.V3
+			return header
 		},
 	).Message("while parsing header")
 }

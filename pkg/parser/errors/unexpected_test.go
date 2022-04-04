@@ -16,6 +16,6 @@ func ExampleUnexpected() {
 
 	// Output:
 	// <nil> [98] or, 2 errors occurred:
-	// 	* expected 'a', actual 'b', unexpected
+	// 	* ignore, char, expected 'a', actual 'b', unexpected
 	// 	* token, unexpected
 }

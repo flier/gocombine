@@ -14,7 +14,7 @@ const numOfLocs = 2
 // Captures matches `re` on the input by running `Find[String]SubmatchIndex` on the input.
 /// Returns the captures of the first match and consumes the input up until the end of that match.
 func Captures[T stream.Token](re *regexp.Regexp) parser.Func[T, [][]T] {
-	return func(input []T) (captured [][]T, remaining []T, err error) {
+	return parser.Expected(func(input []T) (captured [][]T, remaining []T, err error) {
 		var loc []int
 
 		switch v := interface{}(input).(type) {
@@ -44,13 +44,13 @@ func Captures[T stream.Token](re *regexp.Regexp) parser.Func[T, [][]T] {
 		}
 
 		return
-	}
+	}, "captures")
 }
 
 // CapturesMany matches `re` on the input by running `FindAll[String]SubmatchIndex` on the input.
 /// Returns all captures until the end of the last match.
 func CapturesMany[T stream.Token](re *regexp.Regexp) parser.Func[T, [][][]T] {
-	return func(input []T) (captured [][][]T, remaining []T, err error) {
+	return parser.Expected(func(input []T) (captured [][][]T, remaining []T, err error) {
 		var locs [][]int
 
 		switch v := interface{}(input).(type) {
@@ -86,5 +86,5 @@ func CapturesMany[T stream.Token](re *regexp.Regexp) parser.Func[T, [][][]T] {
 		}
 
 		return
-	}
+	}, "captures many")
 }

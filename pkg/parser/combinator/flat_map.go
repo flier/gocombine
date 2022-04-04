@@ -17,5 +17,5 @@ func FlatMap[T stream.Token, O any](parser parser.Func[T, []T], f func([]T) (O, 
 		out, err = f(parsed)
 
 		return
-	})
+	}).Expected("flat map")
 }

@@ -15,7 +15,7 @@ func ExampleBytes() {
 
 	// Output:
 	// [103 111 108 97 110 103] [] <nil>
-	// [] [103 111 116 111] bytes, bytes cmp, expected "golang", actual "got", unexpected
+	// [103 111 116] [111] bytes, cmp, expected "golang", actual "got", unexpected
 }
 
 func ExampleFold() {
@@ -26,7 +26,7 @@ func ExampleFold() {
 
 	// Output:
 	// [71 111 108 97 110 103] [] <nil>
-	// [] [103 111 116 111] bytes fold, bytes cmp, expected "golang", actual "got", unexpected
+	// [103 111 116] [111] bytes fold, cmp, expected "golang", actual "got", unexpected
 }
 
 func ExampleCmp() {
@@ -39,5 +39,5 @@ func ExampleCmp() {
 
 	// Output:
 	// [71 111 108 97 110 103] [] <nil>
-	// [] [103 111 116 111] bytes cmp, expected "golang", actual "got", unexpected
+	// [103 111 116] [111] cmp, expected "golang", actual "got", unexpected
 }

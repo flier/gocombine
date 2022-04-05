@@ -97,9 +97,7 @@ func (f Func[T, O]) AndThen(fn func(O) (O, error)) Func[T, O] {
 			return
 		}
 
-		if parsed, err = fn(o); err != nil {
-			remaining = input
-		}
+		parsed, err = fn(o)
 
 		return
 	}

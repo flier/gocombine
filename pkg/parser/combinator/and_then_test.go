@@ -21,5 +21,5 @@ func ExampleAndThen() {
 	// Output:
 	// 123 [] <nil>
 	// 9999999999999999 [] <nil>
-	// 0 [102 111 111 98 97 114] and then, many1, digit, satisfy, actual 'f', unexpected
+	// 0 [111 111 98 97 114] and then, many1, digit, satisfy, actual 'f', unexpected
 }

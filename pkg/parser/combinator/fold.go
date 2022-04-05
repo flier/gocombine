@@ -11,8 +11,6 @@ func Fold[T stream.Token, I, B any](p parser.Func[T, []I], init func() B, f func
 		var items []I
 
 		if items, remaining, err = p(input); err != nil {
-			remaining = input
-
 			return
 		}
 

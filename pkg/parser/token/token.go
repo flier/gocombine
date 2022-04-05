@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/flier/gocombine/pkg/parser"
-	"github.com/flier/gocombine/pkg/parser/combinator"
 	"github.com/flier/gocombine/pkg/stream"
 	"golang.org/x/exp/slices"
 )
@@ -18,7 +17,7 @@ func Any[T stream.Token]() parser.Func[T, T] {
 
 // Token parses a character and succeeds if the character is equal to `tok`.
 func Token[T stream.Token](tok T) parser.Func[T, T] {
-	return combinator.Attempt(func(input []T) (actual T, remaining []T, err error) {
+	return func(input []T) (actual T, remaining []T, err error) {
 		if actual, remaining, err = stream.Uncons(input); err != nil {
 			// pass
 		} else if actual != tok {
@@ -26,7 +25,7 @@ func Token[T stream.Token](tok T) parser.Func[T, T] {
 		}
 
 		return
-	})
+	}
 }
 
 // Tokens parses multiple tokens.
@@ -35,7 +34,7 @@ func Token[T stream.Token](tok T) parser.Func[T, T] {
 /// comparison function `cmp`. Succeeds if all the items from `tokens` are matched in the input
 /// stream and fails otherwise with `expected` used as part of the error.
 func Tokens[T stream.Token](cmp func(lhs, rhs T) bool, expected, tokens []T) parser.Func[T, []T] {
-	return combinator.Attempt(func(input []T) (actual []T, remaining []T, err error) {
+	return func(input []T) (actual []T, remaining []T, err error) {
 		actual = make([]T, len(tokens))
 		remaining = input
 
@@ -55,7 +54,7 @@ func Tokens[T stream.Token](cmp func(lhs, rhs T) bool, expected, tokens []T) par
 		}
 
 		return
-	})
+	}
 }
 
 // OneOf extract one token and succeeds if it is part of `tokens`.

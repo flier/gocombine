@@ -9,19 +9,7 @@ import (
 
 // Cmp parses the bytes `s`, using `cmp` to compare each character.
 func Cmp(s []byte, cmp func(l, r byte) bool) parser.Func[byte, []byte] {
-	p := token.Tokens(cmp, []byte(s), []byte(s))
-
-	return parser.Expected(func(input []byte) (out []byte, remaining []byte, err error) {
-		var bytes []byte
-
-		if bytes, remaining, err = p(input); err != nil {
-			remaining = input
-		} else {
-			out = bytes
-		}
-
-		return
-	}, "bytes cmp")
+	return token.Tokens(cmp, []byte(s), []byte(s)).Expected("cmp")
 }
 
 // Bytes parses the bytes `s`.

@@ -19,5 +19,5 @@ func ExamplePair() {
 	// Output:
 	// {<none> [49 50 51]} [] <nil>
 	// {43 [49 50 51]} [] <nil>
-	// {<none> []} [102 111 111 98 97 114] pair, many1, digit, satisfy, actual 'f', unexpected
+	// {<none> []} [111 111 98 97 114] pair, many1, digit, satisfy, actual 'f', unexpected
 }

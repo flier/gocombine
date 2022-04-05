@@ -28,7 +28,7 @@ func TestToken(t *testing.T) {
 					c, s, err = p([]rune(s))
 
 					So(err, ShouldBeError, parser.UnexpectedToken('e', 'h'))
-					So(string(s), ShouldEqual, "ello")
+					So(string(s), ShouldEqual, "llo")
 				})
 			})
 
@@ -102,7 +102,7 @@ func ExampleToken() {
 
 	// Output:
 	// 97 [112 112 108 101] <nil>
-	// 102 [102 111 111 98 97 114] expected 'a', actual 'f', unexpected
+	// 102 [111 111 98 97 114] expected 'a', actual 'f', unexpected
 }
 
 func ExampleTokens() {
@@ -114,7 +114,7 @@ func ExampleTokens() {
 	fmt.Println(p([]rune("FooBar")))
 
 	// Output:
-	// [97] [97 112 112 108 101] expected "foo", actual "a", unexpected
+	// [97] [112 112 108 101] expected "foo", actual "a", unexpected
 	// [70 111 111] [66 97 114] <nil>
 }
 
@@ -126,7 +126,7 @@ func ExampleOneOf() {
 
 	// Output:
 	// 97 [112 112 108 101] <nil>
-	// 102 [102 111 111 98 97 114] one of "abc", satisfy, actual 'f', unexpected
+	// 102 [111 111 98 97 114] one of "abc", satisfy, actual 'f', unexpected
 }
 
 func ExampleNoneOf() {
@@ -136,7 +136,7 @@ func ExampleNoneOf() {
 	fmt.Println(p([]rune("foobar")))
 
 	// Output:
-	// 97 [97 112 112 108 101] none of "abc", satisfy, actual 'a', unexpected
+	// 97 [112 112 108 101] none of "abc", satisfy, actual 'a', unexpected
 	// 102 [111 111 98 97 114] <nil>
 }
 

@@ -5,17 +5,17 @@ import (
 	"github.com/flier/gocombine/pkg/stream"
 )
 
-// AndThen parses with `parser` and applies `f` on the result if `parser` parses successfully.
+// AndThen parses with `p` and applies `f` on the result if `p` parses successfully.
 // `f` may optionally fail with an error.
-func AndThen[T stream.Token, I, O any](parser parser.Func[T, I], f func(I) (O, error)) parser.Func[T, O] {
-	return Attempt(func(input []T) (parsed O, remaining []T, err error) {
+func AndThen[T stream.Token, I, O any](p parser.Func[T, I], f func(I) (O, error)) parser.Func[T, O] {
+	return parser.Expected(func(input []T) (parsed O, remaining []T, err error) {
 		var i I
-		if i, remaining, err = parser(input); err != nil {
+		if i, remaining, err = p(input); err != nil {
 			return
 		}
 
 		parsed, err = f(i)
 
 		return
-	}).Expected("and then")
+	}, "and then")
 }

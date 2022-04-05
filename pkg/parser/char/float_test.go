@@ -25,8 +25,8 @@ func ExampleFloat() {
 	// 3.1415926 [] <nil>
 	// NaN [] <nil>
 	// -Inf [] <nil>
-	// 0 [102 111 111 98 97 114] float, and then, map, recognize, pair, or, 3 errors occurred:
-	// 	* char fold, char cmp, expected "nan", actual "f", unexpected
-	// 	* char fold, char cmp, expected "inf", actual "f", unexpected
+	// 0 [111 111 98 97 114] float, and then, map, recognize, pair, or, 3 errors occurred:
+	// 	* char fold, cmp, expected "nan", actual "f", unexpected
+	// 	* char fold, cmp, expected "inf", actual "f", unexpected
 	// 	* recognize, tuple3, many1, digit, satisfy, actual 'f', unexpected
 }

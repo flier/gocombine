@@ -19,14 +19,11 @@ func TakeUntil[T stream.Token, O any](end parser.Func[T, O]) parser.Func[T, []T]
 
 			var tok T
 
-			var rest []T
-
-			if tok, rest, err = stream.Uncons(remaining); err != nil {
+			if tok, remaining, err = stream.Uncons(remaining); err != nil {
 				return
 			}
 
 			out = append(out, tok)
-			remaining = rest
 		}
 
 		return

@@ -28,6 +28,6 @@ func ExampleRecognize() {
 	// Output:
 	// 1234 [33] <nil>
 	// 1234.0001 [33] <nil>
-	//  [33] map, recognize, pair, skip, ignore, many1, digit, satisfy, actual '!', unexpected
+	//  [] map, recognize, pair, skip, ignore, many1, digit, satisfy, actual '!', unexpected
 	// 1234 [46] <nil>
 }

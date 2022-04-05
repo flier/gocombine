@@ -38,8 +38,6 @@ func Many1[T stream.Token, O any](p parser.Func[T, O]) parser.Func[T, []O] {
 		var o O
 
 		if o, remaining, err = p(remaining); err != nil {
-			remaining = input
-
 			return
 		}
 

@@ -17,9 +17,6 @@ func LengthPrefix[T stream.Token, N constraints.Integer](length parser.Func[T, N
 		}
 
 		out, remaining, err = stream.UnconsRange(remaining, int(n))
-		if err != nil {
-			remaining = input
-		}
 
 		return
 	}, "length prefix")

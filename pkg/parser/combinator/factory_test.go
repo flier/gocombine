@@ -22,5 +22,5 @@ func ExampleFactory() {
 
 	// Output:
 	// [97 112 112 108 101] [] <nil>
-	// [] [98 97 110 97 110 97] string, char cmp, expected "apple", actual "b", unexpected
+	// [98] [97 110 97 110 97] string, cmp, expected "apple", actual "b", unexpected
 }

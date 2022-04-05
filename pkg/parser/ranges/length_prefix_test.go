@@ -15,5 +15,5 @@ func ExampleLengthPrefix() {
 
 	// Output:
 	// [1 2 3] [4] <nil>
-	// [] [0 3 1 2] length prefix, unexpected EOF
+	// [] [1 2] length prefix, unexpected EOF
 }

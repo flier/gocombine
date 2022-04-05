@@ -14,7 +14,6 @@ func TakeUntil(b ...byte) parser.Func[byte, []byte] {
 			out, remaining, err = stream.UnconsRange(input, i)
 		} else {
 			err = parser.UnexpectedRange(b, input)
-			remaining = input
 		}
 
 		return

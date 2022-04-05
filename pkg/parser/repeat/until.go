@@ -18,14 +18,11 @@ func Until[T stream.Token, O, E any](p parser.Func[T, O], end parser.Func[T, E])
 
 			var o O
 
-			var rest []T
-
-			if o, rest, err = p(remaining); err != nil {
+			if o, remaining, err = p(remaining); err != nil {
 				return
 			}
 
 			out = append(out, o)
-			remaining = rest
 		}
 
 		return

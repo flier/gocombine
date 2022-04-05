@@ -23,15 +23,6 @@ type ErrorInfo interface {
 	ErrorInfo() string
 }
 
-type Error struct {
-	*Span
-	Err error
-}
-
-func (e *Error) Error() string {
-	return e.Err.Error()
-}
-
 type TokenInfo[T stream.Token] struct {
 	Expected *T
 	Actual   T
@@ -178,23 +169,22 @@ func UnexpectedEOI() *UnexpectedErr[EOI] {
 	return &UnexpectedErr[EOI]{eoi}
 }
 
-type Span struct {
+type Spanned struct {
 	Start, End stream.Offset
+	Err        error
 }
 
-// Spanned marks errors produced inside the `parser` parser with the span from the start of the parse to the end of it.
-func Spanned[T stream.Token, O any](parser Func[T, O]) Func[T, O] {
+func (s *Spanned) Error() string {
+	return s.Err.Error()
+}
+
+// Spanned marks errors produced inside the `f` parser with the span from the start of the parse to the end of it.
+func (f Func[T, O]) Spanned() Func[T, O] {
 	return func(input []T) (parsed O, remaining []T, err error) {
-		parsed, remaining, err = parser(input)
+		parsed, remaining, err = f(input)
 
 		if err != nil {
-			var e *Error
-
-			if errors.As(err, &e) {
-				if e.Span == nil || e.Span.Start == e.Span.End {
-					e.Span = &Span{stream.Pos(input), stream.Pos(remaining)}
-				}
-			}
+			err = &Spanned{stream.Pos(input), stream.Pos(remaining), err}
 		}
 
 		return

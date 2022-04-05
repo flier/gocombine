@@ -15,7 +15,7 @@ func ExampleString() {
 
 	// Output:
 	// [97 112 112 108 101] [] <nil>
-	// [] [] string, char cmp, unexpected EOF
+	// [] [] string, cmp, unexpected EOF
 }
 
 func ExampleFold() {
@@ -26,7 +26,7 @@ func ExampleFold() {
 
 	// Output:
 	// [71 111 108 97 110 103] [] <nil>
-	// [] [103 111 116 111] char fold, char cmp, expected "golang", actual "got", unexpected
+	// [103 111 116] [111] char fold, cmp, expected "golang", actual "got", unexpected
 }
 
 func ExampleCmp() {
@@ -39,5 +39,5 @@ func ExampleCmp() {
 
 	// Output:
 	// [71 111 108 97 110 103] [] <nil>
-	// [] [103 111 116 111] char cmp, expected "golang", actual "got", unexpected
+	// [103 111 116] [111] cmp, expected "golang", actual "got", unexpected
 }

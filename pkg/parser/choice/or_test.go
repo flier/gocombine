@@ -23,8 +23,8 @@ func ExampleOr() {
 	// Output:
 	// let [] <nil>
 	// digit [] <nil>
-	//  [108 111 115 116] or, 3 errors occurred:
-	// 	* map, string, char cmp, expected "let", actual "lo", unexpected
+	//  [115 116] or, 3 errors occurred:
+	// 	* map, string, cmp, expected "let", actual "lo", unexpected
 	// 	* map, digit, satisfy, actual 'l', unexpected
-	// 	* map, string, char cmp, expected "led", actual "lo", unexpected
+	// 	* map, string, cmp, expected "led", actual "lo", unexpected
 }

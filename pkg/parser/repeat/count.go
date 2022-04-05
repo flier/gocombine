@@ -24,11 +24,13 @@ func CountMinMax[T stream.Token, O any](min, max int, p parser.Func[T, O]) parse
 		for i := 0; i < max; i++ {
 			var o O
 
-			if o, remaining, err = p(remaining); err != nil {
+			var rest []T
+			if o, rest, err = p(remaining); err != nil {
 				break
 			}
 
 			parsed = append(parsed, o)
+			remaining = rest
 		}
 
 		if len(parsed) < min {

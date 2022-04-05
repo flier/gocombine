@@ -25,5 +25,5 @@ func ExampleFlatMap() {
 	// Output:
 	// [49 50] [99 100] <nil>
 	// [] [49 50 51] flat map, take, unexpected EOF
-	// [] [102 111 111 98 97 114] flat map, many1, digit, satisfy, actual 'f', unexpected
+	// [] [97 114] flat map, many1, digit, satisfy, actual 'f', unexpected
 }

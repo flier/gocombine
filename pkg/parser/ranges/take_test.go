@@ -45,3 +45,27 @@ func ExampleTakeWhile1() {
 	// [49 50 51] [97 98 99] <nil>
 	// [] [97 98 99] take while1, one or more elements, expected
 }
+
+func ExampleTakeUntil() {
+	p := ranges.TakeUntil(func(b byte) bool { return b == '\n' })
+
+	fmt.Println(p([]byte("123\nabc")))
+	fmt.Println(p([]byte("abc")))
+
+	// Output:
+	// [49 50 51] [10 97 98 99] <nil>
+	// [97 98 99] [] take until, unexpected EOF
+}
+
+func ExampleTakeUntil1() {
+	p := ranges.TakeUntil1(func(b byte) bool { return b == '\n' })
+
+	fmt.Println(p([]byte("123\nabc")))
+	fmt.Println(p([]byte("\n")))
+	fmt.Println(p([]byte("abc")))
+
+	// Output:
+	// [49 50 51] [10 97 98 99] <nil>
+	// [] [10] take until, one or more elements, expected
+	// [97 98 99] [] take until, unexpected EOF
+}

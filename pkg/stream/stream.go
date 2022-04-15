@@ -48,7 +48,9 @@ func UnconsRange[T Token](input []T, size int) (tokens []T, remaining []T, err e
 // UnconsWhile takes items from stream, testing each one with `predicate`.
 // returns the range of items which passed `predicate`.
 func UnconsWhile[T Token](input []T, predicate func(T) bool) (tokens []T, remaining []T, err error) {
-	if i := slices.IndexFunc(input, func(tok T) bool { return !predicate(tok) }); i >= 0 {
+	i := slices.IndexFunc(input, func(tok T) bool { return !predicate(tok) })
+
+	if i >= 0 {
 		tokens, remaining = input[:i], input[i:]
 	} else {
 		tokens = input
@@ -61,13 +63,14 @@ func UnconsWhile[T Token](input []T, predicate func(T) bool) (tokens []T, remain
 // returns the range of items which not passed `predicate`.
 func UnconsUntil[T Token](input []T, predicate func(T) bool) (tokens []T, remaining []T, err error) {
 	i := slices.IndexFunc(input, func(tok T) bool { return predicate(tok) })
+
 	switch i {
 	case -1:
-		tokens = input
+		tokens, err = input, io.ErrUnexpectedEOF
 	case 0:
 		remaining = input
 	default:
-		tokens, remaining = input[:i-1], input[i-1:]
+		tokens, remaining = input[:i], input[i:]
 	}
 
 	return
